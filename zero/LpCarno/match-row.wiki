@@ -1,0 +1,9 @@
+﻿| <? index ?>
+| {{FlagRace|<? flag ?>|<? race ?>}}
+|align=left | [[<? player ?>]]
+|align=left | {{team/<? team ?>}}
+| <? wl ?>
+| <? vT ?>
+| <? vZ ?>
+| <? vP ?>
+|-

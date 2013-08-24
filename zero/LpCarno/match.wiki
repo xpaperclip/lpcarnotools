@@ -1,0 +1,24 @@
+﻿===<? title ?>===
+{| class="sortable wikitable" style="text-align:center; width:970px;"
+! colspan=5 | Player
+! colspan=2 width=100px; | Games
+! colspan=2 width=100px; | vs. {{SC2-T}}
+! colspan=2 width=100px; | vs. {{SC2-Z}}
+! colspan=2 width=100px; | vs. {{SC2-P}}
+|-
+! width=2px; |
+! width=2px; |
+! width=2px; |
+! width=125px; |ID
+! width=200px; |Team
+! Record
+! Win%
+! Record
+! Win%
+! Record
+! Win%
+! Record
+! Win%
+|-
+<? rows ?>
+|}
