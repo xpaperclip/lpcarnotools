@@ -1,0 +1,33 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="LxTools" #>
+{|class="sortable wikitable" style="text-align:center;"
+! colspan=3|
+! colspan=3|Matches
+! colspan=4|Maps
+|-
+! width=2px|
+! width=200px|Team
+! width=100px|All-Kills
+! width=20px|
+! width=40px|Record
+! width=30px|%
+! width=20px|
+! width=40px|Record
+! width=30px|%
+! width=15px|
+<# foreach (Indexing<Bag> idxobj in this.Rows) {
+	   int index = idxobj.Index;
+	   Bag bag = idxobj.Object; #>
+|-
+|align=center | <#= index #>
+|align=left   | {{Team/<#= bag["team"] #>}}
+| <#= bag["allkills"] #>
+| <#= bag["matchCount"] #> || <#= bag["matches"] #>
+| <#= bag["gameCount"] #> || <#= bag["games"] #> || ''<#= bag["gameDiff"] #>''
+<# } #>
+|}
+<#+
+public IEnumerable<Indexing<Bag>> Rows { get; set; }
+#>

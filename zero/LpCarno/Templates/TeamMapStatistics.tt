@@ -1,0 +1,28 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="LxTools" #>
+{|class="sortable wikitable" style="text-align:center;"
+|-
+!
+<# foreach (string map in this.Maps) { #>
+! colspan=2 | [[<#= map #>]]
+<# } #>
+|-
+! Team
+<# foreach (string map in this.Maps) { #>
+! Record
+! width=30px | %
+<# } #>
+<# foreach (Bag bag in this.Rows) { #>
+|-
+| align=left | {{Team/<#= bag["team"] #>}}
+<# foreach (string map in this.Maps) { #>
+| <#= bag[map] #>
+<# } #>
+<# } #>
+|}
+<#+
+public IEnumerable<string> Maps { get; set; }
+public IEnumerable<Bag> Rows { get; set; }
+#>

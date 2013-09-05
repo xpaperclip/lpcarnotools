@@ -5,15 +5,17 @@ using System.Linq;
 using System.Net;
 using System.Xml.Linq;
 
-namespace CarnoZ
+namespace LxTools.CarnoZ
 {
     public class CarnoService
     {
         public readonly List<Record> Records = new List<Record>();
+        public readonly List<Match> Matches = new List<Match>();
         public readonly Dictionary<string, string> IdRewriter = new Dictionary<string, string>();
-
+    
         private string fmtfolder;
         private object tag;
+        private Match currentMatch;
 
         public void Accumulate(string page, object tag)
         {
@@ -99,6 +101,28 @@ namespace CarnoZ
 
             string mapname = xs[2];
 
+            if (template.Name == "TeamMatch")
+            {
+                string team1 = template.GetParamText("team1");
+                string team2 = template.GetParamText("team2");
+                string teamwin = template.GetParamText("teamwin");
+
+                if (teamwin == "1")
+                {
+                    currentMatch = new Match();
+                    currentMatch.TeamWinner = team1;
+                    currentMatch.TeamLoser = team2;
+                    Matches.Add(currentMatch);
+                }
+                else if (teamwin == "2")
+                {
+                    currentMatch = new Match();
+                    currentMatch.TeamWinner = team2;
+                    currentMatch.TeamLoser = team1;
+                    Matches.Add(currentMatch);
+                }
+            }
+
             int mapno = 1;
             while (true)
             {
@@ -111,6 +135,8 @@ namespace CarnoZ
             }
             // just for TeamMatch really
             TryProcessMatch(template, "acep1", "acep2", "acemap", "acewin", "-1");
+
+            currentMatch = null;
 
             return true;
         }
@@ -197,7 +223,10 @@ namespace CarnoZ
             int set = 0;
             if (param != null) int.TryParse(param.ToString(), out set);
 
-            Records.Add(new Record() { Tag = tag, Set = set, Map = map, Winner = winner, Loser = loser });
+            Record record = new Record() { Tag = tag, Set = set, Map = map, Winner = winner, Loser = loser };
+            Records.Add(record);
+            if (currentMatch != null)
+                currentMatch.Games.Add(record);
             return true;
         }
         private void ProcessBracketGame(LpTemplate template, string left, string right, string game)
@@ -270,7 +299,7 @@ namespace CarnoZ
             pl.Flag = template.GetParamText(string.Format(p1, param) + "flag");
             pl.Link = template.GetParamText(string.Format(p1, param) + "link");
             pl.Team = template.GetParamText(team);
-            if (IdRewriter.ContainsKey(pl.Team)) pl.Team = IdRewriter[pl.Team];
+            if (pl.Team != null && IdRewriter.ContainsKey(pl.Team)) pl.Team = IdRewriter[pl.Team];
 
             switch (template.GetParamText(string.Format(p1, param) + "race").ToLower())
             {

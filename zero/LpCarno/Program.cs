@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using CarnoZ;
+using LxTools;
+using LxTools.CarnoZ;
+using LpCarno.Templates;
 
 class Program
 {
@@ -16,7 +18,7 @@ class Program
         //service.Accumulate("http://wiki.teamliquid.net/starcraft2/2012-2013_Proleague/Round_3", "round3");
         //service.Accumulate("http://wiki.teamliquid.net/starcraft2/2012-2013_Proleague/Round_4", "round4");
         //service.Accumulate("http://wiki.teamliquid.net/starcraft2/2012-2013_Proleague/Round_5", "round5");
-        service.Accumulate("http://wiki.teamliquid.net/starcraft2/2012-2013_Proleague/Round_6", "round6");
+        //service.Accumulate("http://wiki.teamliquid.net/starcraft2/2012-2013_Proleague/Round_6", "round6");
         //service.Accumulate("http://wiki.teamliquid.net/starcraft2/2012-2013_Proleague/Playoffs", "po");
 
         //service.Accumulate("2013 WCS Season 2 Korea OSL/Premier/Ro32", "ro32");
@@ -26,21 +28,37 @@ class Program
         //service.Accumulate("http://wiki.teamliquid.net/starcraft2/2013_WCS_Season_2_Korea_OSL/Challenger", "ch");
         //service.Accumulate("http://wiki.teamliquid.net/starcraft2/2013_WCS_Season_3_Korea_GSL/Up_and_Down", "ud");
 
-        
+        //service.Accumulate("http://wiki.teamliquid.net/starcraft2/2013_Global_StarCraft_II_Team_League_Season_1/Group_Stage", "gs");
+        //service.Accumulate("http://wiki.teamliquid.net/starcraft2/2013_Global_StarCraft_II_Team_League_Season_1/Playoffs", "po");
+
+        service.Accumulate("http://wiki.teamliquid.net/starcraft2/2013_Global_StarCraft_II_Team_League_Season_2/Round_1", "r1");
+        //service.Accumulate("http://wiki.teamliquid.net/starcraft2/2013_Global_StarCraft_II_Team_League_Season_2/Round_2", "r2");
 
         Console.WriteLine();
 
         using (StreamWriter sw = new StreamWriter("output.txt"))
         {
+            sw.WriteLine("==Team Statistics==");
+            TeamStatistics(service, sw);
+            sw.WriteLine("===Match-ups===");
+            TeamMatchupStatistics(service, sw, service.Records);
+            sw.WriteLine("===Racial Statistics===");
+            RacialStatistics(service, sw, service.Records);
+            sw.WriteLine("===Map Statistics===");
+            TeamMapStatistics(service, sw);
+
             sw.WriteLine("==Player Statistics==");
-            Matches(service, sw, service.Records, "Match-up");
-            Matches(service, sw, service.Records.Where((r) => r.Set == -1), "Ace Matches");
+            PlayerStatistics(service, sw, service.Records);
 
-            sw.WriteLine("==Racial Statistics==");
-            Racial(service, sw, service.Records, "All Matches");
-            Racial(service, sw, service.Records.Where((r) => r.Set == -1), "Ace Matches");
+            //sw.WriteLine("==Ace Matches==");
+            //PlayerStatistics(service, sw, service.Records.Where((r) => r.Set == -1));
+            //sw.WriteLine("===Match-ups===");
+            //TeamMatchupStatistics(service, sw, service.Records.Where((r) => r.Set == -1));
+            //sw.WriteLine("===Racial Statistics===");
+            //RacialStatistics(service, sw, service.Records.Where((r) => r.Set == -1));
 
-            MapStats(service, sw);
+            sw.WriteLine("==Map Statistics==");
+            MapStatistics(service, sw);
         }
 
         Console.ReadLine();
@@ -61,7 +79,44 @@ class Program
         }
     }
 
-    private static void Matches(CarnoService service, StreamWriter sw, IEnumerable<Record> games, string title)
+    private static void TeamStatistics(CarnoService service, StreamWriter sw)
+    {
+        var matches = (service.Matches.Select((m) => new { Team = m.TeamWinner, Win = true })).Concat(service.Matches.Select((m) => new { Team = m.TeamLoser, Win = false }));
+        var players = (service.Records.Select((r) => new { Player = r.Winner, Win = true })).Concat(service.Records.Select((r) => new { Player = r.Loser, Win = false }));
+        var table = from g in matches.GroupBy((m) => m.Team)
+                    let allKills = (from m in service.Matches
+                                    where m.Games.Count > 0 &&
+                                        m.TeamWinner == g.Key &&
+                                        m.Games.All((s) => s.Winner.Equals(m.Games.Last().Winner) || s.Winner.Team != g.Key)
+                                    select m).Count()
+                    let matchCount = WL.Fill(g, (p) => p.Win)
+                    let games = (from r in service.Records
+                                 where r.Winner.Team == g.Key || r.Loser.Team == g.Key
+                                 select r.Winner.Team == g.Key)
+                    let gameCount = WL.Fill(games, (p) => p)
+                    let diff = gameCount.Wins - gameCount.Losses
+                    orderby matchCount.Wins descending, matchCount.Losses, diff descending
+                    select new Bag(
+                        "team", g.Key,
+                        "allkills", "{{AllKillIcon}}".Repeat(allKills),
+                        "matchCount", matchCount.Total.ToString(),
+                        "matches", matchCount.ToString(),
+                        "gameCount", gameCount.Total.ToString(),
+                        "games", gameCount.ToString(),
+                        "gameDiff", (diff >= 0 ? "+" : "") + diff.ToString()
+                    );
+        
+//|align=center | <#= index #>
+//|align=left   | {{Team/<#= bag["team"] #>}}
+//|align=left   | <#= bag["allkills"] #>
+//| <#= bag["matchCount"] #> || <#= bag["matches"] #>
+//| <#= bag["gameCount"] #> || <#= bag["games"] #> || ''<#= bag["gameDiff"] #>''
+
+        var template = new TeamStatistics();
+        template.Rows = table.Index((a, b) => false);
+        sw.WriteLine(template.TransformText());
+    }
+    private static void PlayerStatistics(CarnoService service, StreamWriter sw, IEnumerable<Record> games)
     {
         var players = (games.Select((r) => new { Player = r.Winner, r.Loser.Race, Win = true })).Concat(games.Select((r) => new { Player = r.Loser, r.Winner.Race, Win = false }));
         var table = from g in players.GroupBy((p) => p.Player)
@@ -69,125 +124,101 @@ class Program
                     let vT = WL.Fill(g, (p) => p.Win, (p) => p.Race == Race.Terran)
                     let vZ = WL.Fill(g, (p) => p.Win, (p) => p.Race == Race.Zerg)
                     let vP = WL.Fill(g, (p) => p.Win, (p) => p.Race == Race.Protoss)
+                    let allKills = (from m in service.Matches
+                                    where m.Games.Count > 0 &&
+                                        m.TeamWinner == g.Key.Team &&
+                                        m.Games.All((s) => s.Winner.Equals(g.Key) || s.Winner.Team != g.Key.Team)
+                                    select m).Count()
                     orderby wl descending, g.Key.Id
-                    select new { g.Key, wl, vT, vZ, vP };
+                    select new { g.Key, allKills, wl, vT, vZ, vP };
 
-        string template = File.ReadAllText("match.wiki");
-        string template_top10 = File.ReadAllText("matchtop10.wiki");
-        string template_complete = File.ReadAllText("matchcomplete.wiki");
-        string row = File.ReadAllText("match-row.wiki");
+        var rows = table.Index((a, b) => a.wl == b.wl).Select((r) => new Indexing<Bag>(r.Index, new Bag(
+                   "flag", r.Object.Key.Flag,
+                   "race", r.Object.Key.Race.ToString().MaxSubstring(1),
+                   "player", r.Object.Key.IdWithLinkIfNeeded(),
+                   "allkills", "{{AllKillIcon}}".Repeat(r.Object.allKills),
+                   "team", r.Object.Key.Team,
+                   "wl", r.Object.wl.ToString(),
+                   "vT", r.Object.vT.ToString(),
+                   "vZ", r.Object.vZ.ToString(),
+                   "vP", r.Object.vP.ToString()
+               )));
 
+        var template = new PlayerStatistics();
         if (table.Count() > 15)
         {
-            sw.WriteLine(TableWriter.WriteTable(template_top10, row,
-               new
-               {
-                   title = title
-               },
-               table.Index((a, b) => a.wl == b.wl).TakeTop(10).Select((r) => new
-               {
-                   index = r.Index,
-                   flag = r.Object.Key.Flag,
-                   race = r.Object.Key.Race.ToString().MaxSubstring(1),
-                   player = r.Object.Key.IdWithLinkIfNeeded(),
-                   team = r.Object.Key.Team,
-                   wl = r.Object.wl,
-                   vT = r.Object.vT,
-                   vZ = r.Object.vZ,
-                   vP = r.Object.vP,
-               })));
-            template = template_complete;
-        }
-        sw.WriteLine(TableWriter.WriteTable(template, row,
-           new
-           {
-               title = title,
-           },
-           table.Index((a, b) => a.wl == b.wl).Select((r) => new
-           {
-               index = r.Index,
-               flag = r.Object.Key.Flag,
-               race = r.Object.Key.Race.ToString().MaxSubstring(1),
-               player = r.Object.Key.IdWithLinkIfNeeded(),
-               team = r.Object.Key.Team,
-               wl = r.Object.wl,
-               vT = r.Object.vT,
-               vZ = r.Object.vZ,
-               vP = r.Object.vP,
-           })));
+            var top10 = new PlayerStatistics();
+            top10.HeaderType = "top10";
+            top10.Rows = rows.TakeTop(10);
+            sw.WriteLine(top10.TransformText());
 
-        Console.BackgroundColor = ConsoleColor.DarkBlue;
-        Console.WriteLine("Matches ({0} players in {1} games)", table.Count(), games.Count());
-        Console.WriteLine("{0,-15} | {1,-12} | {2,-12} | {3,-12} | {4,-12}", "ID", "Overall", "vT", "vZ", "vP");
-        Console.ResetColor();
-        foreach (var xidx in table.Index((a, b) => a.wl == b.wl))
+            template.HeaderType = "top10-complete";
+        }
+        else
         {
-            var x = xidx.Object;
-            Console.WriteLine("{5,2} {0,-12} | {1} | {2} | {3} | {4}", x.Key.Id, xWL(x.wl), xWL(x.vT), xWL(x.vZ), xWL(x.vP), xidx.Index);
+            template.HeaderType = "all";
         }
-        Console.WriteLine();
-    }
-    private static void Racial(CarnoService service, StreamWriter sw, IEnumerable<Record> games, string title)
-    {
-        string template = File.ReadAllText("racial.wiki");
-        string row = File.ReadAllText("racial-row.wiki");
+        template.Rows = rows;
+        sw.WriteLine(template.TransformText());
 
+        //Console.BackgroundColor = ConsoleColor.DarkBlue;
+        //Console.WriteLine("Matches ({0} players in {1} games)", table.Count(), games.Count());
+        //Console.WriteLine("{0,-15} | {1,-12} | {2,-12} | {3,-12} | {4,-12}", "ID", "Overall", "vT", "vZ", "vP");
+        //Console.ResetColor();
+        //foreach (var xidx in table.Index((a, b) => a.wl == b.wl))
+        //{
+        //    var x = xidx.Object;
+        //    Console.WriteLine("{5,2} {0,-12} | {1} | {2} | {3} | {4}", x.Key.Id, xWL(x.wl), xWL(x.vT), xWL(x.vZ), xWL(x.vP), xidx.Index);
+        //}
+        //Console.WriteLine();
+    }
+    private static void RacialStatistics(CarnoService service, StreamWriter sw, IEnumerable<Record> games)
+    {
         var players = (games.Select((r) => new { P1 = r.Winner, P2 = r.Loser, Win = true })).Concat(games.Select((r) => new { P1 = r.Loser, P2 = r.Winner, Win = false }));
         var table = from g in players.GroupBy((p) => p.P1.Team)
                     let wl = WL.Fill(g, (p) => p.Win)
                     let T = WL.Fill(g, (p) => p.Win, (p) => p.P1.Race == Race.Terran)
                     let Z = WL.Fill(g, (p) => p.Win, (p) => p.P1.Race == Race.Zerg)
                     let P = WL.Fill(g, (p) => p.Win, (p) => p.P1.Race == Race.Protoss)
+                    let vT = WL.Fill(g, (p) => p.Win, (p) => p.P2.Race == Race.Terran)
+                    let vZ = WL.Fill(g, (p) => p.Win, (p) => p.P2.Race == Race.Zerg)
+                    let vP = WL.Fill(g, (p) => p.Win, (p) => p.P2.Race == Race.Protoss)
                     orderby wl.Percentage descending, g.Key
-                    select new { g.Key, wl, T, Z, P };
+                    select new { g.Key, wl, T, Z, P, vT, vZ, vP };
 
         var ov = new
         {
             T = WL.Fill(players, (p) => p.Win, (p) => p.P1.Race == Race.Terran),
             Z = WL.Fill(players, (p) => p.Win, (p) => p.P1.Race == Race.Zerg),
             P = WL.Fill(players, (p) => p.Win, (p) => p.P1.Race == Race.Protoss),
+            vT = WL.Fill(players, (p) => p.Win, (p) => p.P2.Race == Race.Terran),
+            vZ = WL.Fill(players, (p) => p.Win, (p) => p.P2.Race == Race.Zerg),
+            vP = WL.Fill(players, (p) => p.Win, (p) => p.P2.Race == Race.Protoss),
         };
 
-        sw.WriteLine(TableWriter.WriteTable(template, row,
-            new
-            {
-                title = title,
-                Ttotal = ov.T.Total != 0 ? ov.T.Total.ToString() : "-",
-                Twin = ov.T.Total != 0 ? ov.T.Wins.ToString() : "-",
-                Tloss = ov.T.Total != 0 ? ov.T.Losses.ToString() : "-",
-                Tpc = ov.T.Total != 0 ? ov.T.Percentage.ToString("0") + "%" : "-",
-                Ztotal = ov.Z.Total != 0 ? ov.Z.Total.ToString() : "-",
-                Zwin = ov.Z.Total != 0 ? ov.Z.Wins.ToString() : "-",
-                Zloss = ov.Z.Total != 0 ? ov.Z.Losses.ToString() : "-",
-                Zpc = ov.Z.Total != 0 ? ov.Z.Percentage.ToString("0") + "%" : "-",
-                Ptotal = ov.P.Total != 0 ? ov.P.Total.ToString() : "-",
-                Pwin = ov.P.Total != 0 ? ov.P.Wins.ToString() : "-",
-                Ploss = ov.P.Total != 0 ? ov.P.Losses.ToString() : "-",
-                Ppc = ov.P.Total != 0 ? ov.P.Percentage.ToString("0") + "%" : "-",
-            },
-            table.Index((a, b) => a.wl == b.wl).Select((r) => new
-            {
-                index = r.Index,
-                team = r.Object.Key,
-                Ttotal = r.Object.T.Total != 0 ? r.Object.T.Total.ToString() : "-",
-                Twin = r.Object.T.Total != 0 ? r.Object.T.Wins.ToString() : "-",
-                Tloss = r.Object.T.Total != 0 ? r.Object.T.Losses.ToString() : "-",
-                Tpc = r.Object.T.Total != 0 ? r.Object.T.Percentage.ToString("0") + "%" : "-",
-                Ztotal = r.Object.Z.Total != 0 ? r.Object.Z.Total.ToString() : "-",
-                Zwin = r.Object.Z.Total != 0 ? r.Object.Z.Wins.ToString() : "-",
-                Zloss = r.Object.Z.Total != 0 ? r.Object.Z.Losses.ToString() : "-",
-                Zpc = r.Object.Z.Total != 0 ? r.Object.Z.Percentage.ToString("0") + "%" : "-",
-                Ptotal = r.Object.P.Total != 0 ? r.Object.P.Total.ToString() : "-",
-                Pwin = r.Object.P.Total != 0 ? r.Object.P.Wins.ToString() : "-",
-                Ploss = r.Object.P.Total != 0 ? r.Object.P.Losses.ToString() : "-",
-                Ppc = r.Object.P.Total != 0 ? r.Object.P.Percentage.ToString("0") + "%" : "-",
-            })));
+        var template = new RacialStatistics();
+        template.Params = new Bag()
+            .TotalWinLossPercentage("T", ov.T)
+            .TotalWinLossPercentage("Z", ov.Z)
+            .TotalWinLossPercentage("P", ov.P)
+            .TotalWinLossPercentage("vT", ov.vT)
+            .TotalWinLossPercentage("vZ", ov.vZ)
+            .TotalWinLossPercentage("vP", ov.vP);
+        template.Rows = table.Index((a, b) => a.wl == b.wl).Select((r) => new Bag(
+                "index", r.Index.ToString(),
+                "team", r.Object.Key)
+                .TotalWinLossPercentage("T", r.Object.T)
+                .TotalWinLossPercentage("Z", r.Object.Z)
+                .TotalWinLossPercentage("P", r.Object.P)
+                .TotalWinLossPercentage("vT", r.Object.vT)
+                .TotalWinLossPercentage("vZ", r.Object.vZ)
+                .TotalWinLossPercentage("vP", r.Object.vP)
+            );
+        template.IncludeVs = true;
+        sw.WriteLine(template.TransformText());
     }
-    private static void MapStats(CarnoService service, StreamWriter sw)
+    private static void MapStatistics(CarnoService service, StreamWriter sw)
     {
-        string template = File.ReadAllText("map.wiki");
-        string row = File.ReadAllText("map-row.wiki");
-
         var games = service.Records;
         var table = from g in games.GroupBy((g) => g.Map)
                     let total = g.Count()
@@ -211,56 +242,81 @@ class Program
             PvP = games.Where(Predicates.Matchup(Race.Protoss)).Count(),
         };
 
-        sw.WriteLine(TableWriter.WriteTable(template, row,
-            new
-            {
-                total = ov.total,
-                TvZtotal = ov.TvZ.Total != 0 ? ov.TvZ.Total.ToString() : "-",
-                TvZwin = ov.TvZ.Total != 0 ? ov.TvZ.Wins.ToString() : "-",
-                TvZloss = ov.TvZ.Total != 0 ? ov.TvZ.Losses.ToString() : "-",
-                TvZpc = ov.TvZ.Total != 0 ? ov.TvZ.Percentage.ToString("0") + "%" : "-",
-                ZvPtotal = ov.ZvP.Total != 0 ? ov.ZvP.Total.ToString() : "-",
-                ZvPwin = ov.ZvP.Total != 0 ? ov.ZvP.Wins.ToString() : "-",
-                ZvPloss = ov.ZvP.Total != 0 ? ov.ZvP.Losses.ToString() : "-",
-                ZvPpc = ov.ZvP.Total != 0 ? ov.ZvP.Percentage.ToString("0") + "%" : "-",
-                PvTtotal = ov.PvT.Total != 0 ? ov.PvT.Total.ToString() : "-",
-                PvTwin = ov.PvT.Total != 0 ? ov.PvT.Wins.ToString() : "-",
-                PvTloss = ov.PvT.Total != 0 ? ov.PvT.Losses.ToString() : "-",
-                PvTpc = ov.PvT.Total != 0 ? ov.PvT.Percentage.ToString("0") + "%" : "-",
-                TvT = ov.TvT != 0 ? ov.TvT.ToString() : "-",
-                ZvZ = ov.ZvZ != 0 ? ov.ZvZ.ToString() : "-",
-                PvP = ov.PvP != 0 ? ov.PvP.ToString() : "-",
-            },
-            table.Select((r) => new
-            {
-                map = r.Key,
-                total = r.total,
-                TvZtotal = r.TvZ.Total != 0 ? r.TvZ.Total.ToString() : "-",
-                TvZwin = r.TvZ.Total != 0 ? r.TvZ.Wins.ToString() : "-",
-                TvZloss = r.TvZ.Total != 0 ? r.TvZ.Losses.ToString() : "-",
-                TvZpc = r.TvZ.Total != 0 ? r.TvZ.Percentage.ToString("0") : "-",
-                ZvPtotal = r.ZvP.Total != 0 ? r.ZvP.Total.ToString() : "-",
-                ZvPwin = r.ZvP.Total != 0 ? r.ZvP.Wins.ToString() : "-",
-                ZvPloss = r.ZvP.Total != 0 ? r.ZvP.Losses.ToString() : "-",
-                ZvPpc = r.ZvP.Total != 0 ? r.ZvP.Percentage.ToString("0") : "-",
-                PvTtotal = r.PvT.Total != 0 ? r.PvT.Total.ToString() : "-",
-                PvTwin = r.PvT.Total != 0 ? r.PvT.Wins.ToString() : "-",
-                PvTloss = r.PvT.Total != 0 ? r.PvT.Losses.ToString() : "-",
-                PvTpc = r.PvT.Total != 0 ? r.PvT.Percentage.ToString("0") : "-",
-                TvT = r.TvT != 0 ? r.TvT.ToString() : "-",
-                ZvZ = r.ZvZ != 0 ? r.ZvZ.ToString() : "-",
-                PvP = r.PvP != 0 ? r.PvP.ToString() : "-",
-            })));
+        var template = new MapStatistics();
+        template.Params = new Bag(
+                "total", ov.total.ToString(),
+                "TvT", ov.TvT != 0 ? ov.TvT.ToString() : "-",
+                "ZvZ", ov.ZvZ != 0 ? ov.ZvZ.ToString() : "-",
+                "PvP", ov.PvP != 0 ? ov.PvP.ToString() : "-")
+            .TotalWinLossPercentage("TvZ", ov.TvZ)
+            .TotalWinLossPercentage("ZvP", ov.ZvP)
+            .TotalWinLossPercentage("PvT", ov.PvT);
+        template.Rows = table.Select((r) => new Bag(
+                "map", r.Key,
+                "total", r.total.ToString(),
+                "TvT", r.TvT != 0 ? r.TvT.ToString() : "-",
+                "ZvZ", r.ZvZ != 0 ? r.ZvZ.ToString() : "-",
+                "PvP", r.PvP != 0 ? r.PvP.ToString() : "-")
+            .TotalWinLossPercentage("TvZ", r.TvZ)
+            .TotalWinLossPercentage("ZvP", r.ZvP)
+            .TotalWinLossPercentage("PvT", r.PvT));
+        sw.WriteLine(template.TransformText());
 
-        Console.BackgroundColor = ConsoleColor.DarkRed;
-        Console.WriteLine("Maps ({0})", table.Count());
-        Console.WriteLine("{0,-20}| {1,-12} | {2,-12} | {3,-12} |{4,-2} |{5,-2} |{6,-2}", "Map", "TvZ", "ZvP", "PvT", "TvT", "ZvZ", "PvP");
-        Console.ResetColor();
-        foreach (var x in table)
-        {
-            Console.WriteLine("({7,2}) {0,-15}| {1} | {2} | {3} | {4,2} | {5,2} | {6,2}", x.Key.MaxSubstring(15), xWL(x.TvZ.Wins, x.TvZ.Losses), xWL(x.ZvP.Wins, x.ZvP.Losses), xWL(x.PvT.Wins, x.PvT.Losses), x.TvT, x.ZvZ, x.PvP, x.total);
-        }
-        Console.WriteLine();
+        //Console.BackgroundColor = ConsoleColor.DarkRed;
+        //Console.WriteLine("Maps ({0})", table.Count());
+        //Console.WriteLine("{0,-20}| {1,-12} | {2,-12} | {3,-12} |{4,-2} |{5,-2} |{6,-2}", "Map", "TvZ", "ZvP", "PvT", "TvT", "ZvZ", "PvP");
+        //Console.ResetColor();
+        //foreach (var x in table)
+        //{
+        //    Console.WriteLine("({7,2}) {0,-15}| {1} | {2} | {3} | {4,2} | {5,2} | {6,2}", x.Key.MaxSubstring(15), xWL(x.TvZ.Wins, x.TvZ.Losses), xWL(x.ZvP.Wins, x.ZvP.Losses), xWL(x.PvT.Wins, x.PvT.Losses), x.TvT, x.ZvZ, x.PvP, x.total);
+        //}
+        //Console.WriteLine();
+    }
+    private static void TeamMatchupStatistics(CarnoService service, StreamWriter sw, IEnumerable<Record> games)
+    {
+        var players = (games.Select((r) => new P1P2Win() { P1 = r.Winner, P2 = r.Loser, Win = true })).Concat(games.Select((r) => new P1P2Win() { P1 = r.Loser, P2 = r.Winner, Win = false }));
+        var table = from g in players.GroupBy((p) => p.P1.Team)
+                    orderby g.Key
+                    select new Bag(
+                        "team", g.Key,
+                        "TvT", WinRaceStat(g, Race.Terran, Race.Terran).ToString(),
+                        "TvZ", WinRaceStat(g, Race.Terran, Race.Zerg).ToString(),
+                        "TvP", WinRaceStat(g, Race.Terran, Race.Protoss).ToString(),
+                        "ZvT", WinRaceStat(g, Race.Zerg, Race.Terran).ToString(),
+                        "ZvZ", WinRaceStat(g, Race.Zerg, Race.Zerg).ToString(),
+                        "ZvP", WinRaceStat(g, Race.Zerg, Race.Protoss).ToString(),
+                        "PvT", WinRaceStat(g, Race.Protoss, Race.Terran).ToString(),
+                        "PvZ", WinRaceStat(g, Race.Protoss, Race.Zerg).ToString(),
+                        "PvP", WinRaceStat(g, Race.Protoss, Race.Protoss).ToString()
+                    );
+
+        var template = new TeamMatchupStatistics();
+        template.Rows = table;
+        sw.WriteLine(template.TransformText());
+    }
+    private static void TeamMapStatistics(CarnoService service, StreamWriter sw)
+    {
+        var maps = from g in service.Records.GroupBy((g) => g.Map)
+                   orderby g.Key
+                   select g.Key;
+
+        var players = (service.Records.Select((r) => new { map = r.Map, P1 = r.Winner.Team, P2 = r.Loser.Team, Win = true })).Concat(service.Records.Select((r) => new { map = r.Map, P1 = r.Loser.Team, P2 = r.Winner.Team, Win = false }));
+        var table = from tm in
+                        (from g in players.GroupBy((p) => p.P1)
+                         from map in maps
+                         select new
+                         {
+                             team = g.Key,
+                             map,
+                             wl = WL.Fill(g, (p) => p.Win, (p) => p.map == map)
+                         }).ToLookup((p) => p.team)
+                    orderby tm.Key
+                    select new Bag("team", tm.Key).MergeGrouping(tm, (x) => x.map, (x) => x.wl.ToString());
+        
+        var template = new TeamMapStatistics();
+        template.Maps = maps;
+        template.Rows = table;
+        sw.WriteLine(template.TransformText());
     }
 
     private static WL RaceStat(IEnumerable<Record> g, Race r1, Race r2)
@@ -268,28 +324,39 @@ class Program
         return new WL(g.Where(Predicates.RaceStat(r1, r2)).Count(),
             g.Where(Predicates.RaceStat(r2, r1)).Count());
     }
+    private static WL WinRaceStat(IEnumerable<P1P2Win> g, Race r1, Race r2)
+    {
+        return WL.Fill(g, (p) => p.Win, (p) => p.P1.Race == r1 && p.P2.Race == r2);
+    }
+    
+    //static string xWL(WL wl)
+    //{
+    //    if (wl.Total == 0) return "     -      ";
+    //    return string.Format("{0,2}-{1,-2} ({2,3:0}%)", wl.Wins, wl.Losses, wl.Percentage);
+    //}
+    //static string xWT(int win, int total)
+    //{
+    //    int loss = total - win;
+    //    float pc = 0;
+    //    if (total == 0) return "     -      ";
+    //    pc = win / (float)total;
+    //    return string.Format("{0,2}-{1,-2} ({2,4:0%})", win, loss, pc);
+    //}
+    //static string xWL(int win, int loss)
+    //{
+    //    int total = win + loss;
+    //    float pc = 0;
+    //    if (total == 0) return "     -      ";
+    //    pc = win / (float)total;
+    //    return string.Format("{0,2}-{1,-2} ({2,4:0%})", win, loss, pc);
+    //}
+}
 
-    static string xWL(WL wl)
-    {
-        if (wl.Total == 0) return "     -      ";
-        return string.Format("{0,2}-{1,-2} ({2,3:0}%)", wl.Wins, wl.Losses, wl.Percentage);
-    }
-    static string xWT(int win, int total)
-    {
-        int loss = total - win;
-        float pc = 0;
-        if (total == 0) return "     -      ";
-        pc = win / (float)total;
-        return string.Format("{0,2}-{1,-2} ({2,4:0%})", win, loss, pc);
-    }
-    static string xWL(int win, int loss)
-    {
-        int total = win + loss;
-        float pc = 0;
-        if (total == 0) return "     -      ";
-        pc = win / (float)total;
-        return string.Format("{0,2}-{1,-2} ({2,4:0%})", win, loss, pc);
-    }
+struct P1P2Win
+{
+    public Player P1;
+    public Player P2;
+    public bool Win;
 }
 
 public static class Predicates
@@ -306,5 +373,31 @@ public static class Predicates
     public static Func<Record, bool> RaceStat(Race win, Race loss)
     {
         return (r) => (r.Winner.Race == win && r.Loser.Race == loss);
+    }
+}
+
+public static class MoreExtensionMethods
+{
+    public static string Repeat(this string str, int count)
+    {
+        return string.Concat(Enumerable.Repeat(str, count));
+    }
+
+    internal static Bag MergeGrouping<TKey, TElement>(this Bag bag, IGrouping<TKey, TElement> lookup, Func<TElement, string> key, Func<TElement, string> value)
+    {
+        foreach (var item in lookup)
+        {
+            bag[key(item)] = value(item);
+        }
+        return bag;
+    }
+
+    internal static Bag TotalWinLossPercentage(this Bag bag, string id, WL wl)
+    {
+        bag[id + "total"] = wl.Total != 0 ? wl.Total.ToString() : "-";
+        bag[id + "win"] = wl.Total != 0 ? wl.Wins.ToString() : "-";
+        bag[id + "loss"] = wl.Total != 0 ? wl.Losses.ToString() : "-";
+        bag[id + "pc"] = wl.Total != 0 ? wl.Percentage.ToString("0") + "%" : "-";
+        return bag;
     }
 }

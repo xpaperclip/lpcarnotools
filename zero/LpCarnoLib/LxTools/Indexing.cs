@@ -1,13 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
-namespace CarnoZ
+namespace LxTools
 {
     public struct Indexing<T>
     {
         public Indexing(T obj, int index)
+        {
+            this.Object = obj;
+            this.Index = index;
+        }
+        public Indexing(int index, T obj)
         {
             this.Object = obj;
             this.Index = index;

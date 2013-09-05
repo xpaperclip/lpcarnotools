@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace CarnoZ
+namespace LxTools.CarnoZ
 {
     class LpParser
     {
@@ -182,7 +182,7 @@ namespace CarnoZ
 
         public string GetParamText(string label)
         {
-            if (!Params.ContainsKey(label)) return null;
+            if (label == null || !Params.ContainsKey(label)) return null;
             return (from item in Params[label]
                     where item is LpText
                     select (item as LpText).Text).FirstOrDefault();

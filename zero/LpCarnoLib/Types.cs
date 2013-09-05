@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace CarnoZ
+namespace LxTools.CarnoZ
 {
     public struct Record
     {
@@ -11,6 +11,12 @@ namespace CarnoZ
         public Player Loser;
         public string Map;
         public object Tag;
+    }
+    public class Match
+    {
+        public string TeamWinner;
+        public string TeamLoser;
+        public readonly List<Record> Games = new List<Record>();
     }
 
     public struct Player
@@ -35,6 +41,10 @@ namespace CarnoZ
                 return (pl.Id == this.Id) && (pl.Team == this.Team);
             }
             return false;
+        }
+        public override int GetHashCode()
+        {
+            return this.Id.GetHashCode();
         }
     }
 

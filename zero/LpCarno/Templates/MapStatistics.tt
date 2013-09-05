@@ -1,0 +1,74 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="LxTools" #>
+{|class="sortable wikitable" style="text-align:center;"
+
+!colspan=2 style="border-left:  1px solid #777; border-top: 1px solid #777; border-right: 1px solid #777;" |
+!colspan=4 style="border-right: 1px solid #777; border-top: 1px solid #777;"                               |{{SC2-T}} vs. {{SC2-Z}}
+!colspan=4 style="border-right: 1px solid #777; border-top: 1px solid #777;"                               |{{SC2-Z}} vs. {{SC2-P}}
+!colspan=4 style="border-right: 1px solid #777; border-top: 1px solid #777;"                               |{{SC2-P}} vs. {{SC2-T}}
+!colspan=3 style="border-right: 1px solid #777; border-top: 1px solid #777;"                               |Mirrors
+
+|-
+!style="border-left: 1px solid #777;" width=150px   |Map
+!style="border-right: 1px solid #777;"              |Games
+!style=""                                           |Sets
+!style=""                                           |{{SC2-T}} W
+!style=""                                           |{{SC2-Z}} W
+!style="border-right: 1px solid #777;"              |{{SC2-T}} %
+!style=""                                           |Sets
+!style=""                                           |{{SC2-Z}} W
+!style=""                                           |{{SC2-P}} W
+!style="border-right: 1px solid #777;"              |{{SC2-Z}} %
+!style=""                                           |Sets
+!style=""                                           |{{SC2-P}} W
+!style=""                                           |{{SC2-T}} W
+!style="border-right: 1px solid #777;"              |{{SC2-P}} %
+!style=""                                           |{{SC2-T}} vs {{SC2-T}}
+!style=""                                           |{{SC2-Z}} vs {{SC2-Z}}
+!style="border-right: 1px solid #777;"              |{{SC2-P}} vs {{SC2-P}}
+
+|-
+<# foreach (Bag bag in this.Rows) { #>
+|style="border-left:  1px solid #777;" align=left  | [[<#= bag["map"] #>]]
+|style="border-right: 1px solid #777;"             | <#= bag["total"] #>
+<!-- TvZ -->                                       | <#= bag["TvZtotal"] #>
+                                                   | <#= bag["TvZwin"] #>
+                                                   | <#= bag["TvZloss"] #>
+|style="border-right: 1px solid #777;"             | <#= bag["TvZpc"] #>
+<!-- ZvP -->                                       | <#= bag["ZvPtotal"] #>
+                                                   | <#= bag["ZvPwin"] #>
+                                                   | <#= bag["ZvPloss"] #>
+|style="border-right: 1px solid #777;"             | <#= bag["ZvPpc"] #>
+<!-- PvT -->                                       | <#= bag["PvTtotal"] #>
+                                                   | <#= bag["PvTwin"] #>
+                                                   | <#= bag["PvTloss"] #>
+|style="border-right: 1px solid #777;"             | <#= bag["PvTpc"] #>
+<!-- Mirrors -->                                   | <#= bag["TvT"] #>
+                                                   | <#= bag["ZvZ"] #>
+|style="border-right: 1px solid #777;"             | <#= bag["PvP"] #>
+|-
+<# } #>
+!style="border-bottom: 1px solid #777; border-left:  1px solid #777;" |Overall
+!style="border-bottom: 1px solid #777; border-right: 1px solid #777;" |<#= this.Params["total"] #>
+!style="border-bottom: 1px solid #777;" <!-- TvZ -->                  |<#= this.Params["TvZtotal"] #>
+!style="border-bottom: 1px solid #777;"                               |<#= this.Params["TvZwin"] #>
+!style="border-bottom: 1px solid #777;"                               |<#= this.Params["TvZloss"] #>
+!style="border-bottom: 1px solid #777; border-right: 1px solid #777;" |<#= this.Params["TvZpc"] #>
+!style="border-bottom: 1px solid #777;" <!-- ZvP -->                  |<#= this.Params["ZvPtotal"] #>
+!style="border-bottom: 1px solid #777;"                               |<#= this.Params["ZvPwin"] #>
+!style="border-bottom: 1px solid #777;"                               |<#= this.Params["ZvPloss"] #>
+!style="border-bottom: 1px solid #777; border-right: 1px solid #777;" |<#= this.Params["ZvPpc"] #>
+!style="border-bottom: 1px solid #777;" <!-- PvT -->                  |<#= this.Params["PvTtotal"] #>
+!style="border-bottom: 1px solid #777;"                               |<#= this.Params["PvTwin"] #>
+!style="border-bottom: 1px solid #777;"                               |<#= this.Params["PvTloss"] #>
+!style="border-bottom: 1px solid #777; border-right: 1px solid #777;" |<#= this.Params["PvTpc"] #>
+!style="border-bottom: 1px solid #777;" <!-- Mirrors -->              |<#= this.Params["TvT"] #>
+!style="border-bottom: 1px solid #777;"                               |<#= this.Params["ZvZ"] #>
+!style="border-bottom: 1px solid #777; border-right: 1px solid #777;" |<#= this.Params["PvP"] #>
+|}
+<#+
+public Bag Params { get; set; }
+public IEnumerable<Bag> Rows { get; set; }
+#>

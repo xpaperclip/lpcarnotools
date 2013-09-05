@@ -1,0 +1,115 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="LxTools" #>
+{|class="sortable wikitable" style="text-align:center;"
+
+!colspan=2 align=left style="border-left:  1px solid #777; border-top: 1px solid #777; border-right: 1px solid #777;" |
+!colspan=4 align=left style="border-right: 1px solid #777; border-top: 1px solid #777;"                               |{{SC2-T}}
+!colspan=4 align=left style="border-right: 1px solid #777; border-top: 1px solid #777;"                               |{{SC2-Z}}
+!colspan=4 align=left style="border-right: 1px solid #777; border-top: 1px solid #777;"                               |{{SC2-P}}
+<# if (this.IncludeVs) { #>
+!colspan=4 align=left style="border-right: 1px solid #777; border-top: 1px solid #777;"                               |v {{SC2-T}}
+!colspan=4 align=left style="border-right: 1px solid #777; border-top: 1px solid #777;"                               |v {{SC2-Z}}
+!colspan=4 align=left style="border-right: 1px solid #777; border-top: 1px solid #777;"                               |v {{SC2-P}}
+<# } #>
+|-
+
+!style="border-left: 1px solid #777;" width=2px      |
+!style="border-right: 1px solid #777;" width=175px   |Team
+<!-- Terran -->                                      !Sets
+                                                     !Won
+                                                     !Lost
+!style="border-right: 1px solid #777;"               |Win %
+<!-- Zerg -->                                        !Sets
+                                                     !Won
+                                                     !Lost
+!style="border-right: 1px solid #777;"               |Win %
+<!-- Protoss -->                                     !Sets
+                                                     !Won
+                                                     !Lost
+!style="border-right: 1px solid #777;"               |Win %
+<# if (this.IncludeVs) { #>
+<!-- Terran -->                                      !Sets
+                                                     !Won
+                                                     !Lost
+!style="border-right: 1px solid #777;"               |Win %
+<!-- Zerg -->                                        !Sets
+                                                     !Won
+                                                     !Lost
+!style="border-right: 1px solid #777;"               |Win %
+<!-- Protoss -->                                     !Sets
+                                                     !Won
+                                                     !Lost
+!style="border-right: 1px solid #777;"               |Win %
+<# } #>
+<# foreach (Bag bag in this.Rows) { #>
+|-
+|style="border-left: 1px solid #777;"                | <#= bag["index"] #>
+|align=left style="border-right: 1px solid #777;"    | {{team/<#= bag["team"] #>}}
+<!-- Terran -->                                      | <#= bag["Ttotal"] #>
+                                                     | <#= bag["Twin"] #>
+                                                     | <#= bag["Tloss"] #>
+|style="border-right: 1px solid #777;"               | <#= bag["Tpc"] #>
+<!-- Zerg -->                                        | <#= bag["Ztotal"] #>
+                                                     | <#= bag["Zwin"] #>
+                                                     | <#= bag["Zloss"] #>
+|style="border-right: 1px solid #777;"               | <#= bag["Zpc"] #>
+<!-- Protoss -->                                     | <#= bag["Ptotal"] #>
+                                                     | <#= bag["Pwin"] #>
+                                                     | <#= bag["Ploss"] #>
+|style="border-right: 1px solid #777;"               | <#= bag["Ppc"] #>
+<# if (this.IncludeVs) { #>
+<!-- Terran -->                                      | <#= bag["vTtotal"] #>
+                                                     | <#= bag["vTwin"] #>
+                                                     | <#= bag["vTloss"] #>
+|style="border-right: 1px solid #777;"               | <#= bag["vTpc"] #>
+<!-- Zerg -->                                        | <#= bag["vZtotal"] #>
+                                                     | <#= bag["vZwin"] #>
+                                                     | <#= bag["vZloss"] #>
+|style="border-right: 1px solid #777;"               | <#= bag["vZpc"] #>
+<!-- Protoss -->                                     | <#= bag["vPtotal"] #>
+                                                     | <#= bag["vPwin"] #>
+                                                     | <#= bag["vPloss"] #>
+|style="border-right: 1px solid #777;"               | <#= bag["vPpc"] #>
+<# } #>
+<# } #>
+|-
+!colspan=2 style="border-bottom: 1px solid #777; border-right: 1px solid #777; border-left: 1px solid #777;" | Overall
+!style="border-bottom: 1px solid #777; "                <!-- Terran --> | <#= this.Params["Ttotal"] #>
+!style="border-bottom: 1px solid #777; "								| <#= this.Params["Twin"] #>
+!style="border-bottom: 1px solid #777; "								| <#= this.Params["Tloss"] #>
+!style="border-bottom: 1px solid #777; border-right: 1px solid #777;"   | <#= this.Params["Tpc"] #>
+!style="border-bottom: 1px solid #777; "                  <!-- Zerg --> | <#= this.Params["Ztotal"] #>
+!style="border-bottom: 1px solid #777; "								| <#= this.Params["Zwin"] #>
+!style="border-bottom: 1px solid #777; "								| <#= this.Params["Zloss"] #>
+!style="border-bottom: 1px solid #777; border-right: 1px solid #777;"   | <#= this.Params["Zpc"] #>
+!style="border-bottom: 1px solid #777; "               <!-- Protoss --> | <#= this.Params["Ptotal"] #>
+!style="border-bottom: 1px solid #777; "								| <#= this.Params["Pwin"] #>
+!style="border-bottom: 1px solid #777; "								| <#= this.Params["Ploss"] #>
+!style="border-bottom: 1px solid #777; border-right: 1px solid #777;"   | <#= this.Params["Ppc"] #>
+<# if (this.IncludeVs) { #>
+!style="border-bottom: 1px solid #777; "                <!-- Terran --> | <#= this.Params["vTtotal"] #>
+!style="border-bottom: 1px solid #777; "								| <#= this.Params["vTwin"] #>
+!style="border-bottom: 1px solid #777; "								| <#= this.Params["vTloss"] #>
+!style="border-bottom: 1px solid #777; border-right: 1px solid #777;"   | <#= this.Params["vTpc"] #>
+!style="border-bottom: 1px solid #777; "                  <!-- Zerg --> | <#= this.Params["vZtotal"] #>
+!style="border-bottom: 1px solid #777; "								| <#= this.Params["vZwin"] #>
+!style="border-bottom: 1px solid #777; "								| <#= this.Params["vZloss"] #>
+!style="border-bottom: 1px solid #777; border-right: 1px solid #777;"   | <#= this.Params["vZpc"] #>
+!style="border-bottom: 1px solid #777; "               <!-- Protoss --> | <#= this.Params["vPtotal"] #>
+!style="border-bottom: 1px solid #777; "								| <#= this.Params["vPwin"] #>
+!style="border-bottom: 1px solid #777; "								| <#= this.Params["vPloss"] #>
+!style="border-bottom: 1px solid #777; border-right: 1px solid #777;"   | <#= this.Params["vPpc"] #>
+<# } #>
+<!-- |-
+!colspan=2 align=left style="border-left: 1px solid #777; border-bottom: 1px solid #777; border-right: 1px solid #777;"  |
+!colspan=4 align=left style="border-bottom: 1px solid #777; border-right: 1px solid #777;"                               |
+!colspan=4 align=left style="border-bottom: 1px solid #777; border-right: 1px solid #777;"                               |
+!colspan=4 align=left style="border-bottom: 1px solid #777; border-right: 1px solid #777;"                               | -->
+|}
+<#+
+public bool IncludeVs { get; set; }
+public Bag Params { get; set; }
+public IEnumerable<Bag> Rows { get; set; }
+#>
