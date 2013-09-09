@@ -47,9 +47,9 @@ namespace LpCarno.Templates
                     "              |Sets\r\n!style=\"\"                                           |{{SC2-" +
                     "P}} W\r\n!style=\"\"                                           |{{SC2-T}} W\r\n!style=" +
                     "\"border-right: 1px solid #777;\"              |{{SC2-P}} %\r\n!style=\"\"            " +
-                    "                               |{{SC2-T}} vs {{SC2-T}}\r\n!style=\"\"               " +
-                    "                            |{{SC2-Z}} vs {{SC2-Z}}\r\n!style=\"border-right: 1px s" +
-                    "olid #777;\"              |{{SC2-P}} vs {{SC2-P}}\r\n\r\n|-\r\n");
+                    "                               |{{SC2-T}} v {{SC2-T}}\r\n!style=\"\"                " +
+                    "                           |{{SC2-Z}} v {{SC2-Z}}\r\n!style=\"border-right: 1px sol" +
+                    "id #777;\"              |{{SC2-P}} v {{SC2-P}}\r\n\r\n|-\r\n");
             
             #line 33 "E:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\MapStatistics.tt"
  foreach (Bag bag in this.Rows) { 

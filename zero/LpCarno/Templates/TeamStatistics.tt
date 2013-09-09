@@ -3,13 +3,13 @@
 <#@ import namespace="System.Collections.Generic" #>
 <#@ import namespace="LxTools" #>
 {|class="sortable wikitable" style="text-align:center;"
-! colspan=3|
+! colspan=<# if (IncludeAllKills) { #>3<# } else { #>2<# } #>|
 ! colspan=3|Matches
 ! colspan=4|Maps
 |-
 ! width=2px|
 ! width=200px|Team
-! width=100px|All-Kills
+<# if (IncludeAllKills) { #>! width=100px|All-Kills<# } #>
 ! width=20px|
 ! width=40px|Record
 ! width=30px|%
@@ -23,11 +23,12 @@
 |-
 |align=center | <#= index #>
 |align=left   | {{Team/<#= bag["team"] #>}}
-| <#= bag["allkills"] #>
+<# if (IncludeAllKills) { #>| <#= bag["allkills"] #><# } #>
 | <#= bag["matchCount"] #> || <#= bag["matches"] #>
 | <#= bag["gameCount"] #> || <#= bag["games"] #> || ''<#= bag["gameDiff"] #>''
 <# } #>
 |}
 <#+
+public bool IncludeAllKills { get; set; }
 public IEnumerable<Indexing<Bag>> Rows { get; set; }
 #>

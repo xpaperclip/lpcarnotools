@@ -40,9 +40,9 @@ namespace LpCarno.Templates
             
             #line default
             #line hidden
-            this.Write(@"!colspan=4 align=left style=""border-right: 1px solid #777; border-top: 1px solid #777;""                               |v {{SC2-T}}
-!colspan=4 align=left style=""border-right: 1px solid #777; border-top: 1px solid #777;""                               |v {{SC2-Z}}
-!colspan=4 align=left style=""border-right: 1px solid #777; border-top: 1px solid #777;""                               |v {{SC2-P}}
+            this.Write(@"!colspan=4 align=left style=""border-right: 1px solid #777; border-top: 1px solid #777;""                               |vs. {{SC2-T}}
+!colspan=4 align=left style=""border-right: 1px solid #777; border-top: 1px solid #777;""                               |vs. {{SC2-Z}}
+!colspan=4 align=left style=""border-right: 1px solid #777; border-top: 1px solid #777;""                               |vs. {{SC2-P}}
 ");
             
             #line 15 "E:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\RacialStatistics.tt"

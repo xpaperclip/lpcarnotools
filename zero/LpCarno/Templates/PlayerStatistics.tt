@@ -10,11 +10,11 @@
 |-
 <# break; #>
 <# case "top10-complete": #>{| class="sortable wikitable collapsible collapsed" style="margin-top:-14px; text-align:center; width:970px;"
-! colspan=14 width=970px | Complete Table
+! colspan=<# if (IncludeAllKills) { #>14<# } else { #>13<# } #> width=970px | Complete Table
 |-
 <# break; #>
 <# } #>
-! colspan=6 | Player
+! colspan=<# if (IncludeAllKills) { #>6<# } else { #>5<# } #> | Player
 ! colspan=2 width=100px | Games
 ! colspan=2 width=100px | vs. {{SC2-T}}
 ! colspan=2 width=100px | vs. {{SC2-Z}}
@@ -25,7 +25,7 @@
 ! width=2px |
 ! width=125px |ID
 ! width=200px |Team
-! width=60px |All-Kills
+<# if (IncludeAllKills) { #>! width=60px |All-Kills<# } #>
 ! Record
 ! Win%
 ! Record
@@ -42,7 +42,7 @@
 | {{FlagRace|<#= obj["flag"] #>|<#= obj["race"] #>}}
 |align=left | [[<#= obj["player"] #>]]
 |align=left | {{team/<#= obj["team"] #>}}
-| <#= obj["allkills"] #>
+<# if (IncludeAllKills) { #>| <#= obj["allkills"] #><# } #>
 | <#= obj["wl"] #>
 | <#= obj["vT"] #>
 | <#= obj["vZ"] #>
@@ -51,6 +51,7 @@
 <# } #>
 |}
 <#+
+public bool IncludeAllKills { get; set; }
 public string HeaderType { get; set; }
 public IEnumerable<Indexing<Bag>> Rows { get; set; }
 #>

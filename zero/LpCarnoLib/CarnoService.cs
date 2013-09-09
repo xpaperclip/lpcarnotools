@@ -12,6 +12,7 @@ namespace LxTools.CarnoZ
         public readonly List<Record> Records = new List<Record>();
         public readonly List<Match> Matches = new List<Match>();
         public readonly Dictionary<string, string> IdRewriter = new Dictionary<string, string>();
+        public readonly Dictionary<string, string> MapNameRewriter = new Dictionary<string, string>();
     
         private string fmtfolder;
         private object tag;
@@ -103,8 +104,8 @@ namespace LxTools.CarnoZ
 
             if (template.Name == "TeamMatch")
             {
-                string team1 = template.GetParamText("team1");
-                string team2 = template.GetParamText("team2");
+                string team1 = ConformID(template.GetParamText("team1"));
+                string team2 = ConformID(template.GetParamText("team2"));
                 string teamwin = template.GetParamText("teamwin");
 
                 if (teamwin == "1")
@@ -223,7 +224,7 @@ namespace LxTools.CarnoZ
             int set = 0;
             if (param != null) int.TryParse(param.ToString(), out set);
 
-            Record record = new Record() { Tag = tag, Set = set, Map = map, Winner = winner, Loser = loser };
+            Record record = new Record() { Tag = tag, Set = set, Map = ConformMapName(map), Winner = winner, Loser = loser };
             Records.Add(record);
             if (currentMatch != null)
                 currentMatch.Games.Add(record);
@@ -270,18 +271,18 @@ namespace LxTools.CarnoZ
                         continue;
 
                     if (win == "1")
-                        Records.Add(new Record() { Tag = tag, Map = map, Winner = p1, Loser = p2 });
+                        Records.Add(new Record() { Tag = tag, Map = ConformMapName(map), Winner = p1, Loser = p2 });
                     else if (win == "2")
-                        Records.Add(new Record() { Tag = tag, Map = map, Winner = p2, Loser = p1 });
+                        Records.Add(new Record() { Tag = tag, Map = ConformMapName(map), Winner = p2, Loser = p1 });
                 }
             }
             else
             {
                 // just output games
                 for (int i = 0; i < scoreleft; i++)
-                    Records.Add(new Record() { Tag = tag, Map = "Unknown", Winner = p1, Loser = p2 });
+                    Records.Add(new Record() { Tag = tag, Map = ConformMapName("Unknown"), Winner = p1, Loser = p2 });
                 for (int i = 0; i < scoreright; i++)
-                    Records.Add(new Record() { Tag = tag, Map = "Unknown", Winner = p2, Loser = p1 });
+                    Records.Add(new Record() { Tag = tag, Map = ConformMapName("Unknown"), Winner = p2, Loser = p1 });
                 
                 //sw.WriteLine("{0}-{1} {2} {3}", scoreleft, scoreright, playerleft, playerright);
 
@@ -294,12 +295,10 @@ namespace LxTools.CarnoZ
         private Player TemplateGetPlayer(LpTemplate template, string p1, string team, object param)
         {
             Player pl = new Player();
-            pl.Id = template.GetParamText(string.Format(p1, param));
-            if (IdRewriter.ContainsKey(pl.Id)) pl.Id = IdRewriter[pl.Id];
+            pl.Id = ConformID(template.GetParamText(string.Format(p1, param)));
             pl.Flag = template.GetParamText(string.Format(p1, param) + "flag");
             pl.Link = template.GetParamText(string.Format(p1, param) + "link");
-            pl.Team = template.GetParamText(team);
-            if (pl.Team != null && IdRewriter.ContainsKey(pl.Team)) pl.Team = IdRewriter[pl.Team];
+            pl.Team = ConformID(template.GetParamText(team));
 
             switch (template.GetParamText(string.Format(p1, param) + "race").ToLower())
             {
@@ -325,6 +324,17 @@ namespace LxTools.CarnoZ
             }
 
             return pl;
+        }
+
+        private string ConformID(string id)
+        {
+            if (id != null && IdRewriter.ContainsKey(id)) return IdRewriter[id];
+            return id;
+        }
+        private string ConformMapName(string map)
+        {
+            if (map != null && MapNameRewriter.ContainsKey(map)) return MapNameRewriter[map];
+            return map;
         }
     }
 }

@@ -9,9 +9,9 @@
 !colspan=4 align=left style="border-right: 1px solid #777; border-top: 1px solid #777;"                               |{{SC2-Z}}
 !colspan=4 align=left style="border-right: 1px solid #777; border-top: 1px solid #777;"                               |{{SC2-P}}
 <# if (this.IncludeVs) { #>
-!colspan=4 align=left style="border-right: 1px solid #777; border-top: 1px solid #777;"                               |v {{SC2-T}}
-!colspan=4 align=left style="border-right: 1px solid #777; border-top: 1px solid #777;"                               |v {{SC2-Z}}
-!colspan=4 align=left style="border-right: 1px solid #777; border-top: 1px solid #777;"                               |v {{SC2-P}}
+!colspan=4 align=left style="border-right: 1px solid #777; border-top: 1px solid #777;"                               |vs. {{SC2-T}}
+!colspan=4 align=left style="border-right: 1px solid #777; border-top: 1px solid #777;"                               |vs. {{SC2-Z}}
+!colspan=4 align=left style="border-right: 1px solid #777; border-top: 1px solid #777;"                               |vs. {{SC2-P}}
 <# } #>
 |-
 

@@ -25,9 +25,9 @@
 !style=""                                           |{{SC2-P}} W
 !style=""                                           |{{SC2-T}} W
 !style="border-right: 1px solid #777;"              |{{SC2-P}} %
-!style=""                                           |{{SC2-T}} vs {{SC2-T}}
-!style=""                                           |{{SC2-Z}} vs {{SC2-Z}}
-!style="border-right: 1px solid #777;"              |{{SC2-P}} vs {{SC2-P}}
+!style=""                                           |{{SC2-T}} v {{SC2-T}}
+!style=""                                           |{{SC2-Z}} v {{SC2-Z}}
+!style="border-right: 1px solid #777;"              |{{SC2-P}} v {{SC2-P}}
 
 |-
 <# foreach (Bag bag in this.Rows) { #>

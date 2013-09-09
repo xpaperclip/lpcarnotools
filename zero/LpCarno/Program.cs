@@ -11,7 +11,8 @@ class Program
     static void Main(string[] args)
     {
         CarnoService service = new CarnoService();
-        InitialiseIdRewriter(service);
+        LoadRewriter("playerpka.dict", service.IdRewriter);
+        LoadRewriter("mapakas.dict", service.MapNameRewriter);
 
         //service.Accumulate("http://wiki.teamliquid.net/starcraft2/2012-2013_Proleague/Round_1", "round1");
         //service.Accumulate("http://wiki.teamliquid.net/starcraft2/2012-2013_Proleague/Round_2", "round2");
@@ -28,45 +29,58 @@ class Program
         //service.Accumulate("http://wiki.teamliquid.net/starcraft2/2013_WCS_Season_2_Korea_OSL/Challenger", "ch");
         //service.Accumulate("http://wiki.teamliquid.net/starcraft2/2013_WCS_Season_3_Korea_GSL/Up_and_Down", "ud");
 
+        //service.Accumulate("http://wiki.teamliquid.net/starcraft2/2013_WCS_Season_3_Korea_GSL/Premier/Ro32", "");
+        
+        //service.Accumulate("http://wiki.teamliquid.net/starcraft2/Acer_TeamStory_Cup_Season_1/Group_Stage", "");
+        //service.Accumulate("http://wiki.teamliquid.net/starcraft2/Acer_TeamStory_Cup_Season_1/Playoffs", "");
+
         //service.Accumulate("http://wiki.teamliquid.net/starcraft2/2013_Global_StarCraft_II_Team_League_Season_1/Group_Stage", "gs");
         //service.Accumulate("http://wiki.teamliquid.net/starcraft2/2013_Global_StarCraft_II_Team_League_Season_1/Playoffs", "po");
 
-        service.Accumulate("http://wiki.teamliquid.net/starcraft2/2013_Global_StarCraft_II_Team_League_Season_2/Round_1", "r1");
+        //service.Accumulate("http://wiki.teamliquid.net/starcraft2/2013_Global_StarCraft_II_Team_League_Season_2/Round_1", "r1");
         //service.Accumulate("http://wiki.teamliquid.net/starcraft2/2013_Global_StarCraft_II_Team_League_Season_2/Round_2", "r2");
+
+        service.Accumulate("http://wiki.teamliquid.net/starcraft2/StarCraft_2_League/Group_Stage", "");
 
         Console.WriteLine();
 
-        using (StreamWriter sw = new StreamWriter("output.txt"))
+        using (var sw = new StringWriter())
         {
-            sw.WriteLine("==Team Statistics==");
-            TeamStatistics(service, sw);
-            sw.WriteLine("===Match-ups===");
-            TeamMatchupStatistics(service, sw, service.Records);
-            sw.WriteLine("===Racial Statistics===");
-            RacialStatistics(service, sw, service.Records);
-            sw.WriteLine("===Map Statistics===");
-            TeamMapStatistics(service, sw);
+            if (true)
+            {
+                sw.WriteLine("==Team Statistics==");
+                TeamStatistics(service, sw);
+                sw.WriteLine("===Match-ups===");
+                TeamMatchupStatistics(service, sw, service.Records);
+                sw.WriteLine("===Racial Statistics===");
+                RacialStatistics(service, sw, service.Records);
+                sw.WriteLine("===Map Statistics===");
+                TeamMapStatistics(service, sw);
 
-            sw.WriteLine("==Player Statistics==");
-            PlayerStatistics(service, sw, service.Records);
+                sw.WriteLine("==Player Statistics==");
+                PlayerStatistics(service, sw, service.Records);
+            }
 
-            //sw.WriteLine("==Ace Matches==");
-            //PlayerStatistics(service, sw, service.Records.Where((r) => r.Set == -1));
-            //sw.WriteLine("===Match-ups===");
-            //TeamMatchupStatistics(service, sw, service.Records.Where((r) => r.Set == -1));
-            //sw.WriteLine("===Racial Statistics===");
-            //RacialStatistics(service, sw, service.Records.Where((r) => r.Set == -1));
+            if (true)
+            {
+                sw.WriteLine("==Ace Matches==");
+                PlayerStatistics(service, sw, service.Records.Where((r) => r.Set == -1));
+                sw.WriteLine("===Match-ups===");
+                TeamMatchupStatistics(service, sw, service.Records.Where((r) => r.Set == -1));
+                sw.WriteLine("===Racial Statistics===");
+                RacialStatistics(service, sw, service.Records.Where((r) => r.Set == -1));
+            }
 
             sw.WriteLine("==Map Statistics==");
             MapStatistics(service, sw);
-        }
 
-        Console.ReadLine();
+            UI.ShowDialog(new UIDocument("Output", sw.ToString()));
+        }
     }
 
-    private static void InitialiseIdRewriter(CarnoService service)
+    private static void LoadRewriter(string filename, Dictionary<string, string> rewriter)
     {
-        foreach (string line in File.ReadAllLines("playerpka.dict"))
+        foreach (string line in File.ReadAllLines(filename))
         {
             if (string.IsNullOrWhiteSpace(line) || line.StartsWith(";")) continue;
             int idx = line.IndexOf(",");
@@ -74,12 +88,12 @@ class Program
             string[] oldids = line.Substring(idx + 1).Split(',');
             foreach (string oldid in oldids)
             {
-                service.IdRewriter.Add(oldid, newid);
+                rewriter.Add(oldid, newid);
             }
         }
     }
 
-    private static void TeamStatistics(CarnoService service, StreamWriter sw)
+    private static void TeamStatistics(CarnoService service, TextWriter sw)
     {
         var matches = (service.Matches.Select((m) => new { Team = m.TeamWinner, Win = true })).Concat(service.Matches.Select((m) => new { Team = m.TeamLoser, Win = false }));
         var players = (service.Records.Select((r) => new { Player = r.Winner, Win = true })).Concat(service.Records.Select((r) => new { Player = r.Loser, Win = false }));
@@ -116,7 +130,7 @@ class Program
         template.Rows = table.Index((a, b) => false);
         sw.WriteLine(template.TransformText());
     }
-    private static void PlayerStatistics(CarnoService service, StreamWriter sw, IEnumerable<Record> games)
+    private static void PlayerStatistics(CarnoService service, TextWriter sw, IEnumerable<Record> games)
     {
         var players = (games.Select((r) => new { Player = r.Winner, r.Loser.Race, Win = true })).Concat(games.Select((r) => new { Player = r.Loser, r.Winner.Race, Win = false }));
         var table = from g in players.GroupBy((p) => p.Player)
@@ -172,7 +186,7 @@ class Program
         //}
         //Console.WriteLine();
     }
-    private static void RacialStatistics(CarnoService service, StreamWriter sw, IEnumerable<Record> games)
+    private static void RacialStatistics(CarnoService service, TextWriter sw, IEnumerable<Record> games)
     {
         var players = (games.Select((r) => new { P1 = r.Winner, P2 = r.Loser, Win = true })).Concat(games.Select((r) => new { P1 = r.Loser, P2 = r.Winner, Win = false }));
         var table = from g in players.GroupBy((p) => p.P1.Team)
@@ -217,7 +231,7 @@ class Program
         template.IncludeVs = true;
         sw.WriteLine(template.TransformText());
     }
-    private static void MapStatistics(CarnoService service, StreamWriter sw)
+    private static void MapStatistics(CarnoService service, TextWriter sw)
     {
         var games = service.Records;
         var table = from g in games.GroupBy((g) => g.Map)
@@ -272,7 +286,7 @@ class Program
         //}
         //Console.WriteLine();
     }
-    private static void TeamMatchupStatistics(CarnoService service, StreamWriter sw, IEnumerable<Record> games)
+    private static void TeamMatchupStatistics(CarnoService service, TextWriter sw, IEnumerable<Record> games)
     {
         var players = (games.Select((r) => new P1P2Win() { P1 = r.Winner, P2 = r.Loser, Win = true })).Concat(games.Select((r) => new P1P2Win() { P1 = r.Loser, P2 = r.Winner, Win = false }));
         var table = from g in players.GroupBy((p) => p.P1.Team)
@@ -294,7 +308,7 @@ class Program
         template.Rows = table;
         sw.WriteLine(template.TransformText());
     }
-    private static void TeamMapStatistics(CarnoService service, StreamWriter sw)
+    private static void TeamMapStatistics(CarnoService service, TextWriter sw)
     {
         var maps = from g in service.Records.GroupBy((g) => g.Map)
                    orderby g.Key

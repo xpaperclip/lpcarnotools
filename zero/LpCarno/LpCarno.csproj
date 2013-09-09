@@ -34,6 +34,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="LxToolsBase">
+      <HintPath>..\..\lib\LxToolsBase.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -82,6 +85,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="mapakas.dict">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Templates\TeamMapStatistics.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>TeamMapStatistics.cs</LastGenOutput>
@@ -108,49 +114,49 @@
       <Parameters>&lt;%3fxml version="1.0" encoding="utf-16"%3f&gt;
 &lt;ArrayOfParameterStorage xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" /&gt;</Parameters>
     </None>
-    <None Include="LPfmt\unused\12SEBracket.bracketfmt">
+    <None Include="LPfmt\12SEBracket.bracketfmt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="LPfmt\unused\16SEBracket.bracketfmt">
+    <None Include="LPfmt\16SEBracket.bracketfmt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="LPfmt\unused\2SEBracket.bracketfmt">
+    <None Include="LPfmt\2SEBracket.bracketfmt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="LPfmt\unused\32SEBracket.bracketfmt">
+    <None Include="LPfmt\32SEBracket.bracketfmt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="LPfmt\unused\4SEBracket.bracketfmt">
+    <None Include="LPfmt\4SEBracket.bracketfmt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="LPfmt\unused\6SEBracket.bracketfmt">
+    <None Include="LPfmt\6SEBracket.bracketfmt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="LPfmt\unused\8DEBracket.bracketfmt">
+    <None Include="LPfmt\8DEBracket.bracketfmt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="LPfmt\unused\8LBracket.bracketfmt">
+    <None Include="LPfmt\8LBracket.bracketfmt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="LPfmt\unused\8SEBracket.bracketfmt">
+    <None Include="LPfmt\8SEBracket.bracketfmt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="LPfmt\unused\CodeABracket.bracketfmt">
+    <None Include="LPfmt\CodeABracket.bracketfmt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="LPfmt\unused\GameMaps.matchfmt">
+    <None Include="LPfmt\GameMaps.matchfmt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="LPfmt\unused\MatchMaps.matchfmt">
+    <None Include="LPfmt\MatchMaps.matchfmt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="LPfmt\unused\MatchSummary.matchfmt">
+    <None Include="LPfmt\MatchSummary.matchfmt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="LPfmt\unused\MatchSummaryBo10.matchfmt">
+    <None Include="LPfmt\MatchSummaryBo10.matchfmt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="LPfmt\unused\MatchSummaryBo3.matchfmt">
+    <None Include="LPfmt\MatchSummaryBo3.matchfmt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="LPfmt\TeamMatch.matchfmt">
