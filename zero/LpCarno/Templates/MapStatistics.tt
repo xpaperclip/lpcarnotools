@@ -11,23 +11,23 @@
 !colspan=3 style="border-right: 1px solid #777; border-top: 1px solid #777;"                               |Mirrors
 
 |-
-!style="border-left: 1px solid #777;" width=150px   |Map
-!style="border-right: 1px solid #777;"              |Games
-!style=""                                           |Sets
-!style=""                                           |{{SC2-T}} W
-!style=""                                           |{{SC2-Z}} W
-!style="border-right: 1px solid #777;"              |{{SC2-T}} %
-!style=""                                           |Sets
-!style=""                                           |{{SC2-Z}} W
-!style=""                                           |{{SC2-P}} W
-!style="border-right: 1px solid #777;"              |{{SC2-Z}} %
-!style=""                                           |Sets
-!style=""                                           |{{SC2-P}} W
-!style=""                                           |{{SC2-T}} W
-!style="border-right: 1px solid #777;"              |{{SC2-P}} %
-!style=""                                           |{{SC2-T}} v {{SC2-T}}
-!style=""                                           |{{SC2-Z}} v {{SC2-Z}}
-!style="border-right: 1px solid #777;"              |{{SC2-P}} v {{SC2-P}}
+!style="border-left: 1px solid #777;" width=120px |Map
+!style="border-right: 1px solid #777;" width=30px |
+!style="" width=20px                              |&Sigma;
+!style="" width=20px                              |{{SC2-T}}
+!style="" width=20px                              |{{SC2-Z}}
+!style="border-right: 1px solid #777;"            |{{SC2-T}} %
+!style="" width=20px                              |&Sigma;
+!style="" width=20px                              |{{SC2-Z}}
+!style="" width=20px                              |{{SC2-P}}
+!style="border-right: 1px solid #777;"            |{{SC2-Z}} %
+!style="" width=20px                              |&Sigma;
+!style="" width=20px                              |{{SC2-P}}
+!style="" width=20px                              |{{SC2-T}}
+!style="border-right: 1px solid #777;"            |{{SC2-P}} %
+!style=""                                         |{{SC2-T}} v {{SC2-T}}
+!style=""                                         |{{SC2-Z}} v {{SC2-Z}}
+!style="border-right: 1px solid #777;"            |{{SC2-P}} v {{SC2-P}}
 
 |-
 <# foreach (Bag bag in this.Rows) { #>

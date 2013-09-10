@@ -25,7 +25,8 @@
 ! width=2px |
 ! width=125px |ID
 ! width=200px |Team
-<# if (IncludeAllKills) { #>! width=60px |All-Kills<# } #>
+<# if (IncludeAllKills) { #>! width=60px |All-Kills
+<# } #>
 ! Record
 ! Win%
 ! Record
@@ -42,7 +43,8 @@
 | {{FlagRace|<#= obj["flag"] #>|<#= obj["race"] #>}}
 |align=left | [[<#= obj["player"] #>]]
 |align=left | {{team/<#= obj["team"] #>}}
-<# if (IncludeAllKills) { #>| <#= obj["allkills"] #><# } #>
+<# if (IncludeAllKills) { #>| <#= obj["allkills"] #>
+<# } #>
 | <#= obj["wl"] #>
 | <#= obj["vT"] #>
 | <#= obj["vZ"] #>

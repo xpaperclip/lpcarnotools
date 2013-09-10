@@ -9,7 +9,8 @@
 |-
 ! width=2px|
 ! width=200px|Team
-<# if (IncludeAllKills) { #>! width=100px|All-Kills<# } #>
+<# if (IncludeAllKills) { #>! width=100px|All-Kills
+<# } #>
 ! width=20px|
 ! width=40px|Record
 ! width=30px|%
@@ -23,7 +24,8 @@
 |-
 |align=center | <#= index #>
 |align=left   | {{Team/<#= bag["team"] #>}}
-<# if (IncludeAllKills) { #>| <#= bag["allkills"] #><# } #>
+<# if (IncludeAllKills) { #>| <#= bag["allkills"] #>
+<# } #>
 | <#= bag["matchCount"] #> || <#= bag["matches"] #>
 | <#= bag["gameCount"] #> || <#= bag["games"] #> || ''<#= bag["gameDiff"] #>''
 <# } #>

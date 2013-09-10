@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace LxTools.CarnoZ
 {
@@ -98,5 +97,4 @@ namespace LxTools.CarnoZ
             return this.CompareTo((WL)obj);
         }
     }
-
 }

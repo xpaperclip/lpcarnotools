@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Xml.Linq;
+using LxTools.CarnoZ.Parsing;
 
 namespace LxTools.CarnoZ
 {
@@ -54,24 +55,24 @@ namespace LxTools.CarnoZ
             fmtfolder = Path.Combine(Path.GetDirectoryName(fmtfolder), "LPfmt");
 
             int length;
-            List<LpItem> items = LpParser.Parse(s, 0, out length);
+            List<IWikiItem> items = WikiParser.Parse(s, 0, out length);
 
             var templates = from item in items
-                            where item is LpTemplate
-                            select item as LpTemplate;
-            foreach (LpTemplate template in templates)
+                            where item is WikiTemplate
+                            select item as WikiTemplate;
+            foreach (WikiTemplate template in templates)
             {
                 if (template.Name == "MatchList")
                 {
                     int matchno = 1;
                     while (true)
                     {
-                        List<LpItem> contents;
+                        List<IWikiItem> contents;
                         if (!template.Params.TryGetValue("match" + matchno.ToString(), out contents))
                             break;
 
-                        if (contents.Count == 1 && contents[0] is LpTemplate)
-                            TryProcessMatchMaps(contents[0] as LpTemplate);
+                        if (contents.Count == 1 && contents[0] is WikiTemplate)
+                            TryProcessMatchMaps(contents[0] as WikiTemplate);
                         matchno++;
                     }
                     continue;
@@ -88,7 +89,7 @@ namespace LxTools.CarnoZ
             }
         }
 
-        private bool TryProcessMatchMaps(LpTemplate template)
+        private bool TryProcessMatchMaps(WikiTemplate template)
         {
             string fmtfile = Path.Combine(fmtfolder, template.Name + ".matchfmt");
             if (!File.Exists(fmtfile))
@@ -141,7 +142,7 @@ namespace LxTools.CarnoZ
 
             return true;
         }
-        private bool TryProcessBracket(LpTemplate template)
+        private bool TryProcessBracket(WikiTemplate template)
         {
             string fmtfile = Path.Combine(fmtfolder, template.Name + ".bracketfmt");
             if (!File.Exists(fmtfile))
@@ -176,11 +177,11 @@ namespace LxTools.CarnoZ
             }
         }
 
-        private bool TryProcessMatch(LpTemplate template, string p1, string p2, string mapnameparam, string mapwinparam)
+        private bool TryProcessMatch(WikiTemplate template, string p1, string p2, string mapnameparam, string mapwinparam)
         {
             return TryProcessMatch(template, p1, p2, mapnameparam, mapwinparam, null);
         }
-        private bool TryProcessMatch(LpTemplate template, string p1, string p2, string mapname, string mapwin, object param)
+        private bool TryProcessMatch(WikiTemplate template, string p1, string p2, string mapname, string mapwin, object param)
         {
             string playerleft = template.GetParamText(string.Format(p1, param));
             if (playerleft == null) return false;
@@ -230,7 +231,7 @@ namespace LxTools.CarnoZ
                 currentMatch.Games.Add(record);
             return true;
         }
-        private void ProcessBracketGame(LpTemplate template, string left, string right, string game)
+        private void ProcessBracketGame(WikiTemplate template, string left, string right, string game)
         {
             if (!template.Params.ContainsKey(left)) return;
             if (!template.Params.ContainsKey(right)) return;
@@ -257,7 +258,7 @@ namespace LxTools.CarnoZ
             if (template.Params.ContainsKey(game + "details"))
             {
                 // game has details - use them
-                LpTemplate details = template.GetParamTemplate(game + "details", "BracketMatchSummary");
+                WikiTemplate details = template.GetParamTemplate(game + "details", "BracketMatchSummary");
                 for (int i = 1; i <= scoreleft + scoreright; i++)
                 {
                     string map = "Unknown";
@@ -292,7 +293,7 @@ namespace LxTools.CarnoZ
 
         }
 
-        private Player TemplateGetPlayer(LpTemplate template, string p1, string team, object param)
+        private Player TemplateGetPlayer(WikiTemplate template, string p1, string team, object param)
         {
             Player pl = new Player();
             pl.Id = ConformID(template.GetParamText(string.Format(p1, param)));

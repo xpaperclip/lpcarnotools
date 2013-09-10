@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace LxTools.CarnoZ
 {
@@ -11,7 +10,13 @@ namespace LxTools.CarnoZ
         public Player Loser;
         public string Map;
         public object Tag;
+
+        public bool IsAce
+        {
+            get { return this.Set == -1; }
+        }
     }
+
     public class Match
     {
         public string TeamWinner;

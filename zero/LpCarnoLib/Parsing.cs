@@ -3,36 +3,36 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace LxTools.CarnoZ
+namespace LxTools.CarnoZ.Parsing
 {
-    class LpParser
+    class WikiParser
     {
-        public static List<LpItem> Parse(string s, int start, out int idx)
+        public static List<IWikiItem> Parse(string s, int start, out int idx)
         {
             return ParseTempl(s, start, out idx, true).Children;
         }
-        public static LpComment ParseComment(string s, int start, out int idx)
+        public static WikiComment ParseComment(string s, int start, out int idx)
         {
             idx = start;
             int closingidx = s.IndexOf("-->", idx);
             if (closingidx < 0)
             {
-                LpComment comment = new LpComment(s.Substring(idx));
+                WikiComment comment = new WikiComment(s.Substring(idx));
                 idx = s.Length;
                 return comment;
             }
             else
             {
-                LpComment comment = new LpComment(s.Substring(idx, closingidx - idx));
+                WikiComment comment = new WikiComment(s.Substring(idx, closingidx - idx));
                 idx = closingidx + 3;
                 return comment;
             }
         }
-        public static LpTemplate ParseTempl(string s, int start, out int idx, bool rootlevel)
+        public static WikiTemplate ParseTempl(string s, int start, out int idx, bool rootlevel)
         {
             idx = start;
-            LpTemplate template = new LpTemplate();
-            List<LpItem> items = template.Children;
+            WikiTemplate template = new WikiTemplate();
+            List<IWikiItem> items = template.Children;
             while (idx < s.Length)
             {
                 int commentopenindex = s.IndexOf("<!--", idx);
@@ -42,7 +42,7 @@ namespace LxTools.CarnoZ
                 {
                     string text = s.Substring(idx, commentopenindex - idx).TrimWhitespace();
                     if (!string.IsNullOrEmpty(text))
-                        items.Add(new LpText(text));
+                        items.Add(new WikiText(text));
                     items.Add(ParseComment(s, commentopenindex + 4, out idx));
                 }
                 else if ((templateopenindex < 0) || ((templatecloseindex >= 0) && (templatecloseindex < templateopenindex)))
@@ -51,14 +51,14 @@ namespace LxTools.CarnoZ
                     {
                         string text = s.Substring(idx).TrimWhitespace();
                         if (!string.IsNullOrEmpty(text))
-                            items.Add(new LpText(text));
+                            items.Add(new WikiText(text));
                         idx = s.Length;
                     }
                     else
                     {
                         string text = s.Substring(idx, templatecloseindex - idx).TrimWhitespace();
                         if (!string.IsNullOrEmpty(text))
-                            items.Add(new LpText(text));
+                            items.Add(new WikiText(text));
                         idx = templatecloseindex + 2;
                         break;
                     }
@@ -71,7 +71,7 @@ namespace LxTools.CarnoZ
                 {
                     string text = s.Substring(idx, templateopenindex - idx);
                     if (!string.IsNullOrEmpty(text))
-                        items.Add(new LpText(text));
+                        items.Add(new WikiText(text));
                     items.Add(ParseTempl(s, templateopenindex + 2, out idx, false));
                 }
             }
@@ -79,25 +79,25 @@ namespace LxTools.CarnoZ
             // now process into params
             if (!rootlevel)
             {
-                List<LpItem> currentParam = new List<LpItem>();
+                List<IWikiItem> currentParam = new List<IWikiItem>();
                 int unnamed = 0;
                 string paramName = "0";
-                Queue<LpItem> remainingItems = new Queue<LpItem>(template.Children);
+                Queue<IWikiItem> remainingItems = new Queue<IWikiItem>(template.Children);
                 while (remainingItems.Count > 0)
                 {
-                    LpItem item = remainingItems.Dequeue();
-                    if (item is LpText)
+                    IWikiItem item = remainingItems.Dequeue();
+                    if (item is WikiText)
                     {
-                        string text = (item as LpText).Text;
+                        string text = (item as WikiText).Text;
                         int baridx;
                         while ((baridx = text.IndexOf('|')) >= 0)
                         {
                             // add up to the |
                             string tt = text.Substring(0, baridx).TrimWhitespace();
                             if (!string.IsNullOrEmpty(tt))
-                                currentParam.Add(new LpText(tt));
+                                currentParam.Add(new WikiText(tt));
                             template.Params[paramName] = currentParam;
-                            currentParam = new List<LpItem>();
+                            currentParam = new List<IWikiItem>();
 
                             text = text.Substring(baridx + 1);
                             int nextbar = text.IndexOf('|');
@@ -118,7 +118,7 @@ namespace LxTools.CarnoZ
                             }
                         }
                         text = text.TrimWhitespace();
-                        if (text.Length > 0) currentParam.Add(new LpText(text));
+                        if (text.Length > 0) currentParam.Add(new WikiText(text));
                     }
                     else
                     {
@@ -134,10 +134,10 @@ namespace LxTools.CarnoZ
         }
     }
 
-    class LpItem { }
-    class LpText : LpItem
+    interface IWikiItem { }
+    class WikiText : IWikiItem
     {
-        public LpText(string Text)
+        public WikiText(string Text)
         {
             this.Text = Text;
         }
@@ -148,9 +148,9 @@ namespace LxTools.CarnoZ
             return this.Text;
         }
     }
-    class LpComment : LpItem
+    class WikiComment : IWikiItem
     {
-        public LpComment(string Text)
+        public WikiComment(string Text)
         {
             this.Text = Text;
         }
@@ -161,10 +161,10 @@ namespace LxTools.CarnoZ
             return this.Text;
         }
     }
-    class LpTemplate : LpItem
+    class WikiTemplate : IWikiItem
     {
-        public readonly List<LpItem> Children = new List<LpItem>();
-        public readonly Dictionary<string, List<LpItem>> Params = new Dictionary<string, List<LpItem>>();
+        public readonly List<IWikiItem> Children = new List<IWikiItem>();
+        public readonly Dictionary<string, List<IWikiItem>> Params = new Dictionary<string, List<IWikiItem>>();
 
         public string Name
         {
@@ -173,8 +173,8 @@ namespace LxTools.CarnoZ
                 if (Params.ContainsKey("0"))
                 {
                     var p = Params["0"];
-                    if ((p.Count > 0) && (p[0] is LpText))
-                        return (p[0] as LpText).Text;
+                    if ((p.Count > 0) && (p[0] is WikiText))
+                        return (p[0] as WikiText).Text;
                 }
                 return "";
             }
@@ -184,15 +184,15 @@ namespace LxTools.CarnoZ
         {
             if (label == null || !Params.ContainsKey(label)) return null;
             return (from item in Params[label]
-                    where item is LpText
-                    select (item as LpText).Text).FirstOrDefault();
+                    where item is WikiText
+                    select (item as WikiText).Text).FirstOrDefault();
         }
-        public LpTemplate GetParamTemplate(string label, string template)
+        public WikiTemplate GetParamTemplate(string label, string template)
         {
             if (!Params.ContainsKey(label)) return null;
             return (from item in Params[label]
-                    where item is LpTemplate
-                    let templ = item as LpTemplate
+                    where item is WikiTemplate
+                    let templ = item as WikiTemplate
                     where templ.Name == template
                     select templ).First();
         }

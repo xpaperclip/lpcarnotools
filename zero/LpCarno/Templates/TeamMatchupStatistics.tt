@@ -19,24 +19,24 @@
 ! colspan=2 | vs. {{RaceIconSmall|P}}
 |-
 ! Team
-! Record
-! width=30px | %
-! Record
-! width=30px | %
-! Record
-! width=30px | %
-! Record
-! width=30px | %
-! Record
-! width=30px | %
-! Record
-! width=30px | %
-! Record
-! width=30px | %
-! Record
-! width=30px | %
-! Record
-! width=30px | %
+! width=24px | 
+! width=24px | %
+! width=24px | 
+! width=24px | %
+! width=24px | 
+! width=24px | %
+! width=24px | 
+! width=24px | %
+! width=24px | 
+! width=24px | %
+! width=24px | 
+! width=24px | %
+! width=24px | 
+! width=24px | %
+! width=24px | 
+! width=24px | %
+! width=24px | 
+! width=24px | %
 <# foreach (Bag bag in this.Rows) { #>
 |-
 | align=left | {{Team/<#= bag["team"] #>}}

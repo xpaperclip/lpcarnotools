@@ -43,7 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Types.cs" />
-    <Compile Include="LpParser.cs" />
+    <Compile Include="Parsing.cs" />
     <Compile Include="CarnoService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

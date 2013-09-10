@@ -6,7 +6,7 @@
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{7F233955-1F5C-4B1D-ACF2-3758BAF955F3}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>LpCarno</RootNamespace>
     <AssemblyName>LpCarno</AssemblyName>
@@ -33,17 +33,29 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="LxToolsBase">
       <HintPath>..\..\lib\LxToolsBase.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Templates\TeamMapStatistics.cs">
       <DependentUpon>TeamMapStatistics.tt</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -59,8 +71,8 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Templates\RacialStatistics.cs">
-      <DependentUpon>RacialStatistics.tt</DependentUpon>
+    <Compile Include="Templates\TeamRacialStatistics.cs">
+      <DependentUpon>TeamRacialStatistics.tt</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
@@ -100,9 +112,9 @@
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>TeamStatistics.cs</LastGenOutput>
     </None>
-    <None Include="Templates\RacialStatistics.tt">
+    <None Include="Templates\TeamRacialStatistics.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>RacialStatistics.cs</LastGenOutput>
+      <LastGenOutput>TeamRacialStatistics.cs</LastGenOutput>
     </None>
     <None Include="Templates\MapStatistics.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
@@ -168,6 +180,16 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="carno.dict">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
