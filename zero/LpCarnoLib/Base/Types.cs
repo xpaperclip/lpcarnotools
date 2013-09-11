@@ -3,27 +3,6 @@ using System.Collections.Generic;
 
 namespace LxTools.CarnoZ
 {
-    public struct Record
-    {
-        public int Set;
-        public Player Winner;
-        public Player Loser;
-        public string Map;
-        public object Tag;
-
-        public bool IsAce
-        {
-            get { return this.Set == -1; }
-        }
-    }
-
-    public class Match
-    {
-        public string TeamWinner;
-        public string TeamLoser;
-        public readonly List<Record> Games = new List<Record>();
-    }
-
     public struct Player
     {
         public string Id;

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace LxTools.CarnoZ.Parsing
+namespace LxTools.Liquipedia.Parsing
 {
     class WikiParser
     {

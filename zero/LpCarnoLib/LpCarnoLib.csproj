@@ -8,7 +8,7 @@
     <ProjectGuid>{45BBFE6D-61FA-4F62-BA72-9656D470092E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CarnoZ</RootNamespace>
+    <RootNamespace>LxTools.CarnoZ</RootNamespace>
     <AssemblyName>LpCarnoLib</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -32,7 +32,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="LxToolsBase">
+    <Reference Include="LxToolsBase, Version=1.0.5002.30625, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\LxToolsBase.dll</HintPath>
     </Reference>
     <Reference Include="System" />
@@ -42,9 +43,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Types.cs" />
-    <Compile Include="Parsing.cs" />
-    <Compile Include="CarnoService.cs" />
+    <Compile Include="CarnoServiceEventSink.cs" />
+    <Compile Include="Base\ICarnoServiceEventSink.cs" />
+    <Compile Include="Base\Types.cs" />
+    <Compile Include="Base\Parsing.cs" />
+    <Compile Include="Base\CarnoService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
