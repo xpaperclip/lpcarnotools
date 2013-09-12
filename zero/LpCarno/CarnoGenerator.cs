@@ -50,11 +50,16 @@ namespace LxTools.CarnoZ
             {
                 if (string.IsNullOrWhiteSpace(line) || line.StartsWith(";")) continue;
                 int idx = line.IndexOf(",");
+
+                // invalid line, ignore
+                if (idx == -1)
+                    continue;
+
                 string newid = line.Substring(0, idx);
                 string[] oldids = line.Substring(idx + 1).Split(',');
                 foreach (string oldid in oldids)
                 {
-                    rewriter.Add(oldid, newid);
+                    rewriter.Add(oldid.Trim(), newid.Trim());
                 }
             }
         }
@@ -201,7 +206,7 @@ namespace LxTools.CarnoZ
                         select new { g.Key, allKills, wl, vT, vZ, vP };
 
             var rows = table.Index((a, b) => a.wl == b.wl).Select((r) => new Indexing<Bag>(r.Index, new Bag(
-                       "flag", r.Object.Key.Flag,
+                       "flag", r.Object.Key.Flag ?? "",
                        "race", r.Object.Key.Race.ToString().MaxSubstring(1),
                        "player", r.Object.Key.IdWithLinkIfNeeded(),
                        "allkills", "{{AllKillIcon}}".Repeat(r.Object.allKills),

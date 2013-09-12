@@ -36,7 +36,8 @@ namespace LxTools.CarnoZ
                 currentMatch.Games.Add(record);
         }
 
-#region Id Conforming
+        #region Id Conforming
+
         private readonly Dictionary<string, string> idRewriter = new Dictionary<string, string>();
         private readonly Dictionary<string, string> mapRewriter = new Dictionary<string, string>();
 
@@ -79,7 +80,8 @@ namespace LxTools.CarnoZ
             else
                 return map;
         }
-#endregion
+    
+        #endregion
     }
 
     public struct Record

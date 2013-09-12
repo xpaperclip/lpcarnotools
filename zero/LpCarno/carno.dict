@@ -1,5 +1,31 @@
 ﻿$allkills = 1
 $teams = 1
 $ace = 0
+Source=0,-- GSTL 2013.2 --
 Source=1,http://wiki.teamliquid.net/starcraft2/2013_Global_StarCraft_II_Team_League_Season_2/Round_1
 Source=0,http://wiki.teamliquid.net/starcraft2/2013_Global_StarCraft_II_Team_League_Season_2/Round_2
+Source=0,-- Code S --
+Source=0,http://wiki.teamliquid.net/starcraft2/2013_WCS_Season_3_Korea_GSL/Premier/Ro32
+Source=0,-- ATC2 --
+Source=0,http://wiki.teamliquid.net/starcraft2/Acer_TeamStory_Cup_Season_2/Group_Stage
+Source=0,http://wiki.teamliquid.net/starcraft2/Acer_TeamStory_Cup_Season_2/Playoffs
+Source=0,-- SC2L --
+Source=0,http://wiki.teamliquid.net/starcraft2/StarCraft_2_League/Group_Stage
+Source=0,-- Proleague --
+Source=0,http://wiki.teamliquid.net/starcraft2/2012-2013_Proleague/Round_1
+Source=0,http://wiki.teamliquid.net/starcraft2/2012-2013_Proleague/Round_2
+Source=0,http://wiki.teamliquid.net/starcraft2/2012-2013_Proleague/Round_3
+Source=0,http://wiki.teamliquid.net/starcraft2/2012-2013_Proleague/Round_4
+Source=0,http://wiki.teamliquid.net/starcraft2/2012-2013_Proleague/Round_5
+Source=0,http://wiki.teamliquid.net/starcraft2/2012-2013_Proleague/Round_6
+Source=0,http://wiki.teamliquid.net/starcraft2/2012-2013_Proleague/Playoffs
+Source=0,-- OSL --
+Source=0,2013 WCS Season 2 Korea OSL/Premier/Ro32
+Source=0,2013 WCS Season 2 Korea OSL/Premier/Ro16
+Source=0,http://wiki.teamliquid.net/starcraft2/index.php?title=2013_WCS_Season_2_Korea_OSL/Premier&action=edit&section=6
+Source=0,http://wiki.teamliquid.net/starcraft2/index.php?title=2013_WCS_Season_2_Korea_OSL/Premier&action=edit&section=7
+Source=0,http://wiki.teamliquid.net/starcraft2/2013_WCS_Season_2_Korea_OSL/Challenger
+Source=0,http://wiki.teamliquid.net/starcraft2/2013_WCS_Season_3_Korea_GSL/Up_and_Down
+Source=0,-- GSTL --
+Source=0,http://wiki.teamliquid.net/starcraft2/2013_Global_StarCraft_II_Team_League_Season_1/Group_Stage
+Source=0,http://wiki.teamliquid.net/starcraft2/2013_Global_StarCraft_II_Team_League_Season_1/Playoffs
