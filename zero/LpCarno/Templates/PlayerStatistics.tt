@@ -3,14 +3,14 @@
 <#@ import namespace="System.Collections.Generic" #>
 <#@ import namespace="LxTools" #>
 <# switch (this.HeaderType) { #>
-<# case "all": #>{| class="sortable wikitable" style="text-align:center; width:970px;"
+<# case "all": #>{| class="sortable wikitable" style="text-align:center; width:<# if (IncludeAllKills) { #>1050px<# } else { #>1000px<# } #>"
 <# break; #>
-<# case "top10": #>{| class="sortable wikitable" style="text-align:center; width:970px;"
-! colspan=14 width=970px | Top 10
+<# case "top10": #>{| class="sortable wikitable" style="text-align:center; width:<# if (IncludeAllKills) { #>1050px<# } else { #>1000px<# } #>"
+! colspan=<# if (IncludeAllKills) { #>14<# } else { #>13<# } #> | Top 10
 |-
 <# break; #>
-<# case "top10-complete": #>{| class="sortable wikitable collapsible collapsed" style="margin-top:-14px; text-align:center; width:970px;"
-! colspan=<# if (IncludeAllKills) { #>14<# } else { #>13<# } #> width=970px | Complete Table
+<# case "top10-complete": #>{| class="sortable wikitable collapsible collapsed" style="margin-top:-14px; text-align:center; width:<# if (IncludeAllKills) { #>1050px<# } else { #>1000px<# } #>"
+! colspan=<# if (IncludeAllKills) { #>14<# } else { #>13<# } #> | Complete Table
 |-
 <# break; #>
 <# } #>
@@ -24,7 +24,7 @@
 ! width=2px |
 ! width=2px |
 ! width=125px |ID
-! width=200px |Team
+! width=175px |Team
 <# if (IncludeAllKills) { #>! width=60px |All-Kills
 <# } #>
 ! Record

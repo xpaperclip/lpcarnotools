@@ -8,7 +8,7 @@
     <ProjectGuid>{45BBFE6D-61FA-4F62-BA72-9656D470092E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>LxTools.CarnoZ</RootNamespace>
+    <RootNamespace>LxTools.Carno</RootNamespace>
     <AssemblyName>LpCarnoLib</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -43,11 +43,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CarnoServiceEventSink.cs" />
-    <Compile Include="Base\ICarnoServiceEventSink.cs" />
+    <Compile Include="DataStore.cs" />
+    <Compile Include="Base\ICarnoServiceSink.cs" />
     <Compile Include="Base\Types.cs" />
     <Compile Include="Base\Parsing.cs" />
     <Compile Include="Base\CarnoService.cs" />
+    <Compile Include="System.Linq.Dynamic.cs" />
+    <Compile Include="LiquipediaClientEx.cs" />
+    <Compile Include="PageBlock.cs" />
+    <Compile Include="PageGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

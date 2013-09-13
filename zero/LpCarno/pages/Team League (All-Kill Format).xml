@@ -1,0 +1,21 @@
+﻿<PageGenTemplate xmlns="LxTools.Carno;asm=LpCarno"
+                 AllKills="true"><!--
+-->==Team Statistics==
+<TeamStatisticsBlock IncludeAllKillsColumn="$AllKills" />
+
+===Match-ups===
+<TeamMatchupStatisticsBlock />
+
+===Racial Statistics===
+<TeamRacialStatisticsBlock IncludeRacesPlayedColumns="true"
+                           IncludeRacesAgainstColumns="true" />
+
+===Map Statistics===
+<TeamMapStatisticsBlock />
+
+==Player Statistics==
+<PlayerStatisticsBlock IncludeAllKillsColumn="$AllKills" />
+
+==Map Statistics==
+<MapStatisticsBlock />
+</PageGenTemplate>

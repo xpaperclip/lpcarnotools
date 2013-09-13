@@ -4,7 +4,7 @@ using System.IO;
 using System.Windows.Forms;
 using LxTools;
 using LxTools.Liquipedia;
-using LxTools.CarnoZ;
+using LxTools.Carno;
 
 namespace LpCarno
 {
@@ -16,6 +16,43 @@ namespace LpCarno
         }
 
         private void MainForm_Load(object sender, EventArgs e)
+        {
+            LoadPageLayouts();
+            LoadConfiguration();
+        }
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            using (var sw = new StreamWriter("carno.dict"))
+            {
+                sw.WriteLine("$layout={0}", cmbPageLayouts.SelectedItem);
+
+                foreach (ListViewItem item in lvwList.Items)
+                {
+                    sw.WriteLine("Source={0},{1}", item.Checked ? "1" : "0", item.Text);
+                }
+            }
+        }
+
+        private string layoutfolder;
+        private void LoadPageLayouts()
+        {
+            var selectedItem = cmbPageLayouts.SelectedItem;
+
+            cmbPageLayouts.Items.Clear();
+            layoutfolder = new Uri(System.Reflection.Assembly.GetExecutingAssembly().CodeBase).LocalPath;
+            layoutfolder = Path.Combine(Path.GetDirectoryName(layoutfolder), "pages");
+            foreach (string file in Directory.GetFiles(layoutfolder, "*.xml"))
+            {
+                cmbPageLayouts.Items.Add(Path.GetFileNameWithoutExtension(file));
+            }
+
+            cmbPageLayouts.SelectedItem = selectedItem;
+
+            if (cmbPageLayouts.SelectedIndex < 0)
+                cmbPageLayouts.SelectedIndex = 0;
+        }
+
+        private void LoadConfiguration()
         {
             if (!File.Exists("carno.dict"))
                 return;
@@ -31,12 +68,13 @@ namespace LpCarno
                     if (s.StartsWith("$"))
                     {
                         int equals = s.IndexOf('=');
-                        bool value = (s.Substring(equals + 1).Trim() == "1");
+                        string value = s.Substring(equals + 1);
                         switch (s.Substring(1, equals - 1).Trim())
                         {
-                            case "team": chkIncludeTeam.Checked = value; break;
-                            case "allkills": chkIncludeAllKills.Checked = value; break;
-                            case "ace": chkIncludeAce.Checked = value; break;
+                            case "layout":
+                                if (cmbPageLayouts.Items.Contains(value))
+                                    cmbPageLayouts.SelectedItem = value;
+                                break;
                         }
                     }
 
@@ -49,26 +87,6 @@ namespace LpCarno
                     }
                 }
             }
-        }
-        private void btnSave_Click(object sender, EventArgs e)
-        {
-            using (var sw = new StreamWriter("carno.dict"))
-            {
-                sw.WriteLine("$team={0}", chkIncludeTeam.Checked ? "1" : "0");
-                sw.WriteLine("$allkills={0}", chkIncludeAllKills.Checked ? "1" : "0");
-                sw.WriteLine("$ace={0}", chkIncludeAce.Checked ? "1" : "0");
-
-                foreach (ListViewItem item in lvwList.Items)
-                {
-                    sw.WriteLine("Source={0},{1}", item.Checked ? "1" : "0", item.Text);
-                }
-            }
-        }
-
-        private void chkIncludeTeam_CheckedChanged(object sender, EventArgs e)
-        {
-            chkIncludeAce.Enabled = chkIncludeTeam.Checked;
-            chkIncludeAce.Enabled = chkIncludeTeam.Checked;
         }
 
         #region Source Management
@@ -141,15 +159,15 @@ namespace LpCarno
 
         private void btnRun_Click(object sender, EventArgs e)
         {
-            CarnoServiceEventSink sink = new CarnoServiceEventSink();
-            CarnoGenerator.LoadRewriter("playerpka.dict", sink.IdRewriter);
-            CarnoGenerator.LoadRewriter("mapakas.dict", sink.MapRewriter);
+            DataStore data = new DataStore();
+            DataStore.LoadRewriter("playerpka.dict", data.IdRewriter);
+            DataStore.LoadRewriter("mapakas.dict", data.MapRewriter);
 
             foreach (ListViewItem item in lvwList.CheckedItems)
             {
                 try
                 {
-                    CarnoService.Accumulate(item.Text, sink);
+                    data.Accumulate(item.Text);
                     item.ForeColor = Color.Green;
                 }
                 catch
@@ -160,16 +178,23 @@ namespace LpCarno
                 Application.DoEvents();
             }
 
-            string result = CarnoGenerator.Generate(sink, 
-                teamStats: chkIncludeTeam.Checked, 
-                aceMatches: chkIncludeAce.Checked, 
-                allKills: chkIncludeAllKills.Checked);
+            PageGenerator pagegen = PageGenerator.FromXml(System.Xml.Linq.XDocument.Load("pages/" + cmbPageLayouts.SelectedItem + ".xml"));
+            string result = pagegen.Emit(data);
             UI.ShowDialog(new UIDocument("Statistics", result));
 
             foreach (ListViewItem item in lvwList.CheckedItems)
             {
                 item.ForeColor = lvwList.ForeColor;
             }
+        }
+
+        private void btnRefreshLayouts_Click(object sender, EventArgs e)
+        {
+            LoadPageLayouts();
+        }
+        private void btnOpenLayoutsFolder_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start(layoutfolder);
         }
     }
 }

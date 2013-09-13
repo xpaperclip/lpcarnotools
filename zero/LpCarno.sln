@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual C# Express 2010
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LpCarno", "LpCarno\LpCarno.csproj", "{7F233955-1F5C-4B1D-ACF2-3758BAF955F3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LpCarnoLib", "LpCarnoLib\LpCarnoLib.csproj", "{45BBFE6D-61FA-4F62-BA72-9656D470092E}"

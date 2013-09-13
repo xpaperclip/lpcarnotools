@@ -1,6 +1,4 @@
-﻿$allkills = 1
-$teams = 1
-$ace = 0
+﻿$layout=Team League (All-Kill Format)
 Source=0,-- GSTL 2013.2 --
 Source=1,http://wiki.teamliquid.net/starcraft2/2013_Global_StarCraft_II_Team_League_Season_2/Round_1
 Source=0,http://wiki.teamliquid.net/starcraft2/2013_Global_StarCraft_II_Team_League_Season_2/Round_2

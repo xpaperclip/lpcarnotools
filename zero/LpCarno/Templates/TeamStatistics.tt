@@ -8,8 +8,8 @@
 ! colspan=4|Maps
 |-
 ! width=2px|
-! width=200px|Team
-<# if (IncludeAllKills) { #>! width=100px|All-Kills
+! width=175px|Team
+<# if (IncludeAllKills) { #>! width=60px|All-Kills
 <# } #>
 ! width=20px|
 ! width=40px|Record

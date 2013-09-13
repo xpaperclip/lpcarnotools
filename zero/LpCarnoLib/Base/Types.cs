@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 
-namespace LxTools.CarnoZ
+namespace LxTools.Carno
 {
     public struct Player
     {

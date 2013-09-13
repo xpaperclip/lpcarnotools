@@ -89,7 +89,28 @@ namespace LpCarno.Templates
             
             #line default
             #line hidden
-            this.Write("{| class=\"sortable wikitable\" style=\"text-align:center; width:970px;\"\r\n");
+            this.Write("{| class=\"sortable wikitable\" style=\"text-align:center; width:");
+            
+            #line 6 "G:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
+ if (IncludeAllKills) { 
+            
+            #line default
+            #line hidden
+            this.Write("1050px");
+            
+            #line 6 "G:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
+ } else { 
+            
+            #line default
+            #line hidden
+            this.Write("1000px");
+            
+            #line 6 "G:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
+ } 
+            
+            #line default
+            #line hidden
+            this.Write("\"\r\n");
             
             #line 7 "G:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
  break; 
@@ -102,8 +123,49 @@ namespace LpCarno.Templates
             
             #line default
             #line hidden
-            this.Write("{| class=\"sortable wikitable\" style=\"text-align:center; width:970px;\"\r\n! colspan=" +
-                    "14 width=970px | Top 10\r\n|-\r\n");
+            this.Write("{| class=\"sortable wikitable\" style=\"text-align:center; width:");
+            
+            #line 8 "G:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
+ if (IncludeAllKills) { 
+            
+            #line default
+            #line hidden
+            this.Write("1050px");
+            
+            #line 8 "G:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
+ } else { 
+            
+            #line default
+            #line hidden
+            this.Write("1000px");
+            
+            #line 8 "G:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
+ } 
+            
+            #line default
+            #line hidden
+            this.Write("\"\r\n! colspan=");
+            
+            #line 9 "G:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
+ if (IncludeAllKills) { 
+            
+            #line default
+            #line hidden
+            this.Write("14");
+            
+            #line 9 "G:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
+ } else { 
+            
+            #line default
+            #line hidden
+            this.Write("13");
+            
+            #line 9 "G:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
+ } 
+            
+            #line default
+            #line hidden
+            this.Write(" | Top 10\r\n|-\r\n");
             
             #line 11 "G:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
  break; 
@@ -117,7 +179,28 @@ namespace LpCarno.Templates
             #line default
             #line hidden
             this.Write("{| class=\"sortable wikitable collapsible collapsed\" style=\"margin-top:-14px; text" +
-                    "-align:center; width:970px;\"\r\n! colspan=");
+                    "-align:center; width:");
+            
+            #line 12 "G:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
+ if (IncludeAllKills) { 
+            
+            #line default
+            #line hidden
+            this.Write("1050px");
+            
+            #line 12 "G:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
+ } else { 
+            
+            #line default
+            #line hidden
+            this.Write("1000px");
+            
+            #line 12 "G:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
+ } 
+            
+            #line default
+            #line hidden
+            this.Write("\"\r\n! colspan=");
             
             #line 13 "G:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
  if (IncludeAllKills) { 
@@ -138,7 +221,7 @@ namespace LpCarno.Templates
             
             #line default
             #line hidden
-            this.Write(" width=970px | Complete Table\r\n|-\r\n");
+            this.Write(" | Complete Table\r\n|-\r\n");
             
             #line 15 "G:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
  break; 
@@ -182,7 +265,7 @@ namespace LpCarno.Templates
 ! width=2px |
 ! width=2px |
 ! width=125px |ID
-! width=200px |Team
+! width=175px |Team
 ");
             
             #line 28 "G:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"

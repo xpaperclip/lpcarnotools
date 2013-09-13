@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace LxTools.CarnoZ
+namespace LxTools.Carno
 {
     public struct WL : IComparable, IComparable<WL>
     {

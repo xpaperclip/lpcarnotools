@@ -43,9 +43,10 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.lvwList = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.chkIncludeAce = new System.Windows.Forms.CheckBox();
-            this.chkIncludeTeam = new System.Windows.Forms.CheckBox();
-            this.chkIncludeAllKills = new System.Windows.Forms.CheckBox();
+            this.btnRefreshLayouts = new System.Windows.Forms.Button();
+            this.btnOpenLayoutsFolder = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.cmbPageLayouts = new System.Windows.Forms.ComboBox();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -89,7 +90,7 @@
             this.btnAdd.Image = ((System.Drawing.Image)(resources.GetObject("btnAdd.Image")));
             this.btnAdd.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnAdd.Name = "btnAdd";
-            this.btnAdd.Size = new System.Drawing.Size(49, 22);
+            this.btnAdd.Size = new System.Drawing.Size(46, 22);
             this.btnAdd.Text = "Add";
             this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
             // 
@@ -113,7 +114,7 @@
             this.btnRun.Image = ((System.Drawing.Image)(resources.GetObject("btnRun.Image")));
             this.btnRun.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnRun.Name = "btnRun";
-            this.btnRun.Size = new System.Drawing.Size(48, 22);
+            this.btnRun.Size = new System.Drawing.Size(46, 22);
             this.btnRun.Text = "Run";
             this.btnRun.Click += new System.EventHandler(this.btnRun_Click);
             // 
@@ -130,20 +131,20 @@
             this.toolStripSplitButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripSplitButton1.Image")));
             this.toolStripSplitButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripSplitButton1.Name = "toolStripSplitButton1";
-            this.toolStripSplitButton1.Size = new System.Drawing.Size(59, 22);
+            this.toolStripSplitButton1.Size = new System.Drawing.Size(57, 22);
             this.toolStripSplitButton1.Text = "Edit";
             // 
             // iDConformToolStripMenuItem
             // 
             this.iDConformToolStripMenuItem.Name = "iDConformToolStripMenuItem";
-            this.iDConformToolStripMenuItem.Size = new System.Drawing.Size(231, 22);
+            this.iDConformToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
             this.iDConformToolStripMenuItem.Text = "Player/Team ID Conformance";
             this.iDConformToolStripMenuItem.Click += new System.EventHandler(this.iDConformToolStripMenuItem_Click);
             // 
             // mapNameConformanceToolStripMenuItem
             // 
             this.mapNameConformanceToolStripMenuItem.Name = "mapNameConformanceToolStripMenuItem";
-            this.mapNameConformanceToolStripMenuItem.Size = new System.Drawing.Size(231, 22);
+            this.mapNameConformanceToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
             this.mapNameConformanceToolStripMenuItem.Text = "Map Name Conformance";
             this.mapNameConformanceToolStripMenuItem.Click += new System.EventHandler(this.mapNameConformanceToolStripMenuItem_Click);
             // 
@@ -162,11 +163,12 @@
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.chkIncludeAce);
-            this.splitContainer1.Panel2.Controls.Add(this.chkIncludeTeam);
-            this.splitContainer1.Panel2.Controls.Add(this.chkIncludeAllKills);
-            this.splitContainer1.Size = new System.Drawing.Size(584, 366);
-            this.splitContainer1.SplitterDistance = 253;
+            this.splitContainer1.Panel2.Controls.Add(this.btnRefreshLayouts);
+            this.splitContainer1.Panel2.Controls.Add(this.btnOpenLayoutsFolder);
+            this.splitContainer1.Panel2.Controls.Add(this.label1);
+            this.splitContainer1.Panel2.Controls.Add(this.cmbPageLayouts);
+            this.splitContainer1.Size = new System.Drawing.Size(584, 421);
+            this.splitContainer1.SplitterDistance = 364;
             this.splitContainer1.TabIndex = 1;
             // 
             // lvwList
@@ -178,7 +180,7 @@
             this.lvwList.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lvwList.Location = new System.Drawing.Point(0, 0);
             this.lvwList.Name = "lvwList";
-            this.lvwList.Size = new System.Drawing.Size(584, 253);
+            this.lvwList.Size = new System.Drawing.Size(584, 364);
             this.lvwList.TabIndex = 0;
             this.lvwList.UseCompatibleStateImageBehavior = false;
             this.lvwList.View = System.Windows.Forms.View.Details;
@@ -191,48 +193,59 @@
             this.columnHeader1.Text = "Page";
             this.columnHeader1.Width = 550;
             // 
-            // chkIncludeAce
+            // btnRefreshLayouts
             // 
-            this.chkIncludeAce.AutoSize = true;
-            this.chkIncludeAce.Checked = true;
-            this.chkIncludeAce.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkIncludeAce.Location = new System.Drawing.Point(12, 69);
-            this.chkIncludeAce.Name = "chkIncludeAce";
-            this.chkIncludeAce.Size = new System.Drawing.Size(184, 19);
-            this.chkIncludeAce.TabIndex = 2;
-            this.chkIncludeAce.Text = "Include Ace Matches statistics";
-            this.chkIncludeAce.UseVisualStyleBackColor = true;
+            this.btnRefreshLayouts.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnRefreshLayouts.FlatAppearance.BorderSize = 0;
+            this.btnRefreshLayouts.FlatAppearance.MouseDownBackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.btnRefreshLayouts.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnRefreshLayouts.Image = ((System.Drawing.Image)(resources.GetObject("btnRefreshLayouts.Image")));
+            this.btnRefreshLayouts.Location = new System.Drawing.Point(519, 13);
+            this.btnRefreshLayouts.Name = "btnRefreshLayouts";
+            this.btnRefreshLayouts.Size = new System.Drawing.Size(25, 23);
+            this.btnRefreshLayouts.TabIndex = 1;
+            this.btnRefreshLayouts.UseVisualStyleBackColor = true;
+            this.btnRefreshLayouts.Click += new System.EventHandler(this.btnRefreshLayouts_Click);
             // 
-            // chkIncludeTeam
+            // btnOpenLayoutsFolder
             // 
-            this.chkIncludeTeam.AutoSize = true;
-            this.chkIncludeTeam.Checked = true;
-            this.chkIncludeTeam.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkIncludeTeam.Location = new System.Drawing.Point(12, 19);
-            this.chkIncludeTeam.Name = "chkIncludeTeam";
-            this.chkIncludeTeam.Size = new System.Drawing.Size(146, 19);
-            this.chkIncludeTeam.TabIndex = 0;
-            this.chkIncludeTeam.Text = "Include Team statistics";
-            this.chkIncludeTeam.UseVisualStyleBackColor = true;
-            this.chkIncludeTeam.CheckedChanged += new System.EventHandler(this.chkIncludeTeam_CheckedChanged);
+            this.btnOpenLayoutsFolder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnOpenLayoutsFolder.FlatAppearance.BorderSize = 0;
+            this.btnOpenLayoutsFolder.FlatAppearance.MouseDownBackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.btnOpenLayoutsFolder.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnOpenLayoutsFolder.Image = ((System.Drawing.Image)(resources.GetObject("btnOpenLayoutsFolder.Image")));
+            this.btnOpenLayoutsFolder.Location = new System.Drawing.Point(545, 13);
+            this.btnOpenLayoutsFolder.Name = "btnOpenLayoutsFolder";
+            this.btnOpenLayoutsFolder.Size = new System.Drawing.Size(25, 23);
+            this.btnOpenLayoutsFolder.TabIndex = 2;
+            this.btnOpenLayoutsFolder.UseVisualStyleBackColor = true;
+            this.btnOpenLayoutsFolder.Click += new System.EventHandler(this.btnOpenLayoutsFolder_Click);
             // 
-            // chkIncludeAllKills
+            // label1
             // 
-            this.chkIncludeAllKills.AutoSize = true;
-            this.chkIncludeAllKills.Checked = true;
-            this.chkIncludeAllKills.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkIncludeAllKills.Location = new System.Drawing.Point(12, 44);
-            this.chkIncludeAllKills.Name = "chkIncludeAllKills";
-            this.chkIncludeAllKills.Size = new System.Drawing.Size(152, 19);
-            this.chkIncludeAllKills.TabIndex = 1;
-            this.chkIncludeAllKills.Text = "Include All-Kills column";
-            this.chkIncludeAllKills.UseVisualStyleBackColor = true;
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(12, 16);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(72, 15);
+            this.label1.TabIndex = 4;
+            this.label1.Text = "Page Layout";
+            // 
+            // cmbPageLayouts
+            // 
+            this.cmbPageLayouts.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmbPageLayouts.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbPageLayouts.FormattingEnabled = true;
+            this.cmbPageLayouts.Location = new System.Drawing.Point(106, 13);
+            this.cmbPageLayouts.Name = "cmbPageLayouts";
+            this.cmbPageLayouts.Size = new System.Drawing.Size(409, 23);
+            this.cmbPageLayouts.TabIndex = 0;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(584, 391);
+            this.ClientSize = new System.Drawing.Size(584, 446);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.toolStrip1);
             this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -261,14 +274,15 @@
         private System.Windows.Forms.ToolStripButton btnAdd;
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private System.Windows.Forms.ToolStripButton btnDelete;
-        private System.Windows.Forms.CheckBox chkIncludeTeam;
-        private System.Windows.Forms.CheckBox chkIncludeAllKills;
-        private System.Windows.Forms.CheckBox chkIncludeAce;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripButton btnRun;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripSplitButton toolStripSplitButton1;
         private System.Windows.Forms.ToolStripMenuItem iDConformToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem mapNameConformanceToolStripMenuItem;
+        private System.Windows.Forms.ComboBox cmbPageLayouts;
+        private System.Windows.Forms.Button btnOpenLayoutsFolder;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button btnRefreshLayouts;
     }
 }

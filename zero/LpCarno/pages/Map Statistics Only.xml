@@ -1,0 +1,4 @@
+﻿<PageGenTemplate xmlns="LxTools.Carno;asm=LpCarno"><!--
+-->==Map Statistics==
+<MapStatisticsBlock />
+</PageGenTemplate>
