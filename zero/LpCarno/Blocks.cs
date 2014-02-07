@@ -289,11 +289,11 @@ namespace LxTools.Carno
                         let stats = playerStats.GetValueOrDefault(pp.Key, null)
                         let playerInfo = (stats != null) ? stats.Key : data.PlayerInfoMap.GetValueOrDefault(pp.Key, Player.Empty)
                         let placement = data.PlayerPlacements.GetValueOrDefault(pp.Key, new Placement())
-                        let points = placement.Points.TryParseAsInt(int.MaxValue) + ((placement.PlacementBg == "active") ? 1 : 0)
-                        orderby points descending, playerInfo.Identifier
+                        let pointsort = placement.Sort + ((placement.PlacementBg == "active") ? 1 : 0)
+                        orderby pointsort descending, playerInfo.Identifier
                         select new
                         {
-                            points = points,
+                            pointsort = pointsort,
                             bag = new Bag(
                                 "flag", data.PlayerInfoMap.GetValueOrDefault(pp.Key, Player.Empty).Flag,
                                 "race", playerInfo.Race.ToString().MaxSubstring(1),
@@ -305,7 +305,7 @@ namespace LxTools.Carno
                                 "vZ", ((stats != null) ? stats.vZ : WL.Zero).ToString(),
                                 "vP", ((stats != null) ? stats.vP : WL.Zero).ToString()
                                 )
-                        }).Index((a, b) => a.points == b.points).Select((r) => new Indexing<Bag>(r.Index, r.Object.bag));
+                        }).Index((a, b) => a.pointsort == b.pointsort).Select((r) => new Indexing<Bag>(r.Index, r.Object.bag));
 
             var template = new IndividualPlayerStatistics();
             template.Rows = rows;

@@ -1,0 +1,32 @@
+﻿<CarnoProfile>
+  <PageGenTemplate Template="Individual League (WCS).xml" />
+
+  <Map Map="Bel'Shir Vestige LE" To="Bel'Shir Vestige" />
+  <Map Map="Derelict Watcher TE" To="Derelict Watcher" />
+  <Map Map="Frost LE" To="Frost" />
+  <Map Map="Polar Night LE" To="Polar Night" />
+  <Map Map="Whirlwind LE" To="Whirlwind" />
+  <Map Map="Yeonsu LE" To="Yeonsu" />
+
+  <Participants Page="http://wiki.teamliquid.net/starcraft2/index.php?title=2013_WCS_Season_3_Korea_GSL/Premier&amp;action=edit&amp;section=1" />
+  <Matches Page="2013_WCS_Season_3_Korea_GSL/Premier/Ro32">
+    <Map Finish="1" Placement="active" Points="200" />
+    <Map Finish="2" Placement="active" Points="200" />
+    <Map Finish="3" Placement="17-24" Points="150" />
+    <Map Finish="4" Placement="25-32" Points="100" />
+    <Map Finish="active" Placement="active" Points="100" />
+  </Matches>
+  <Matches Page="2013_WCS_Season_3_Korea_GSL/Premier/Ro16">
+    <Map Finish="1" Placement="active" Points="500" />
+    <Map Finish="2" Placement="active" Points="500" />
+    <Map Finish="3" Placement="9-12" Points="300" />
+    <Map Finish="4" Placement="13-16" Points="200" />
+    <Map Finish="active" Placement="active" Points="200" />
+  </Matches>
+  <Matches Page="http://wiki.teamliquid.net/starcraft2/index.php?title=2013_WCS_Season_3_Korea_GSL/Premier&amp;action=edit&amp;section=6">
+    <Map Finish="1" Placement="1" Points="2000" />
+    <Map Finish="2" Placement="2" Points="1000" />
+    <Map Finish="3-4" Placement="3-4" Points="750" />
+    <Map Finish="5-8" Placement="5-8" Points="500" />
+  </Matches>
+</CarnoProfile>

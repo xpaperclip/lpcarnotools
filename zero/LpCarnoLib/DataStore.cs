@@ -176,10 +176,18 @@ namespace LxTools.Carno
         {
             this.PlacementBg = PlacementBg;
             this.Points = Points;
+            this.Sort = Points.TryParseAsInt(int.MaxValue - 1);
+        }
+        public Placement(string PlacementBg, string Points, int Sort)
+        {
+            this.PlacementBg = PlacementBg;
+            this.Points = Points;
+            this.Sort = Sort;
         }
 
         public string PlacementBg;
         public string Points;
+        public int Sort;
 
         public override string ToString()
         {

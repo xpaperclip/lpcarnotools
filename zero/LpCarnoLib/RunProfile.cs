@@ -49,8 +49,12 @@ namespace LxTools.Carno
                     string finish = xeMap.Attribute("Finish").Value;
                     string pbg = xeMap.Attribute("Placement").Value;
                     string points = xeMap.Attribute("Points").Value;
+                    var sort = xeMap.Attribute("Sort");
 
-                    placementMap[finish] = new Placement(pbg, points);
+                    if (sort == null)
+                        placementMap[finish] = new Placement(pbg, points);
+                    else
+                        placementMap[finish] = new Placement(pbg, points, int.Parse(sort.Value));
                 }
 
                 // process data

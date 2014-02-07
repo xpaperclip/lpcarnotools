@@ -10,7 +10,7 @@
     <Map Finish="1" Placement="active" Points="{{CodeSIcon}}" />
     <Map Finish="2" Placement="active" Points="{{CodeSIcon}}" />
     <Map Finish="3" Placement="challenger" Points="50" />
-    <Map Finish="4" Placement="challenger" Points="50" />
+    <Map Finish="4" Placement="challenger" Points="50" Sort="49" />
     <Map Finish="active" Placement="active" Points="50" />
   </Matches>
   <Matches Page="2014_Global_StarCraft_II_League_Season_1/Code_S/Ro32">
