@@ -170,7 +170,7 @@ namespace LpCarno
                     data.Accumulate(item.Text);
                     item.ForeColor = Color.Green;
                 }
-                catch
+                catch (Exception ex)
                 {
                     // just swallow errors for now
                     item.ForeColor = Color.Red;
@@ -195,6 +195,20 @@ namespace LpCarno
         private void btnOpenLayoutsFolder_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start(layoutfolder);
+        }
+
+        private void runProfileButton_Click(object sender, EventArgs e)
+        {
+            using (var dlg = new OpenFileDialog())
+            {
+                dlg.Filter = "Carno Profiles (*.xml)|*.xml";
+                if (dlg.ShowDialog() == DialogResult.OK)
+                {
+                    Cursor.Current = Cursors.WaitCursor;
+                    RunProfile.Execute(dlg.FileName);
+                    Cursor.Current = Cursors.Default;
+                }
+            }
         }
     }
 }

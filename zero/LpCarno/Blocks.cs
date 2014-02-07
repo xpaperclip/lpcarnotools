@@ -190,7 +190,7 @@ namespace LxTools.Carno
             var rows = table.Index((a, b) => a.wl == b.wl).Select((r) => new Indexing<Bag>(r.Index, new Bag(
                        "flag", r.Object.Key.Flag ?? "",
                        "race", r.Object.Key.Race.ToString().MaxSubstring(1),
-                       "player", r.Object.Key.IdWithLinkIfNeeded(),
+                       "player", r.Object.Key.IdWithLinkIfNeeded,
                        "allkills", "{{AllKillIcon}}".Repeat(r.Object.allKills),
                        "team", r.Object.Key.Team,
                        "wl", r.Object.wl.ToString(),
@@ -265,6 +265,50 @@ namespace LxTools.Carno
                 .TotalWinLossPercentage("TvZ", r.TvZ)
                 .TotalWinLossPercentage("ZvP", r.ZvP)
                 .TotalWinLossPercentage("PvT", r.PvT));
+            tw.Write(template.TransformText());
+        }
+    }
+
+    public class IndividualPlayerStatisticsBlock : CarnoBlock
+    {
+        protected override void EmitInternal(TextWriter tw, DataStore data)
+        {
+            IEnumerable<Record> games = data.Records;
+
+            var playerGames = (games.Select((r) => new { Player = r.Winner, r.Loser.Race, Win = true })).Concat(games.Select((r) => new { Player = r.Loser, r.Winner.Race, Win = false }));
+            var playerStats = (from g in playerGames.GroupBy((p) => p.Player)
+                               let wl = WL.Fill(g, (p) => p.Win)
+                               let vT = WL.Fill(g, (p) => p.Win, (p) => p.Race == Race.Terran)
+                               let vZ = WL.Fill(g, (p) => p.Win, (p) => p.Race == Race.Zerg)
+                               let vP = WL.Fill(g, (p) => p.Win, (p) => p.Race == Race.Protoss)
+                               orderby wl descending, g.Key.Id
+                               select new { g.Key, wl, vT, vZ, vP }).ToDictionary((x) => x.Key.Identifier, (x) => new { x.Key, x.wl, x.vT, x.vZ, x.vP });
+
+            var rows = (from pp in data.PlayerPlacements
+                        where pp.Key != "TBD"
+                        let stats = playerStats.GetValueOrDefault(pp.Key, null)
+                        let playerInfo = (stats != null) ? stats.Key : data.PlayerInfoMap.GetValueOrDefault(pp.Key, Player.Empty)
+                        let placement = data.PlayerPlacements.GetValueOrDefault(pp.Key, new Placement())
+                        let points = placement.Points.TryParseAsInt(int.MaxValue) + ((placement.PlacementBg == "active") ? 1 : 0)
+                        orderby points descending, playerInfo.Identifier
+                        select new
+                        {
+                            points = points,
+                            bag = new Bag(
+                                "flag", data.PlayerInfoMap.GetValueOrDefault(pp.Key, Player.Empty).Flag,
+                                "race", playerInfo.Race.ToString().MaxSubstring(1),
+                                "player", playerInfo.IdWithLinkIfNeeded,
+                                "team", data.PlayerInfoMap.GetValueOrDefault(pp.Key, Player.Empty).Team,
+                                "placement", data.PlayerPlacements.GetValueOrDefault(pp.Key, new Placement()).ToString(),
+                                "wl", ((stats != null) ? stats.wl : WL.Zero).ToString(),
+                                "vT", ((stats != null) ? stats.vT : WL.Zero).ToString(),
+                                "vZ", ((stats != null) ? stats.vZ : WL.Zero).ToString(),
+                                "vP", ((stats != null) ? stats.vP : WL.Zero).ToString()
+                                )
+                        }).Index((a, b) => a.points == b.points).Select((r) => new Indexing<Bag>(r.Index, r.Object.bag));
+
+            var template = new IndividualPlayerStatistics();
+            template.Rows = rows;
             tw.Write(template.TransformText());
         }
     }

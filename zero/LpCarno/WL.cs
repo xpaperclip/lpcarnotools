@@ -29,6 +29,10 @@ namespace LxTools.Carno
         {
             return new WL(wins, total - wins);
         }
+        public static WL Zero
+        {
+            get { return new WL(0, 0); }
+        }
 
         public int Wins;
         public int Losses;

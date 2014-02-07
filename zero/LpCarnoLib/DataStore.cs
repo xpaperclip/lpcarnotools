@@ -11,13 +11,18 @@ namespace LxTools.Carno
         private readonly List<Match> matches = new List<Match>();
         private Match currentMatch = null;
 
-        public List<Record> Records
+        private readonly Dictionary<string, Player> playerInfoMap = new Dictionary<string, Player>();
+        private readonly Dictionary<string, Placement> playerPlacements = new Dictionary<string, Placement>();
+        private Dictionary<string, Placement> placementMap = null;
+
+        public List<Record> Records { get { return records; } }
+        public List<Match> Matches { get { return matches; } }
+        public Dictionary<string, Player> PlayerInfoMap { get { return playerInfoMap; } }
+        public Dictionary<string, Placement> PlayerPlacements { get { return playerPlacements; } }
+        public Dictionary<string, Placement> PlacementMap
         {
-            get { return records; }
-        }
-        public List<Match> Matches
-        {
-            get { return matches; }
+            get { return placementMap; }
+            set { placementMap = value; }
         }
 
         public void Accumulate(string page)
@@ -25,13 +30,18 @@ namespace LxTools.Carno
             string wikicode = LiquipediaClient.GetWikicode(page);
             CarnoService.ProcessWikicode(wikicode, this);
         }
+        public void AccumulateParticipants(string page)
+        {
+            string wikicode = LiquipediaClient.GetWikicode(page);
+            playerInfoMap.Merge(CarnoService.GetPlayerInfoFromParticipants(wikicode));
+        }
 
-        void ICarnoServiceSink.MatchBegin(string winner, string loser)
+        void ICarnoServiceSink.TeamMatchBegin(string winner, string loser)
         {
             currentMatch = new Match() { TeamWinner = winner, TeamLoser = loser };
             matches.Add(currentMatch);
         }
-        void ICarnoServiceSink.MatchEnd()
+        void ICarnoServiceSink.TeamMatchEnd()
         {
             currentMatch = null;
         }
@@ -44,9 +54,46 @@ namespace LxTools.Carno
                 currentMatch.Games.Add(record);
         }
 
-        void ICarnoServiceSink.UnknownTemplate(string template)
+        void ICarnoServiceSink.UnknownTemplate(LxTools.Liquipedia.Parsing2.WikiTemplateNode template)
         {
             // just ignore it
+        }
+
+        void ICarnoServiceSink.PlayerPlacement(string player, string finish, bool determined)
+        {
+            if (placementMap != null)
+            {
+                var placement = placementMap.GetValueOrDefault(finish, new Placement(finish, ""));
+                if (!determined)
+                {
+                    placement.PlacementBg = "active";
+                }
+                playerPlacements[player] = placement;
+            }
+        }
+
+        void ICarnoServiceSink.UpdatePlayerRace(string player, Race race)
+        {
+            if (this.playerInfoMap.ContainsKey(player))
+            {
+                Player pl = this.playerInfoMap[player];
+                pl.Race = race;
+                this.playerInfoMap[player] = pl;
+            }
+        }
+
+        private readonly Dictionary<string, string> temporaryIdMaps = new Dictionary<string, string>();
+        void ICarnoServiceSink.SetTemporaryIdMap(string id, string link)
+        {
+            temporaryIdMaps[id] = link;
+        }
+        void ICarnoServiceSink.ClearTemporaryIdMap()
+        {
+            temporaryIdMaps.Clear();
+        }
+        string ICarnoServiceSink.GetTemporaryPlayerLink(string id)
+        {
+            return temporaryIdMaps.GetValueOrDefault(id, null);
         }
 
         #region Id Conforming
@@ -87,31 +134,17 @@ namespace LxTools.Carno
         {
             if (id == null) return string.Empty;
 
-            string value;
-            if (idRewriter.TryGetValue(id, out value))
-                return value;
-            else
-                return id;
+            return idRewriter.GetValueOrDefault(id);
         }
         string ICarnoServiceSink.ConformTeamId(string id)
         {
             if (id == null) return string.Empty;
-
-            string value;
-            if (idRewriter.TryGetValue(id, out value))
-                return value;
-            else
-                return id;
+            return idRewriter.GetValueOrDefault(id);
         }
         string ICarnoServiceSink.ConformMap(string map)
         {
             if (map == null) return string.Empty;
-
-            string value;
-            if (mapRewriter.TryGetValue(map, out value))
-                return value;
-            else
-                return map;
+            return mapRewriter.GetValueOrDefault(map);
         }
 
         #endregion
@@ -135,5 +168,22 @@ namespace LxTools.Carno
         public string TeamWinner;
         public string TeamLoser;
         public readonly List<Record> Games = new List<Record>();
+    }
+
+    public struct Placement
+    {
+        public Placement(string PlacementBg, string Points)
+        {
+            this.PlacementBg = PlacementBg;
+            this.Points = Points;
+        }
+
+        public string PlacementBg;
+        public string Points;
+
+        public override string ToString()
+        {
+            return string.Format("{{{{PlacementBG|{0}}}}}{1}", PlacementBg, Points);
+        }
     }
 }

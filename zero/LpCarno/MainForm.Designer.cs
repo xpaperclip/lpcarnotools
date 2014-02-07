@@ -47,6 +47,8 @@
             this.btnOpenLayoutsFolder = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.cmbPageLayouts = new System.Windows.Forms.ComboBox();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            this.runProfileButton = new System.Windows.Forms.ToolStripButton();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -64,10 +66,12 @@
             this.toolStripSeparator2,
             this.btnRun,
             this.toolStripSeparator3,
-            this.toolStripSplitButton1});
+            this.toolStripSplitButton1,
+            this.toolStripSeparator4,
+            this.runProfileButton});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(584, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(581, 25);
             this.toolStrip1.TabIndex = 0;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -167,8 +171,8 @@
             this.splitContainer1.Panel2.Controls.Add(this.btnOpenLayoutsFolder);
             this.splitContainer1.Panel2.Controls.Add(this.label1);
             this.splitContainer1.Panel2.Controls.Add(this.cmbPageLayouts);
-            this.splitContainer1.Size = new System.Drawing.Size(584, 421);
-            this.splitContainer1.SplitterDistance = 364;
+            this.splitContainer1.Size = new System.Drawing.Size(581, 482);
+            this.splitContainer1.SplitterDistance = 425;
             this.splitContainer1.TabIndex = 1;
             // 
             // lvwList
@@ -180,7 +184,7 @@
             this.lvwList.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lvwList.Location = new System.Drawing.Point(0, 0);
             this.lvwList.Name = "lvwList";
-            this.lvwList.Size = new System.Drawing.Size(584, 364);
+            this.lvwList.Size = new System.Drawing.Size(581, 425);
             this.lvwList.TabIndex = 0;
             this.lvwList.UseCompatibleStateImageBehavior = false;
             this.lvwList.View = System.Windows.Forms.View.Details;
@@ -200,7 +204,7 @@
             this.btnRefreshLayouts.FlatAppearance.MouseDownBackColor = System.Drawing.SystemColors.ControlLightLight;
             this.btnRefreshLayouts.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnRefreshLayouts.Image = ((System.Drawing.Image)(resources.GetObject("btnRefreshLayouts.Image")));
-            this.btnRefreshLayouts.Location = new System.Drawing.Point(519, 13);
+            this.btnRefreshLayouts.Location = new System.Drawing.Point(516, 13);
             this.btnRefreshLayouts.Name = "btnRefreshLayouts";
             this.btnRefreshLayouts.Size = new System.Drawing.Size(25, 23);
             this.btnRefreshLayouts.TabIndex = 1;
@@ -214,7 +218,7 @@
             this.btnOpenLayoutsFolder.FlatAppearance.MouseDownBackColor = System.Drawing.SystemColors.ControlLightLight;
             this.btnOpenLayoutsFolder.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnOpenLayoutsFolder.Image = ((System.Drawing.Image)(resources.GetObject("btnOpenLayoutsFolder.Image")));
-            this.btnOpenLayoutsFolder.Location = new System.Drawing.Point(545, 13);
+            this.btnOpenLayoutsFolder.Location = new System.Drawing.Point(542, 13);
             this.btnOpenLayoutsFolder.Name = "btnOpenLayoutsFolder";
             this.btnOpenLayoutsFolder.Size = new System.Drawing.Size(25, 23);
             this.btnOpenLayoutsFolder.TabIndex = 2;
@@ -238,14 +242,28 @@
             this.cmbPageLayouts.FormattingEnabled = true;
             this.cmbPageLayouts.Location = new System.Drawing.Point(106, 13);
             this.cmbPageLayouts.Name = "cmbPageLayouts";
-            this.cmbPageLayouts.Size = new System.Drawing.Size(409, 23);
+            this.cmbPageLayouts.Size = new System.Drawing.Size(406, 23);
             this.cmbPageLayouts.TabIndex = 0;
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 25);
+            // 
+            // runProfileButton
+            // 
+            this.runProfileButton.Image = ((System.Drawing.Image)(resources.GetObject("runProfileButton.Image")));
+            this.runProfileButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.runProfileButton.Name = "runProfileButton";
+            this.runProfileButton.Size = new System.Drawing.Size(152, 22);
+            this.runProfileButton.Text = "Run Profile (experimental)";
+            this.runProfileButton.Click += new System.EventHandler(this.runProfileButton_Click);
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(584, 446);
+            this.ClientSize = new System.Drawing.Size(581, 507);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.toolStrip1);
             this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -284,5 +302,7 @@
         private System.Windows.Forms.Button btnOpenLayoutsFolder;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btnRefreshLayouts;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
+        private System.Windows.Forms.ToolStripButton runProfileButton;
     }
 }

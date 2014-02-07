@@ -30,6 +30,14 @@ namespace LxTools.Carno
 
     public static class MoreExtensionMethods
     {
+        public static int TryParseAsInt(this string s, int defaultValue)
+        {
+            int result;
+            if (!int.TryParse(s, out result))
+                result = defaultValue;
+            return result;
+        }
+
         public static Bag MergeGrouping<TKey, TElement>(this Bag bag, IGrouping<TKey, TElement> lookup, Func<TElement, string> key, Func<TElement, string> value)
         {
             foreach (var item in lookup)

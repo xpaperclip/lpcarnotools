@@ -19,29 +19,29 @@
 !style="border-left: 1px solid #777;" width=2px   |
 !style="border-right: 1px solid #777;"            |Team
 <# if (this.IncludeRaces) { #>
-<!-- Terran -->                      ! width=12px |&Sigma;
+<!-- Terran -->                      ! width=12px |Σ
                                      ! width=12px |W
                                      ! width=12px |L
 !style="border-right: 1px solid #777;" width=24px |%
-<!-- Zerg -->                        ! width=12px |&Sigma;
+<!-- Zerg -->                        ! width=12px |Σ
                                      ! width=12px |W
                                      ! width=12px |L
 !style="border-right: 1px solid #777;" width=24px |%
-<!-- Protoss -->                     ! width=12px |&Sigma;
+<!-- Protoss -->                     ! width=12px |Σ
                                      ! width=12px |W
                                      ! width=12px |L
 !style="border-right: 1px solid #777;" width=24px |%
 <# } #>
 <# if (this.IncludeVs) { #>
-<!-- Terran -->                      ! width=12px |&Sigma;
+<!-- Terran -->                      ! width=12px |Σ
                                      ! width=12px |W
                                      ! width=12px |L
 !style="border-right: 1px solid #777;" width=24px |%
-<!-- Zerg -->                        ! width=12px |&Sigma;
+<!-- Zerg -->                        ! width=12px |Σ
                                      ! width=12px |W
                                      ! width=12px |L
 !style="border-right: 1px solid #777;" width=24px |%
-<!-- Protoss -->                     ! width=12px |&Sigma;
+<!-- Protoss -->                     ! width=12px |Σ
                                      ! width=12px |W
                                      ! width=12px |L
 !style="border-right: 1px solid #777;" width=24px |%

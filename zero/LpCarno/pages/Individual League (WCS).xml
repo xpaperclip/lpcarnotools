@@ -1,0 +1,6 @@
+﻿<PageGenTemplate xmlns="LxTools.Carno;asm=LpCarno"><!--
+-->==Player Statistics==
+<IndividualPlayerStatisticsBlock />
+==Map Statistics==
+<MapStatisticsBlock />
+</PageGenTemplate>

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using LxTools.Liquipedia;
-using LxTools.Liquipedia.Parsing;
+using LxTools.Liquipedia.Parsing2;
 
 namespace LxTools.Carno
 {
@@ -18,27 +18,27 @@ namespace LxTools.Carno
 
         public static void ProcessWikicode(string s, ICarnoServiceSink sink)
         {
-            int length;
-            List<IWikiItem> items = WikiParser.Parse(s, 0, out length);
+            List<WikiNode> items = WikiParser.Parse(s).ToList();
 
             var templates = from item in items
-                            where item is WikiTemplate
-                            select item as WikiTemplate;
-            foreach (WikiTemplate template in templates)
+                            where item is WikiTemplateNode
+                            select item as WikiTemplateNode;
+            foreach (WikiTemplateNode template in templates)
             {
                 if (template.Name == "MatchList")
                 {
                     int matchno = 1;
                     while (true)
                     {
-                        List<IWikiItem> contents;
+                        List<WikiNode> contents;
                         if (!template.Params.TryGetValue("match" + matchno.ToString(), out contents))
                             break;
 
-                        if (contents.Count == 1 && contents[0] is WikiTemplate)
-                            TryProcessMatchMaps(sink, contents[0] as WikiTemplate);
+                        if (contents.Count == 1 && contents[0] is WikiTemplateNode)
+                            TryProcessMatchMaps(sink, contents[0] as WikiTemplateNode);
                         matchno++;
                     }
+                    sink.ClearTemporaryIdMap();
                     continue;
                 }
 
@@ -48,13 +48,61 @@ namespace LxTools.Carno
                 if (TryProcessBracket(sink, template))
                     continue;
 
+                if (TryProcessGroupTableSlot(sink, template))
+                    continue;
+
                 // if we ended up here, we don't support this template
                 //sw.WriteLine("; -- Unsupported template: {0} --", template.Name);
-                sink.UnknownTemplate(template.Name);
+                sink.UnknownTemplate(template);
             }
         }
+        public static Dictionary<string, Player> GetPlayerInfoFromParticipants(string s)
+        {
+            List<WikiNode> nodes = WikiParser.Parse(s).ToList();
 
-        private static bool TryProcessMatchMaps(ICarnoServiceSink sink, WikiTemplate template)
+            var participants = new Dictionary<string, Player>();
+            bool taking = false;
+            foreach (var node in nodes)
+            {
+                if ((node is WikiTextNode) && (node as WikiTextNode).Type == WikiTextNodeType.Section2)
+                {
+                    taking = ((node as WikiTextNode).Text == "Participants");
+                }
+                if (taking && node is WikiTableNode)
+                {
+                    foreach (var cell in (node as WikiTableNode).Cells)
+                    {
+                        var cellnodes = (from cellnode in cell
+                                         where cellnode is WikiTemplateNode
+                                         let nodetemplate = cellnode as WikiTemplateNode
+                                         orderby nodetemplate.Name
+                                         select nodetemplate).ToList();
+                        if (cellnodes.Count == 0 || cellnodes.Count > 2
+                            || cellnodes[0].Name.ToLower() != "player")
+                            continue;
+
+                        WikiTemplateNode player = cellnodes[0];
+                        string playerId = GetPlayerId(player);
+                        string team = "noteam";
+
+                        if (cellnodes.Count == 2)
+                        {
+                            WikiTemplateNode temppart = cellnodes[1];
+                            team = temppart.Name.From("TeamPart/");
+                        }
+                        Player info = new Player();
+                        info.Id = player.GetParamText("1");
+                        info.Flag = player.GetParamText("flag");
+                        info.Team = team;
+                        info.Link = player.GetParamText("link");
+                        participants[playerId] = info;
+                    }
+                }
+            }
+            return participants;
+        }
+
+        private static bool TryProcessMatchMaps(ICarnoServiceSink sink, WikiTemplateNode template)
         {
             string fmtfile = Path.Combine(fmtfolder, template.Name + ".matchfmt");
             if (!File.Exists(fmtfile))
@@ -76,11 +124,11 @@ namespace LxTools.Carno
 
                 if (teamwin == "1")
                 {
-                    sink.MatchBegin(team1, team2);
+                    sink.TeamMatchBegin(team1, team2);
                 }
                 else if (teamwin == "2")
                 {
-                    sink.MatchBegin(team2, team1);
+                    sink.TeamMatchBegin(team2, team1);
                 }
             }
 
@@ -97,11 +145,11 @@ namespace LxTools.Carno
             // just for TeamMatch really
             TryProcessMatch(sink, template, "acep1", "acep2", "acemap", "acewin", "-1");
 
-            sink.MatchEnd();
+            sink.TeamMatchEnd();
 
             return true;
         }
-        private static bool TryProcessBracket(ICarnoServiceSink sink, WikiTemplate template)
+        private static bool TryProcessBracket(ICarnoServiceSink sink, WikiTemplateNode template)
         {
             string fmtfile = Path.Combine(fmtfolder, template.Name + ".bracketfmt");
             if (!File.Exists(fmtfile))
@@ -118,29 +166,59 @@ namespace LxTools.Carno
                     }
 
                     string[] xs = fmtstring.Split(' ');
-
-                    if (xs.Length == 2)
+                    switch (xs.Length)
                     {
-                        ProcessBracketGame(sink, template, xs[0], xs[1], "");
-                    }
-                    else if (xs.Length == 3)
-                    {
-                        ProcessBracketGame(sink, template, xs[0], xs[1], xs[2]);
-                    }
-                    else
-                    {
-                        throw new Exception("Unrecognised format string: " + fmtstring);
+                        case 2:
+                            ProcessBracketGame(sink, template, xs[0], xs[1], "", null, null);
+                            break;
+                        case 3:
+                            ProcessBracketGame(sink, template, xs[0], xs[1], xs[2], null, null);
+                            break;
+                        case 4:
+                            ProcessBracketGame(sink, template, xs[0], xs[1], xs[2], xs[3], null);
+                            break;
+                        case 5:
+                            ProcessBracketGame(sink, template, xs[0], xs[1], xs[2], xs[3], xs[4]);
+                            break;
+                        default:
+                            throw new Exception("Unrecognised format string: " + fmtstring);
                     }
                 }
                 return true;
             }
         }
 
-        private static bool TryProcessMatch(ICarnoServiceSink sink, WikiTemplate template, string p1, string p2, string mapnameparam, string mapwinparam)
+        private static bool TryProcessGroupTableSlot(ICarnoServiceSink sink, WikiTemplateNode template)
+        {
+            if (template.Name != "GroupTableSlot")
+                return false;
+
+            var playerTemplate = template.GetParamTemplate("1", "Player");
+            if (playerTemplate == null)
+                return false;
+
+            var playerIdentifier = GetPlayerId(playerTemplate);
+            sink.SetTemporaryIdMap(playerTemplate.GetParamText("1"), playerTemplate.GetParamText("link"));
+            sink.UpdatePlayerRace(playerIdentifier, GetRaceFromString(playerTemplate.GetParamText("race")));
+
+            // if bg exists, placement is determined
+            if (template.HasParam("bg"))
+            {
+                string finish = template.GetParamText("place");
+                sink.PlayerPlacement(playerIdentifier, finish, true);
+            }
+            else
+            {
+                sink.PlayerPlacement(playerIdentifier, "active", false);
+            }
+            return true;
+        }
+
+        private static bool TryProcessMatch(ICarnoServiceSink sink, WikiTemplateNode template, string p1, string p2, string mapnameparam, string mapwinparam)
         {
             return TryProcessMatch(sink, template, p1, p2, mapnameparam, mapwinparam, null);
         }
-        private static bool TryProcessMatch(ICarnoServiceSink sink, WikiTemplate template, string p1, string p2, string mapname, string mapwin, object param)
+        private static bool TryProcessMatch(ICarnoServiceSink sink, WikiTemplateNode template, string p1, string p2, string mapname, string mapwin, object param)
         {
             string playerleft = template.GetParamText(string.Format(p1, param));
             if (playerleft == null) return false;
@@ -165,16 +243,19 @@ namespace LxTools.Carno
             if (string.IsNullOrEmpty(win) || win == "skip")
                 return false;
 
+            Player pl1 = TemplateGetPlayer(sink, template, p1, "team1", param);
+            Player pl2 = TemplateGetPlayer(sink, template, p2, "team2", param);
+
             Player winner, loser;
             if (win == "1")
             {
-                winner = TemplateGetPlayer(sink, template, p1, "team1", param);
-                loser = TemplateGetPlayer(sink, template, p2, "team2", param);
+                winner = pl1;
+                loser = pl2;
             }
             else if (win == "2")
             {
-                winner = TemplateGetPlayer(sink, template, p2, "team2", param);
-                loser = TemplateGetPlayer(sink, template, p1, "team1", param);
+                winner = pl2;
+                loser = pl1;
             }
             else
             {
@@ -187,7 +268,7 @@ namespace LxTools.Carno
             sink.Record(set, winner, loser, sink.ConformMap(map));
             return true;
         }
-        private static void ProcessBracketGame(ICarnoServiceSink sink, WikiTemplate template, string left, string right, string game)
+        private static void ProcessBracketGame(ICarnoServiceSink sink, WikiTemplateNode template, string left, string right, string game, string loserplacement, string winnerplacement)
         {
             if (!template.Params.ContainsKey(left)) return;
             if (!template.Params.ContainsKey(right)) return;
@@ -203,9 +284,29 @@ namespace LxTools.Carno
             if (!int.TryParse(template.GetParamText(left + "score"), out scoreleft)
                 | !int.TryParse(template.GetParamText(right + "score"), out scoreright))
             {
-                //sw.WriteLine(";{0}-{1} {2} {3}", template.GetParamText(left + "score"),
-                //    template.GetParamText(right + "score"), playerleft, playerright);
+                //sw.WriteLine(";{0}-{1} {2} {3}", template.GetParam(left + "score"),
+                //    template.GetParam(right + "score"), playerleft, playerright);
                 return;
+            }
+
+            if (template.GetParamText(left + "win") == "1")
+            {
+                if (loserplacement != null)
+                    sink.PlayerPlacement(playerright, loserplacement, true);
+                if (winnerplacement != null)
+                    sink.PlayerPlacement(playerleft, winnerplacement, true);
+            }
+            else if (template.GetParamText(right + "win") == "1")
+            {
+                if (loserplacement != null)
+                    sink.PlayerPlacement(playerleft, loserplacement, true);
+                if (winnerplacement != null)
+                    sink.PlayerPlacement(playerright, winnerplacement, true);
+            }
+            else
+            {
+                sink.PlayerPlacement(playerleft, loserplacement, false);
+                sink.PlayerPlacement(playerright, loserplacement, false);
             }
 
             Player p1 = TemplateGetPlayer(sink, template, left, null, null);
@@ -214,7 +315,7 @@ namespace LxTools.Carno
             if (template.Params.ContainsKey(game + "details"))
             {
                 // game has details - use them
-                WikiTemplate details = template.GetParamTemplate(game + "details", "BracketMatchSummary");
+                WikiTemplateNode details = template.GetParamTemplate(game + "details", "BracketMatchSummary");
                 for (int i = 1; i <= scoreleft + scoreright; i++)
                 {
                     string map = "Unknown";
@@ -251,38 +352,48 @@ namespace LxTools.Carno
 
         }
 
-        private static Player TemplateGetPlayer(ICarnoServiceSink sink, WikiTemplate template, string p1, string team, object param)
+        private static Player TemplateGetPlayer(ICarnoServiceSink sink, WikiTemplateNode template, string p1, string team, object param)
         {
             Player pl = new Player();
             pl.Id = sink.ConformPlayerId(template.GetParamText(string.Format(p1, param)));
             pl.Flag = template.GetParamText(string.Format(p1, param) + "flag");
-            pl.Link = template.GetParamText(string.Format(p1, param) + "link");
+            pl.Link = template.GetParamText(string.Format(p1, param) + "link") ?? sink.GetTemporaryPlayerLink(pl.Id);
             pl.Team = sink.ConformTeamId(template.GetParamText(team));
+            pl.Race = GetRaceFromString(template.GetParamText(string.Format(p1, param) + "race").ToLower());
 
-            switch (template.GetParamText(string.Format(p1, param) + "race").ToLower())
+            sink.UpdatePlayerRace(pl.Identifier, pl.Race);
+
+            return pl;
+        }
+        private static Race GetRaceFromString(string s)
+        {
+            switch (s)
             {
                 case "t":
                 case "terran":
-                    pl.Race = Race.Terran;
-                    break;
+                    return Race.Terran;
                 case "z":
                 case "zerg":
-                    pl.Race = Race.Zerg;
-                    break;
+                    return Race.Zerg;
                 case "p":
                 case "protoss":
-                    pl.Race = Race.Protoss;
-                    break;
+                    return Race.Protoss;
                 case "r":
                 case "random":
-                    pl.Race = Race.Random;
-                    break;
+                    return Race.Random;
                 default:
-                    pl.Race = Race.Unknown;
-                    break;
+                    return Race.Unknown;
             }
+        }
+        private static string GetPlayerId(WikiTemplateNode template)
+        {
+            if (template.Name != "Player")
+                throw new ArgumentOutOfRangeException("template");
 
-            return pl;
+            string playerId = template.GetParamText("1");
+            if (!string.IsNullOrEmpty(template.GetParamText("link")))
+                playerId = LiquipediaUtils.NormaliseLink(template.GetParamText("link"));
+            return playerId;
         }
     }
 }

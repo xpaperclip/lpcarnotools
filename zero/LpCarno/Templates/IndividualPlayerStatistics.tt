@@ -1,0 +1,44 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="LxTools" #>
+{| class="sortable wikitable" style="text-align:center; "
+! colspan=6 | Player
+! colspan=2 width=100px | Games
+! colspan=2 width=100px | vs. {{SC2-T}}
+! colspan=2 width=100px | vs. {{SC2-Z}}
+! colspan=2 width=100px | vs. {{SC2-P}}
+|-
+! width=2px |
+! width=2px |
+! width=2px |
+! width=100px |ID
+! width=175px |Team
+! width=60px |Points
+! Record
+! Win%
+! Record
+! Win%
+! Record
+! Win%
+! Record
+! Win%
+|-
+<# foreach (Indexing<Bag> idxobj in this.Rows) {
+	   int index = idxobj.Index;
+	   Bag obj = idxobj.Object; #>
+| <#= index #>
+| {{FlagRace|<#= obj["flag"] #>|<#= obj["race"] #>}}
+|align=left | [[<#= obj["player"] #>]]
+|align=left | {{team/<#= obj["team"] #>}}
+| <#= obj["placement"] #>
+| <#= obj["wl"] #>
+| <#= obj["vT"] #>
+| <#= obj["vZ"] #>
+| <#= obj["vP"] #>
+|-
+<# } #>
+|}
+<#+
+public IEnumerable<Indexing<Bag>> Rows { get; set; }
+#>

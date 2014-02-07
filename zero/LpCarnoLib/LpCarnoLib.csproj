@@ -43,11 +43,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Base\Parsing2.cs" />
     <Compile Include="DataStore.cs" />
     <Compile Include="Base\ICarnoServiceSink.cs" />
     <Compile Include="Base\Types.cs" />
-    <Compile Include="Base\Parsing.cs" />
     <Compile Include="Base\CarnoService.cs" />
+    <Compile Include="RunProfile.cs" />
     <Compile Include="System.Linq.Dynamic.cs" />
     <Compile Include="LiquipediaClientEx.cs" />
     <Compile Include="PageBlock.cs" />

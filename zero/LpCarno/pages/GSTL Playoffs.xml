@@ -1,5 +1,5 @@
 ﻿<PageGenTemplate xmlns="LxTools.Carno;asm=LpCarno"
-                 AllKills="true"><!--
+                 AllKills="false"><!--
 -->==Team Statistics==
 <TeamStatisticsBlock IncludeAllKillsColumn="$AllKills" />
 ===Match-ups===
