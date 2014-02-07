@@ -14,9 +14,8 @@ namespace LxTools.Carno
 
         void UnknownTemplate(WikiTemplateNode template);
 
-        void SetTemporaryIdMap(string id, string link);
-        void ClearTemporaryIdMap();
-        string GetTemporaryPlayerLink(string id);
+        void SetIdLinkMap(string id, string link);
+        string GetPlayerLink(string id);
 
         void UpdatePlayerRace(string id, Race race);
 

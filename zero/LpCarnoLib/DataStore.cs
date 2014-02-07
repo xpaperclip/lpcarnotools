@@ -33,7 +33,7 @@ namespace LxTools.Carno
         public void AccumulateParticipants(string page)
         {
             string wikicode = LiquipediaClient.GetWikicode(page);
-            playerInfoMap.Merge(CarnoService.GetPlayerInfoFromParticipants(wikicode));
+            playerInfoMap.Merge(CarnoService.GetPlayerInfoFromParticipants(this, wikicode));
         }
 
         void ICarnoServiceSink.TeamMatchBegin(string winner, string loser)
@@ -61,14 +61,18 @@ namespace LxTools.Carno
 
         void ICarnoServiceSink.PlayerPlacement(string player, string finish, bool determined)
         {
-            if (placementMap != null)
+            if (placementMap == null || string.IsNullOrEmpty(player))
+                return;
+            
+            Placement placement;
+            if (placementMap.TryGetValue(finish, out placement))
             {
-                var placement = placementMap.GetValueOrDefault(finish, new Placement(finish, ""));
                 if (!determined)
                 {
                     placement.PlacementBg = "active";
                 }
                 playerPlacements[player] = placement;
+                //System.Diagnostics.Debug.WriteLine("{0} -> {1}", player, placement.ToString());
             }
         }
 
@@ -82,18 +86,14 @@ namespace LxTools.Carno
             }
         }
 
-        private readonly Dictionary<string, string> temporaryIdMaps = new Dictionary<string, string>();
-        void ICarnoServiceSink.SetTemporaryIdMap(string id, string link)
+        private readonly Dictionary<string, string> idLinkMap = new Dictionary<string, string>();
+        void ICarnoServiceSink.SetIdLinkMap(string id, string link)
         {
-            temporaryIdMaps[id] = link;
+            idLinkMap[id] = LiquipediaUtils.NormaliseLink(link);
         }
-        void ICarnoServiceSink.ClearTemporaryIdMap()
+        string ICarnoServiceSink.GetPlayerLink(string id)
         {
-            temporaryIdMaps.Clear();
-        }
-        string ICarnoServiceSink.GetTemporaryPlayerLink(string id)
-        {
-            return temporaryIdMaps.GetValueOrDefault(id, null);
+            return idLinkMap.GetValueOrDefault(id, null);
         }
 
         #region Id Conforming

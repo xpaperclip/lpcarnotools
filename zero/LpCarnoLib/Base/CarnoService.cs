@@ -38,7 +38,7 @@ namespace LxTools.Carno
                             TryProcessMatchMaps(sink, contents[0] as WikiTemplateNode);
                         matchno++;
                     }
-                    sink.ClearTemporaryIdMap();
+                    //sink.ClearTemporaryIdMap();
                     continue;
                 }
 
@@ -56,7 +56,7 @@ namespace LxTools.Carno
                 sink.UnknownTemplate(template);
             }
         }
-        public static Dictionary<string, Player> GetPlayerInfoFromParticipants(string s)
+        public static Dictionary<string, Player> GetPlayerInfoFromParticipants(ICarnoServiceSink sink, string s)
         {
             List<WikiNode> nodes = WikiParser.Parse(s).ToList();
 
@@ -89,13 +89,17 @@ namespace LxTools.Carno
                         {
                             WikiTemplateNode temppart = cellnodes[1];
                             team = temppart.Name.From("TeamPart/");
+                            team = sink.ConformTeamId(team);
                         }
                         Player info = new Player();
                         info.Id = player.GetParamText("1");
                         info.Flag = player.GetParamText("flag");
                         info.Team = team;
-                        info.Link = player.GetParamText("link");
+                        info.Link = LiquipediaUtils.NormaliseLink(player.GetParamText("link"));
                         participants[playerId] = info;
+                        
+                        if (!string.IsNullOrEmpty(info.Link))
+                            sink.SetIdLinkMap(info.Id, info.Link);
                     }
                 }
             }
@@ -129,6 +133,28 @@ namespace LxTools.Carno
                 else if (teamwin == "2")
                 {
                     sink.TeamMatchBegin(team2, team1);
+                }
+            }
+
+            if (template.Name == "MatchMaps")
+            {
+                string winner = template.GetParamText("winner");
+                string playerleft = GetPlayerIdentifier(sink, template.GetParamText(xs[0]).Replace(" ", "_"));
+                string playerright = GetPlayerIdentifier(sink, template.GetParamText(xs[1]).Replace(" ", "_"));
+                if (winner == "1")
+                {
+                    sink.PlayerPlacement(playerleft, "win", true);
+                    sink.PlayerPlacement(playerright, "loss", true);
+                }
+                else if (winner == "2")
+                {
+                    sink.PlayerPlacement(playerleft, "loss", true);
+                    sink.PlayerPlacement(playerright, "win", true);
+                }
+                else
+                {
+                    sink.PlayerPlacement(playerleft, "active", false);
+                    sink.PlayerPlacement(playerright, "active", false);
                 }
             }
 
@@ -198,7 +224,7 @@ namespace LxTools.Carno
                 return false;
 
             var playerIdentifier = GetPlayerId(playerTemplate);
-            sink.SetTemporaryIdMap(playerTemplate.GetParamText("1"), playerTemplate.GetParamText("link"));
+            sink.SetIdLinkMap(playerTemplate.GetParamText("1"), playerTemplate.GetParamText("link"));
             sink.UpdatePlayerRace(playerIdentifier, GetRaceFromString(playerTemplate.GetParamText("race")));
 
             // if bg exists, placement is determined
@@ -275,10 +301,10 @@ namespace LxTools.Carno
 
             string playerleft = template.GetParamText(left);
             if (playerleft == null) return;
-            playerleft = playerleft.Replace(" ", "_");
+            playerleft = GetPlayerIdentifier(sink, playerleft.Replace(" ", "_"));
             string playerright = template.GetParamText(right);
             if (playerright == null) return;
-            playerright = playerright.Replace(" ", "_");
+            playerright = GetPlayerIdentifier(sink, playerright.Replace(" ", "_"));
 
             int scoreleft, scoreright;
             if (!int.TryParse(template.GetParamText(left + "score"), out scoreleft)
@@ -357,7 +383,7 @@ namespace LxTools.Carno
             Player pl = new Player();
             pl.Id = sink.ConformPlayerId(template.GetParamText(string.Format(p1, param)));
             pl.Flag = template.GetParamText(string.Format(p1, param) + "flag");
-            pl.Link = template.GetParamText(string.Format(p1, param) + "link") ?? sink.GetTemporaryPlayerLink(pl.Id);
+            pl.Link = template.GetParamText(string.Format(p1, param) + "link") ?? sink.GetPlayerLink(pl.Id);
             pl.Team = sink.ConformTeamId(template.GetParamText(team));
             pl.Race = GetRaceFromString(template.GetParamText(string.Format(p1, param) + "race").ToLower());
 
@@ -394,6 +420,13 @@ namespace LxTools.Carno
             if (!string.IsNullOrEmpty(template.GetParamText("link")))
                 playerId = LiquipediaUtils.NormaliseLink(template.GetParamText("link"));
             return playerId;
+        }
+        private static string GetPlayerIdentifier(ICarnoServiceSink sink, string player)
+        {
+            string link = sink.GetPlayerLink(player);
+            if (link != null) return link;
+
+            return player;
         }
     }
 }

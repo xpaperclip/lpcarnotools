@@ -295,6 +295,7 @@ namespace LxTools.Carno
                         {
                             pointsort = pointsort,
                             bag = new Bag(
+                                "ppKey", pp.Key,
                                 "flag", data.PlayerInfoMap.GetValueOrDefault(pp.Key, Player.Empty).Flag,
                                 "race", playerInfo.Race.ToString().MaxSubstring(1),
                                 "player", playerInfo.IdWithLinkIfNeeded,

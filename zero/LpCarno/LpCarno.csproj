@@ -109,6 +109,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="LPfmt\ChallengerBracket.bracketfmt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="mapakas.dict">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -212,10 +215,16 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="2013 WCS KR GSL S3 All Profile.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="2014 GSL S1 Code A Profile.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="2013 WCS KR GSL S3 Code S Profile.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="2014 WCS AM S1 Challenger Profile.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="pages\GSTL Playoffs.xml">

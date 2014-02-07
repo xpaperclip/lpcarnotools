@@ -8,6 +8,7 @@ namespace LxTools.Liquipedia
     {
         public static string NormaliseLink(string s)
         {
+            if (s == null) return null;
             s = s.Replace(" ", "_");
             return char.ToUpper(s[0]) + s.Substring(1);
         }
