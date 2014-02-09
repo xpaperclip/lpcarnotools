@@ -48,6 +48,9 @@ namespace LxTools.Carno
                 if (TryProcessBracket(sink, template))
                     continue;
 
+                if (TryProcessTeamBracket(sink, template))
+                    continue;
+
                 if (TryProcessGroupTableSlot(sink, template))
                     continue;
 
@@ -64,7 +67,7 @@ namespace LxTools.Carno
             bool taking = false;
             foreach (var node in nodes)
             {
-                if ((node is WikiTextNode) && (node as WikiTextNode).Type == WikiTextNodeType.Section2)
+                if (node.IsSection())
                 {
                     taking = ((node as WikiTextNode).Text == "Participants");
                 }
@@ -315,6 +318,7 @@ namespace LxTools.Carno
                 return;
             }
 
+            // set player placement
             if (template.GetParamText(left + "win") == "1")
             {
                 if (loserplacement != null)
@@ -378,6 +382,143 @@ namespace LxTools.Carno
 
         }
 
+
+        private static bool TryProcessTeamBracket(ICarnoServiceSink sink, WikiTemplateNode template)
+        {
+            string fmtfile = Path.Combine(fmtfolder, template.Name + ".teambracketfmt");
+            if (!File.Exists(fmtfile))
+                return false;
+
+            using (var fmtsr = new StreamReader(fmtfile))
+            {
+                string fmtstring;
+                while ((fmtstring = fmtsr.ReadLine()) != null)
+                {
+                    if (string.IsNullOrEmpty(fmtstring) || fmtstring.StartsWith(";"))
+                    {
+                        continue;
+                    }
+
+                    string[] xs = fmtstring.Split(' ');
+                    switch (xs.Length)
+                    {
+                        case 3:
+                            var details = template.GetParamTemplate(xs[2] + "details", "BracketTeamMatch");
+                            if (details != null)
+                            {
+                                string team1 = sink.ConformTeamId(template.GetParamText(xs[0] + "team"));
+                                string team2 = sink.ConformTeamId(template.GetParamText(xs[1] + "team"));
+                                
+                                if (template.GetParamText(xs[0] + "win") == "1")
+                                    sink.TeamMatchBegin(team1, team2);
+                                else if (template.GetParamText(xs[1] + "win") == "1")
+                                    sink.TeamMatchBegin(team2, team1);
+
+                                ProcessTeamMatchDetails(sink, details, team1, team2);
+
+                                sink.TeamMatchEnd();
+                            }
+                            break;
+                        default:
+                            throw new Exception("Unrecognised format string: " + fmtstring);
+                    }
+                }
+                return true;
+            }
+        }
+        private static bool ProcessTeamMatchDetails(ICarnoServiceSink sink, WikiTemplateNode template, string team1, string team2)
+        {
+            string fmtfile = Path.Combine(fmtfolder, template.Name + ".matchfmt");
+            if (!File.Exists(fmtfile))
+                return false;
+
+            string[] xs = File.ReadAllLines(fmtfile);
+            if (xs.Length != 4)
+            {
+                throw new Exception("Unrecognised match formatting file.");
+            }
+
+            string mapname = xs[2];
+
+            int mapno = 1;
+            while (true)
+            {
+                if (TryProcessMatchDetail(sink, template, xs[0], xs[1], team1, team2, xs[2], xs[3], mapno))
+                    mapno++;
+                else
+                    break;
+            }
+            // just for TeamMatch really
+            TryProcessMatch(sink, template, "acep1", "acep2", "acemap", "acewin", "-1");
+            
+            return true;
+        }
+        private static bool TryProcessMatchDetail(ICarnoServiceSink sink, WikiTemplateNode template,
+            string p1, string p2, string team1, string team2, string mapname, string mapwin, object param)
+        {
+            string playerleft = template.GetParamText(string.Format(p1, param));
+            if (playerleft == null) return false;
+            playerleft = playerleft.Replace(" ", "_");
+            string playerright = template.GetParamText(string.Format(p2, param));
+            if (playerright == null) return false;
+            playerright = playerright.Replace(" ", "_");
+
+            string mapnameparam = string.Format(mapname, param);
+            string mapwinparam = string.Format(mapwin, param);
+
+            if (!template.Params.ContainsKey(mapwinparam))
+                return false;
+
+            string map = "Unknown";
+            if (template.Params.ContainsKey(mapnameparam))
+            {
+                map = template.GetParamText(mapnameparam) ?? "Unknown";
+            }
+
+            string win = template.GetParamText(mapwinparam);
+            if (string.IsNullOrEmpty(win) || win == "skip")
+                return false;
+
+            Player pl1 = TemplateGetPlayerBracketTeamMatch(sink, template, p1, team1, param);
+            Player pl2 = TemplateGetPlayerBracketTeamMatch(sink, template, p2, team2, param);
+
+            Player winner, loser;
+            if (win == "1")
+            {
+                winner = pl1;
+                loser = pl2;
+            }
+            else if (win == "2")
+            {
+                winner = pl2;
+                loser = pl1;
+            }
+            else
+            {
+                return true;
+            }
+
+            int set = 0;
+            if (param != null) int.TryParse(param.ToString(), out set);
+
+            sink.Record(set, winner, loser, sink.ConformMap(map));
+            return true;
+        }
+
+
+        private static Player TemplateGetPlayerBracketTeamMatch(ICarnoServiceSink sink, WikiTemplateNode template, string p1, string team, object param)
+        {
+            Player pl = new Player();
+            pl.Id = sink.ConformPlayerId(template.GetParamText(string.Format(p1, param)));
+            pl.Flag = template.GetParamText(string.Format(p1, param) + "flag");
+            pl.Link = template.GetParamText(string.Format(p1, param) + "link") ?? sink.GetPlayerLink(pl.Id);
+            pl.Team = sink.ConformTeamId(team);
+            pl.Race = GetRaceFromString(template.GetParamText(string.Format(p1, param) + "race").ToLower());
+
+            sink.UpdatePlayerRace(pl.Identifier, pl.Race);
+
+            return pl;
+        }
         private static Player TemplateGetPlayer(ICarnoServiceSink sink, WikiTemplateNode template, string p1, string team, object param)
         {
             Player pl = new Player();

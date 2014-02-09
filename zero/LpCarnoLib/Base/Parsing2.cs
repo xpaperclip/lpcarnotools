@@ -227,7 +227,41 @@ namespace LxTools.Liquipedia.Parsing2
         }
     }
 
+    public static class WikiNodeExtensionMethods
+    {
+        public static bool IsTextNode(this WikiNode node)
+        {
+            return (node is WikiTextNode);
+        }
+        public static bool IsTextType(this WikiNode node, WikiTextNodeType type)
+        {
+            var textNode = node as WikiTextNode;
+            if (textNode == null) return false;
+            return (textNode.Type == type);
+        }
+        public static bool IsSection(this WikiNode node)
+        {
+            var textNode = node as WikiTextNode;
+            if (textNode == null) return false;
+            if (textNode.Type != WikiTextNodeType.Section2) return false;
+            if (textNode.Type != WikiTextNodeType.Section3) return false;
+            if (textNode.Type != WikiTextNodeType.Section4) return false;
+            if (textNode.Type != WikiTextNodeType.Section5) return false;
+            return true;
+        }
+        public static bool IsSection(this WikiNode node, string text)
+        {
+            var textNode = node as WikiTextNode;
+            if (textNode == null) return false;
+            if (textNode.Type != WikiTextNodeType.Section2) return false;
+            if (textNode.Type != WikiTextNodeType.Section3) return false;
+            if (textNode.Type != WikiTextNodeType.Section4) return false;
+            if (textNode.Type != WikiTextNodeType.Section5) return false;
+            return (textNode.Text == text);
+        }
+    }
     public abstract class WikiNode { internal WikiNode() { } }
+    
     public enum WikiTextNodeType
     {
         Text, Comment, Section2, Section3, Section4, Section5
@@ -250,6 +284,7 @@ namespace LxTools.Liquipedia.Parsing2
             return string.Format("{0} <{1}>", this.Type, this.Text);
         }
     }
+    
     public abstract class WikiContainerNode : WikiNode
     {
         internal WikiContainerNode() { }
