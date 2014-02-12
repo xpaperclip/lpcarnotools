@@ -243,21 +243,17 @@ namespace LxTools.Liquipedia.Parsing2
         {
             var textNode = node as WikiTextNode;
             if (textNode == null) return false;
-            if (textNode.Type != WikiTextNodeType.Section2) return false;
-            if (textNode.Type != WikiTextNodeType.Section3) return false;
-            if (textNode.Type != WikiTextNodeType.Section4) return false;
-            if (textNode.Type != WikiTextNodeType.Section5) return false;
+            if ((textNode.Type != WikiTextNodeType.Section2) &&
+                (textNode.Type != WikiTextNodeType.Section3) && 
+                (textNode.Type != WikiTextNodeType.Section4) &&
+                (textNode.Type != WikiTextNodeType.Section5))
+                return false;
             return true;
         }
         public static bool IsSection(this WikiNode node, string text)
         {
-            var textNode = node as WikiTextNode;
-            if (textNode == null) return false;
-            if (textNode.Type != WikiTextNodeType.Section2) return false;
-            if (textNode.Type != WikiTextNodeType.Section3) return false;
-            if (textNode.Type != WikiTextNodeType.Section4) return false;
-            if (textNode.Type != WikiTextNodeType.Section5) return false;
-            return (textNode.Text == text);
+            if (!node.IsSection()) return false;
+            return ((node as WikiTextNode).Text == text);
         }
     }
     public abstract class WikiNode { internal WikiNode() { } }
