@@ -27,7 +27,7 @@ namespace LxTools.Carno
                         let playerInfo = (stats != null) ? stats.Key : data.PlayerInfoMap.GetValueOrDefault(pp.Key, Player.Empty)
                         let placement = data.PlayerPlacements.GetValueOrDefault(pp.Key, new Placement())
                         let pointsort = placement.Sort + ((placement.PlacementBg == "active") ? 1 : 0)
-                        orderby pointsort descending, playerInfo.Identifier
+                        orderby pointsort descending, ((stats != null) ? stats.wl : WL.Zero).Percentage descending, playerInfo.Identifier
                         select new
                         {
                             pointsort = pointsort,

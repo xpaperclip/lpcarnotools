@@ -1,0 +1,6 @@
+﻿<PageGenTemplate xmlns="LxTools.Carno;asm=LpCarno"><!--
+-->==Player Statistics==
+<PlayerStatisticsBlock IncludeAllKills="false" AlwaysShowWholeTable="true" />
+==Map Statistics==
+<MapStatisticsBlock />
+</PageGenTemplate>

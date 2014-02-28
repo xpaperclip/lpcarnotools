@@ -166,6 +166,7 @@ namespace LxTools.Carno
     {
         public bool Ace { get; set; }
         public bool IncludeAllKillsColumn { get; set; }
+        public bool AlwaysShowWholeTable { get; set; }
 
         protected override void EmitInternal(TextWriter tw, DataStore data)
         {
@@ -192,7 +193,7 @@ namespace LxTools.Carno
                        "race", r.Object.Key.Race.ToString().MaxSubstring(1),
                        "player", r.Object.Key.IdWithLinkIfNeeded,
                        "allkills", "{{AllKillIcon}}".Repeat(r.Object.allKills),
-                       "team", r.Object.Key.Team,
+                       "team", string.IsNullOrWhiteSpace(r.Object.Key.Team) ? data.PlayerInfoMap.GetValueOrDefault(r.Object.Key.Identifier, Player.Empty).Team : r.Object.Key.Team,
                        "wl", r.Object.wl.ToString(),
                        "vT", r.Object.vT.ToString(),
                        "vZ", r.Object.vZ.ToString(),
@@ -200,7 +201,7 @@ namespace LxTools.Carno
                    )));
 
             var template = new PlayerStatistics();
-            if (table.Count() > 15)
+            if (!this.AlwaysShowWholeTable && table.Count() > 15)
             {
                 var top10 = new PlayerStatistics();
                 top10.HeaderType = "top10";

@@ -31,7 +31,7 @@
 
 |-
 <# foreach (Bag bag in this.Rows) { #>
-|style="border-left:  1px solid #777;" align=left  | [[<#= bag["map"] #>]]
+|style="border-left:  1px solid #777;" align=left  | <#= bag["map"] #>
 |style="border-right: 1px solid #777;"             | <#= bag["total"] #>
 <!-- TvZ -->                                       | <#= bag["TvZtotal"] #>
                                                    | <#= bag["TvZwin"] #>

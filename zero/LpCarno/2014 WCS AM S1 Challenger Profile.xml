@@ -1,0 +1,13 @@
+﻿<CarnoProfile>
+  <PageGenTemplate Template="Individual League (WCS).xml" />
+  
+  <Map Map="Yeonsu LE" To="Yeonsu" />
+  <Map Map="Polar Night LE" To="Polar Night" />
+
+  <Participants Page="http://wiki.teamliquid.net/starcraft2/index.php?title=2014_WCS_Season_1_America/Challenger&amp;action=edit&amp;section=1" />
+  <Matches Page="http://wiki.teamliquid.net/starcraft2/index.php?title=2014_WCS_Season_1_America/Challenger&amp;action=edit&amp;section=4">
+    <Map Finish="win" Placement="1-24" Points="{{PremierIcon}}" Sort="70" />
+    <Map Finish="loss" Placement="challenger" Points="50" Sort="50" />
+    <Map Finish="active" Placement="active" Points="50" Sort="51" />
+  </Matches>
+</CarnoProfile>

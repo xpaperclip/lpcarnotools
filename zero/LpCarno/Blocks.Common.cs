@@ -43,7 +43,7 @@ namespace LxTools.Carno
                 .TotalWinLossPercentage("ZvP", ov.ZvP)
                 .TotalWinLossPercentage("PvT", ov.PvT);
             template.Rows = table.Select((r) => new Bag(
-                    "map", r.Key,
+                    "map", string.IsNullOrWhiteSpace(r.Key) ? "Unknown" : ("[[" + r.Key + "]]"),
                     "total", r.total.ToString(),
                     "TvT", r.TvT != 0 ? r.TvT.ToString() : "-",
                     "ZvZ", r.ZvZ != 0 ? r.ZvZ.ToString() : "-",
