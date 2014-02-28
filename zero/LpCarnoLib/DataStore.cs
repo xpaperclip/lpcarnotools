@@ -33,7 +33,7 @@ namespace LxTools.Carno
         public void AccumulateParticipants(string page)
         {
             string wikicode = LiquipediaClient.GetWikicode(page);
-            playerInfoMap.Merge(CarnoService.GetPlayerInfoFromParticipants(this, wikicode));
+            playerInfoMap.Merge(CarnoService.GetPlayerInfoFromParticipants(this, wikicode), true);
         }
 
         void ICarnoServiceSink.TeamMatchBegin(string winner, string loser)
