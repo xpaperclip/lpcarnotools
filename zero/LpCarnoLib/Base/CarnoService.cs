@@ -309,15 +309,6 @@ namespace LxTools.Carno
             if (playerright == null) return;
             playerright = GetPlayerIdentifier(sink, playerright.Replace(" ", "_"));
 
-            int scoreleft, scoreright;
-            if (!int.TryParse(template.GetParamText(left + "score"), out scoreleft)
-                | !int.TryParse(template.GetParamText(right + "score"), out scoreright))
-            {
-                //sw.WriteLine(";{0}-{1} {2} {3}", template.GetParam(left + "score"),
-                //    template.GetParam(right + "score"), playerleft, playerright);
-                return;
-            }
-
             // set player placement
             if (template.GetParamText(left + "win") == "1")
             {
@@ -337,6 +328,15 @@ namespace LxTools.Carno
             {
                 sink.PlayerPlacement(playerleft, loserplacement, false);
                 sink.PlayerPlacement(playerright, loserplacement, false);
+            }
+
+            int scoreleft, scoreright;
+            if (!int.TryParse(template.GetParamText(left + "score"), out scoreleft)
+                | !int.TryParse(template.GetParamText(right + "score"), out scoreright))
+            {
+                //sw.WriteLine(";{0}-{1} {2} {3}", template.GetParam(left + "score"),
+                //    template.GetParam(right + "score"), playerleft, playerright);
+                return;
             }
 
             Player p1 = TemplateGetPlayer(sink, template, left, null, null);
