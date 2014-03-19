@@ -48,6 +48,10 @@ namespace LxTools.Carno
         {
             return this.Id.GetHashCode();
         }
+        public override string ToString()
+        {
+            return this.Identifier;
+        }
     }
 
     public enum Race

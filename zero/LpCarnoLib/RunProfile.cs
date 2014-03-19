@@ -15,9 +15,6 @@ namespace LxTools.Carno
             DataStore.LoadRewriter("playerpka.dict", data.IdRewriter);
             DataStore.LoadRewriter("mapakas.dict", data.MapRewriter);
 
-            // load page gen template
-            string pageGenTemplate = xml.Root.Element("PageGenTemplate").Attribute("Template").Value;
-
             // load additional conformance rules
             foreach (XElement xe in xml.Root.Elements("Map"))
             {
@@ -70,6 +67,7 @@ namespace LxTools.Carno
             }
 
             // emit
+            string pageGenTemplate = xml.Root.Element("PageGenTemplate").Attribute("Template").Value;
             PageGenerator pagegen = PageGenerator.FromXml(XDocument.Load("pages/" + pageGenTemplate));
             string result = pagegen.Emit(data);
             UI.ShowDialog(new UIDocument("Statistics", result));

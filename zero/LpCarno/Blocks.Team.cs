@@ -34,7 +34,7 @@ namespace LxTools.Carno
                             "matches", matchCount.ToString(),
                             "gameCount", gameCount.Total.ToString(),
                             "games", gameCount.ToString(),
-                            "gameDiff", (diff >= 0 ? "+" : "") + diff.ToString()
+                            "gameDiff", diff.ToStringWithSign(true)
                         );
 
             var template = new TeamStatistics();

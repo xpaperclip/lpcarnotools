@@ -1,0 +1,55 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="LxTools" #>
+{|class="sortable wikitable" style="text-align:center;"
+|-
+! colspan=4 | Player
+!
+! colspan=2 | Most Played Map
+! colspan=3 | Best Map
+! colspan=3 | Worst Map
+<!-- <# foreach (string map in this.Maps) { #>
+! colspan=2 | [[<#= map #>]]
+<# } #> -->
+|-
+! width=2px |
+! width=2px |
+! width=100px |ID
+! width=175px |Team
+! width=30px |&Sigma;
+! Map
+! width=30px | 
+! Map
+! width=30px |
+! width=30px |&Delta;
+! Map
+! width=30px |
+! width=30px |&Delta;
+<!-- <# foreach (string map in this.Maps) { #>
+! Record
+! width=30px | %
+<# } #> -->
+<# foreach (Bag bag in this.Rows) { #>
+|-
+| {{FlagRace|<#= bag["flag"] #>|<#= bag["race"] #>}}
+| align=left | [[<#= bag["player"] #>]]
+| align=left | {{team/<#= bag["team"] #>}}
+| <#= bag["totalplayed"] #>
+| align=left | <#= bag["mostplayed.map"] #>
+| <#= bag["mostplayed.count"] #>
+| align=left | <#= bag["bestmap.map"] #>
+| <#= bag["bestmap.record"] #>
+| <#= bag["bestmap.count"] #>
+| align=left | <#= bag["worstmap.map"] #>
+| <#= bag["worstmap.record"] #>
+| <#= bag["worstmap.count"] #>
+<!--<# foreach (string map in this.Maps) { #>
+| <#= bag[map] #>
+<# } #> -->
+<# } #>
+|}
+<#+
+public IEnumerable<string> Maps { get; set; }
+public IEnumerable<Bag> Rows { get; set; }
+#>

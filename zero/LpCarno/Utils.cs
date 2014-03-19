@@ -37,6 +37,62 @@ namespace LxTools.Carno
                 result = defaultValue;
             return result;
         }
+        
+        public static string ToStringWithSign(this int i)
+        {
+            return i.ToStringWithSign(false);
+        }
+        public static string ToStringWithSign(this int i, bool signZero)
+        {
+            bool needsSign = (signZero ? i >= 0 : i > 0);
+            return (needsSign ? "+" : string.Empty) + i.ToString();
+        }
+
+        public static string Pad(this string s, int length)
+        {
+            if (s == null) s = string.Empty;
+            return s + new String(' ', length - s.Length);
+        }
+        public static string JustPadding(this string s, int length)
+        {
+            if (s == null) s = string.Empty;
+            if (length < s.Length) return "";
+            return new String(' ', length - s.Length);
+        }
+        public static string Truncate(this string s, int max)
+        {
+            if (s == null) s = string.Empty;
+            if (s.Length > max)
+                return s.Substring(0, max - 3) + "...";
+            else
+                return s;
+        }
+
+        public static string ToStringOrdinal(this int num)
+        {
+            if (num <= 0)
+                return num.ToString();
+
+            switch (num % 100)
+            {
+                case 11:
+                case 12:
+                case 13:
+                    return num.ToString() + "th";
+            }
+
+            switch (num % 10)
+            {
+                case 1:
+                    return num.ToString() + "st";
+                case 2:
+                    return num.ToString() + "nd";
+                case 3:
+                    return num.ToString() + "rd";
+                default:
+                    return num.ToString() + "th";
+            }
+        }
 
         public static Bag MergeGrouping<TKey, TElement>(this Bag bag, IGrouping<TKey, TElement> lookup, Func<TElement, string> key, Func<TElement, string> value)
         {

@@ -40,6 +40,10 @@ namespace LxTools.Carno
         {
             get { return this.Wins + this.Losses; }
         }
+        public int Difference
+        {
+            get { return this.Wins - this.Losses; }
+        }
         public float Percentage
         {
             get { return 100.0f * Wins / Total; }

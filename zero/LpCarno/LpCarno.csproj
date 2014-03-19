@@ -64,6 +64,11 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="Templates\PlayerMapStatistics.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PlayerMapStatistics.tt</DependentUpon>
+    </Compile>
     <Compile Include="Templates\TeamMapStatistics.cs">
       <DependentUpon>TeamMapStatistics.tt</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -121,6 +126,10 @@
     <None Include="Templates\IndividualPlayerStatistics.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>IndividualPlayerStatistics.cs</LastGenOutput>
+    </None>
+    <None Include="Templates\PlayerMapStatistics.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>PlayerMapStatistics.cs</LastGenOutput>
     </None>
     <None Include="Templates\TeamMapStatistics.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
@@ -243,6 +252,10 @@
     </Content>
     <Content Include="pages\Map Statistics Only.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="pages\%28experimental%29 Player Maps.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="pages\Team League %28Proleague Format%29.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
