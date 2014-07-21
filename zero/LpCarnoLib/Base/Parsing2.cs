@@ -390,6 +390,15 @@ namespace LxTools.Liquipedia.Parsing2
                     where templ.Name == template
                     select templ).FirstOrDefault();
         }
+        public IEnumerable<WikiTemplateNode> GetParamTemplates(string label, string template)
+        {
+            if (label == null || !this.Params.ContainsKey(label)) return null;
+            return (from item in this.Params[label]
+                    where item is WikiTemplateNode
+                    let templ = item as WikiTemplateNode
+                    where templ.Name == template
+                    select templ);
+        }
 
         public override string ToString()
         {

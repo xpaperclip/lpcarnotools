@@ -7,7 +7,7 @@ namespace LxTools.Carno
 {
     public class RunProfile
     {
-        public static void Execute(string profilePath)
+        public static string Execute(string profilePath)
         {
             XDocument xml = XDocument.Load(profilePath);
             
@@ -69,8 +69,7 @@ namespace LxTools.Carno
             // emit
             string pageGenTemplate = xml.Root.Element("PageGenTemplate").Attribute("Template").Value;
             PageGenerator pagegen = PageGenerator.FromXml(XDocument.Load("pages/" + pageGenTemplate));
-            string result = pagegen.Emit(data);
-            UI.ShowDialog(new UIDocument("Statistics", result));
+            return pagegen.Emit(data);
         }
     }
 }

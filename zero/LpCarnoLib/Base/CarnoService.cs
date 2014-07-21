@@ -403,16 +403,33 @@ namespace LxTools.Carno
                     switch (xs.Length)
                     {
                         case 3:
-                            var details = template.GetParamTemplate(xs[2] + "details", "BracketTeamMatch");
-                            if (details != null)
+                            var detailsSets = template.GetParamTemplates(xs[2] + "details", "BracketTeamMatch").ToList();
+                            for (int set = 0; set < detailsSets.Count; set++)
                             {
+                                var details = detailsSets[set];
                                 string team1 = sink.ConformTeamId(template.GetParamText(xs[0] + "team"));
                                 string team2 = sink.ConformTeamId(template.GetParamText(xs[1] + "team"));
-                                
-                                if (template.GetParamText(xs[0] + "win") == "1")
-                                    sink.TeamMatchBegin(team1, team2);
-                                else if (template.GetParamText(xs[1] + "win") == "1")
-                                    sink.TeamMatchBegin(team2, team1);
+
+                                if (detailsSets.Count == 1)
+                                {
+                                    if (template.GetParamText(xs[0] + "win") == "1")
+                                        sink.TeamMatchBegin(team1, team2);
+                                    else if (template.GetParamText(xs[1] + "win") == "1")
+                                        sink.TeamMatchBegin(team2, team1);
+                                }
+                                else
+                                {
+                                    string count = (set == 0) ? "" : (set + 1).ToString();
+                                    int p1score, p2score;
+                                    if (int.TryParse(template.GetParamText(xs[0] + "score" + count), out p1score)
+                                        && int.TryParse(template.GetParamText(xs[1] + "score" + count), out p2score))
+                                    {
+                                        if (p1score > p2score)
+                                            sink.TeamMatchBegin(team1, team2);
+                                        else if (p2score > p1score)
+                                            sink.TeamMatchBegin(team2, team1);
+                                    }
+                                }
 
                                 ProcessTeamMatchDetails(sink, details, team1, team2);
 
@@ -449,7 +466,7 @@ namespace LxTools.Carno
                     break;
             }
             // just for TeamMatch really
-            TryProcessMatch(sink, template, "acep1", "acep2", "acemap", "acewin", "-1");
+            TryProcessMatchDetail(sink, template, "acep1", "acep2", team1, team2, "acemap", "acewin", "-1");
             
             return true;
         }

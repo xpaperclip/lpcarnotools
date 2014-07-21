@@ -205,7 +205,8 @@ namespace LpCarno
                 if (dlg.ShowDialog() == DialogResult.OK)
                 {
                     Cursor.Current = Cursors.WaitCursor;
-                    RunProfile.Execute(dlg.FileName);
+                    string result = RunProfile.Execute(dlg.FileName);
+                    UI.ShowDialog(new UIDocument("Statistics", result)); 
                     Cursor.Current = Cursors.Default;
                 }
             }

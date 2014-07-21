@@ -63,9 +63,10 @@ namespace LxTools.Carno
                         }
                         pagegen.Blocks.Add(obj);
                     }
-                    catch
+                    catch (Exception ex)
                     {
                         pagegen.Blocks.Add(new UnknownXNodeBlock(node));
+                        pagegen.Blocks.Add(new TextBlock("<!-- " + ex.ToString() + " -->"));
                     }
                 }
                 else
