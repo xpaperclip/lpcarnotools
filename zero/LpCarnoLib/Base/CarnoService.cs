@@ -551,7 +551,7 @@ namespace LxTools.Carno
         }
         private static Race GetRaceFromString(string s)
         {
-            switch (s)
+            switch (s.ToLower())
             {
                 case "t":
                 case "terran":
