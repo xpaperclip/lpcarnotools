@@ -9,6 +9,15 @@ namespace LxTools.Carno
 {
     public class IndividualPlayerStatisticsBlock : CarnoBlock
     {
+        public IndividualPlayerStatisticsBlock()
+        {
+            this.IncludeTeamColumn = true;
+            this.IncludePointsColumn = true;
+        }
+
+        public bool IncludeTeamColumn { get; set; }
+        public bool IncludePointsColumn { get; set; }
+
         protected override void EmitInternal(TextWriter tw, DataStore data)
         {
             IEnumerable<Record> games = data.Records;
@@ -47,6 +56,8 @@ namespace LxTools.Carno
                         }).Index((a, b) => a.pointsort == b.pointsort).Select((r) => new Indexing<Bag>(r.Index, r.Object.bag));
 
             var template = new IndividualPlayerStatistics();
+            template.IncludePointsColumn = this.IncludePointsColumn;
+            template.IncludeTeamColumn = this.IncludeTeamColumn;
             template.Rows = rows;
             tw.Write(template.TransformText());
         }

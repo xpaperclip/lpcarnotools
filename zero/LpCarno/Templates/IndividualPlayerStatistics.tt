@@ -3,18 +3,20 @@
 <#@ import namespace="System.Collections.Generic" #>
 <#@ import namespace="LxTools" #>
 {| class="sortable wikitable" style="text-align:center; "
-! colspan=6 | Player
+! colspan=<#= 4 + (IncludeTeamColumn ? 1 : 0) + (IncludePointsColumn ? 1 : 0) #> | Player
 ! colspan=2 width=100px | Games
-! colspan=2 width=100px | vs. {{SC2-T}}
-! colspan=2 width=100px | vs. {{SC2-Z}}
-! colspan=2 width=100px | vs. {{SC2-P}}
+! colspan=2 width=100px | vs. {{T}}
+! colspan=2 width=100px | vs. {{Z}}
+! colspan=2 width=100px | vs. {{P}}
 |-
 ! width=2px |
 ! width=2px |
 ! width=2px |
 ! width=100px |ID
-! width=175px |Team
-! width=60px |Points
+<# if (IncludeTeamColumn) { #>! width=175px |Team
+<# } #>
+<# if (IncludePointsColumn) { #>! width=60px |Points
+<# } #>
 ! Record
 ! Win%
 ! Record
@@ -30,8 +32,10 @@
 | <#= index #>
 | {{FlagRace|<#= obj["flag"] #>|<#= obj["race"] #>}}
 |align=left | [[<#= obj["player"] #>]]
-|align=left | {{team/<#= obj["team"] #>}}
-| <#= obj["placement"] #>
+<# if (IncludeTeamColumn) { #>|align=left | {{team/<#= obj["team"] #>}}
+<# } #>
+<# if (IncludePointsColumn) { #>| <#= obj["placement"] #>
+<# } #>
 | <#= obj["wl"] #>
 | <#= obj["vT"] #>
 | <#= obj["vZ"] #>
@@ -40,5 +44,7 @@
 <# } #>
 |}
 <#+
+public bool IncludeTeamColumn { get; set; }
+public bool IncludePointsColumn { get; set; }
 public IEnumerable<Indexing<Bag>> Rows { get; set; }
 #>

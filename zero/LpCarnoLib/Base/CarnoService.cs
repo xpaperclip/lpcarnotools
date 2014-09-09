@@ -98,7 +98,7 @@ namespace LxTools.Carno
                         info.Id = player.GetParamText("1");
                         info.Flag = player.GetParamText("flag");
                         info.Team = team;
-                        info.Link = LiquipediaUtils.NormaliseLink(player.GetParamText("link"));
+                        info.Link = LiquipediaUtils.NormaliseLink(GetPlayerLink(player.GetParamText("link")));
                         participants[playerId] = info;
                         
                         if (!string.IsNullOrEmpty(info.Link))
@@ -227,8 +227,8 @@ namespace LxTools.Carno
                 return false;
 
             var playerIdentifier = GetPlayerId(playerTemplate);
-            sink.SetIdLinkMap(playerTemplate.GetParamText("1"), playerTemplate.GetParamText("link"));
-            sink.UpdatePlayerRace(playerIdentifier, GetRaceFromString(playerTemplate.GetParamText("race")));
+            sink.SetIdLinkMap(playerTemplate.GetParamText("1"), GetPlayerLink(playerTemplate.GetParamText("link")));
+            sink.UpdatePlayerRaceFlag(playerIdentifier, GetRaceFromString(playerTemplate.GetParamText("race")), playerTemplate.GetParamText("flag"));
 
             // if bg exists, placement is determined
             if (template.HasParam("bg"))
@@ -528,11 +528,11 @@ namespace LxTools.Carno
             Player pl = new Player();
             pl.Id = sink.ConformPlayerId(template.GetParamText(string.Format(p1, param)));
             pl.Flag = template.GetParamText(string.Format(p1, param) + "flag");
-            pl.Link = template.GetParamText(string.Format(p1, param) + "link") ?? sink.GetPlayerLink(pl.Id);
+            pl.Link = GetPlayerLink(template.GetParamText(string.Format(p1, param) + "link")) ?? sink.GetPlayerLink(pl.Id);
             pl.Team = sink.ConformTeamId(team);
             pl.Race = GetRaceFromString(template.GetParamText(string.Format(p1, param) + "race").ToLower());
 
-            sink.UpdatePlayerRace(pl.Identifier, pl.Race);
+            sink.UpdatePlayerRaceFlag(pl.Identifier, pl.Race, pl.Flag);
 
             return pl;
         }
@@ -541,11 +541,11 @@ namespace LxTools.Carno
             Player pl = new Player();
             pl.Id = sink.ConformPlayerId(template.GetParamText(string.Format(p1, param)));
             pl.Flag = template.GetParamText(string.Format(p1, param) + "flag");
-            pl.Link = template.GetParamText(string.Format(p1, param) + "link") ?? sink.GetPlayerLink(pl.Id);
+            pl.Link = GetPlayerLink(template.GetParamText(string.Format(p1, param) + "link")) ?? sink.GetPlayerLink(pl.Id);
             pl.Team = sink.ConformTeamId(template.GetParamText(team));
             pl.Race = GetRaceFromString(template.GetParamText(string.Format(p1, param) + "race").ToLower());
 
-            sink.UpdatePlayerRace(pl.Identifier, pl.Race);
+            sink.UpdatePlayerRaceFlag(pl.Identifier, pl.Race, pl.Flag);
 
             return pl;
         }
@@ -569,13 +569,18 @@ namespace LxTools.Carno
                     return Race.Unknown;
             }
         }
+        private static string GetPlayerLink(string link)
+        {
+            if (link == "false") return null;
+            return link;
+        }
         private static string GetPlayerId(WikiTemplateNode template)
         {
             if (template.Name != "Player")
                 throw new ArgumentOutOfRangeException("template");
 
             string playerId = template.GetParamText("1");
-            if (!string.IsNullOrEmpty(template.GetParamText("link")))
+            if (!string.IsNullOrEmpty(GetPlayerLink(template.GetParamText("link"))))
                 playerId = LiquipediaUtils.NormaliseLink(template.GetParamText("link"));
             return playerId;
         }

@@ -1,0 +1,26 @@
+﻿<PageGenTemplate xmlns="LxTools.Carno;asm=LpCarno" AllKills="true"><!--
+-->{{DISPLAYTITLE:2014 Proleague: Statistics}}
+{{ProleagueTabs|2014PLS1=9}}
+{{TOC right}}
+==Team Statistics==
+<TeamStatisticsBlock IncludeAllKillsColumn="$AllKills" />
+===Match-ups===
+<TeamMatchupStatisticsBlock />
+===Racial Statistics===
+<TeamRacialStatisticsBlock IncludeRacesPlayedColumns="true"
+                           IncludeRacesAgainstColumns="true" />
+===Map Statistics===
+<TeamMapStatisticsBlock />
+==Player Statistics==
+<PlayerStatisticsBlock IncludeAllKillsColumn="$AllKills" />
+==Ace Matches==
+<PlayerStatisticsBlock Ace="true"/>
+===Match-ups===
+<TeamMatchupStatisticsBlock Ace="true" />
+===Racial Statistics===
+<TeamRacialStatisticsBlock Ace="true"
+                            IncludeRacesPlayedColumns="true"
+                            IncludeRacesAgainstColumns="true" />
+==Map Statistics==
+<MapStatisticsBlock />
+</PageGenTemplate>

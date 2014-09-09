@@ -17,7 +17,7 @@ namespace LxTools.Carno
         void SetIdLinkMap(string id, string link);
         string GetPlayerLink(string id);
 
-        void UpdatePlayerRace(string id, Race race);
+        void UpdatePlayerRaceFlag(string id, Race race, string flag);
 
         string ConformPlayerId(string id);
         string ConformTeamId(string id);

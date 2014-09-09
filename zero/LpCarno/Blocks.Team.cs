@@ -166,6 +166,7 @@ namespace LxTools.Carno
     {
         public bool Ace { get; set; }
         public bool IncludeAllKillsColumn { get; set; }
+        public bool IncludeTeamColumn { get; set; }
         public bool AlwaysShowWholeTable { get; set; }
 
         protected override void EmitInternal(TextWriter tw, DataStore data)
@@ -189,7 +190,7 @@ namespace LxTools.Carno
                         select new { g.Key, allKills, wl, vT, vZ, vP };
 
             var rows = table.Index((a, b) => a.wl == b.wl).Select((r) => new Indexing<Bag>(r.Index, new Bag(
-                       "flag", r.Object.Key.Flag ?? "",
+                       "flag", r.Object.Key.Flag ?? (data.PlayerInfoMap.GetValueOrDefault(r.Object.Key.Identifier, Player.Empty).Flag ?? ""),
                        "race", r.Object.Key.Race.ToString().MaxSubstring(1),
                        "player", r.Object.Key.IdWithLinkIfNeeded,
                        "allkills", "{{AllKillIcon}}".Repeat(r.Object.allKills),
@@ -216,6 +217,7 @@ namespace LxTools.Carno
                 template.HeaderType = "all";
             }
             template.IncludeAllKills = this.IncludeAllKillsColumn;
+            template.IncludeTeamColumn = this.IncludeTeamColumn;
             template.Rows = rows;
             tw.Write(template.TransformText());
         }

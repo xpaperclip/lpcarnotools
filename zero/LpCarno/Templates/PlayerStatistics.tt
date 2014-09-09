@@ -6,25 +6,26 @@
 <# case "all": #>{| class="sortable wikitable" style="text-align:center; width:<# if (IncludeAllKills) { #>1050px<# } else { #>1000px<# } #>"
 <# break; #>
 <# case "top10": #>{| class="sortable wikitable" style="text-align:center; width:<# if (IncludeAllKills) { #>1050px<# } else { #>1000px<# } #>"
-! colspan=<# if (IncludeAllKills) { #>14<# } else { #>13<# } #> | Top 10
+! colspan=<#= 12 + (IncludeAllKills ? 1 : 0) + (IncludeTeamColumn ? 1 : 0) #> | Top 10
 |-
 <# break; #>
 <# case "top10-complete": #>{| class="sortable wikitable collapsible collapsed" style="margin-top:-14px; text-align:center; width:<# if (IncludeAllKills) { #>1050px<# } else { #>1000px<# } #>"
-! colspan=<# if (IncludeAllKills) { #>14<# } else { #>13<# } #> | Complete Table
+! colspan=<#= 12 + (IncludeAllKills ? 1 : 0) + (IncludeTeamColumn ? 1 : 0) #> | Complete Table
 |-
 <# break; #>
 <# } #>
-! colspan=<# if (IncludeAllKills) { #>6<# } else { #>5<# } #> | Player
+! colspan=<#= 4 + (IncludeAllKills ? 1 : 0) + (IncludeTeamColumn ? 1 : 0) #> | Player
 ! colspan=2 width=100px | Games
-! colspan=2 width=100px | vs. {{SC2-T}}
-! colspan=2 width=100px | vs. {{SC2-Z}}
-! colspan=2 width=100px | vs. {{SC2-P}}
+! colspan=2 width=100px | vs. {{T}}
+! colspan=2 width=100px | vs. {{Z}}
+! colspan=2 width=100px | vs. {{P}}
 |-
 ! width=2px |
 ! width=2px |
 ! width=2px |
 ! width=125px |ID
-! width=175px |Team
+<# if (IncludeTeamColumn) { #>! width=175px |Team
+<# } #>
 <# if (IncludeAllKills) { #>! width=60px |All-Kills
 <# } #>
 ! Record
@@ -42,7 +43,8 @@
 | <#= index #>
 | {{FlagRace|<#= obj["flag"] #>|<#= obj["race"] #>}}
 |align=left | [[<#= obj["player"] #>]]
-|align=left | {{team/<#= obj["team"] #>}}
+<# if (IncludeTeamColumn) { #>|align=left | {{team/<#= obj["team"] #>}}
+<# } #>
 <# if (IncludeAllKills) { #>| <#= obj["allkills"] #>
 <# } #>
 | <#= obj["wl"] #>
@@ -54,6 +56,7 @@
 |}
 <#+
 public bool IncludeAllKills { get; set; }
+public bool IncludeTeamColumn { get; set; }
 public string HeaderType { get; set; }
 public IEnumerable<Indexing<Bag>> Rows { get; set; }
 #>

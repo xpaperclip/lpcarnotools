@@ -14,7 +14,7 @@ namespace LpCarno.Templates
     using System;
     
     
-    #line 1 "G:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
+    #line 1 "F:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "10.0.0.0")]
     public partial class PlayerStatistics : PlayerStatisticsBase
     {
@@ -78,102 +78,88 @@ namespace LpCarno.Templates
         {
             this.GenerationEnvironment = null;
             
-            #line 5 "G:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
+            #line 5 "F:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
  switch (this.HeaderType) { 
             
             #line default
             #line hidden
             
-            #line 6 "G:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
+            #line 6 "F:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
  case "all": 
             
             #line default
             #line hidden
             this.Write("{| class=\"sortable wikitable\" style=\"text-align:center; width:");
             
-            #line 6 "G:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
+            #line 6 "F:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
  if (IncludeAllKills) { 
             
             #line default
             #line hidden
             this.Write("1050px");
             
-            #line 6 "G:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
+            #line 6 "F:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
  } else { 
             
             #line default
             #line hidden
             this.Write("1000px");
             
-            #line 6 "G:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
+            #line 6 "F:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
  } 
             
             #line default
             #line hidden
             this.Write("\"\r\n");
             
-            #line 7 "G:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
+            #line 7 "F:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
  break; 
             
             #line default
             #line hidden
             
-            #line 8 "G:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
+            #line 8 "F:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
  case "top10": 
             
             #line default
             #line hidden
             this.Write("{| class=\"sortable wikitable\" style=\"text-align:center; width:");
             
-            #line 8 "G:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
+            #line 8 "F:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
  if (IncludeAllKills) { 
             
             #line default
             #line hidden
             this.Write("1050px");
             
-            #line 8 "G:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
+            #line 8 "F:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
  } else { 
             
             #line default
             #line hidden
             this.Write("1000px");
             
-            #line 8 "G:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
+            #line 8 "F:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
  } 
             
             #line default
             #line hidden
             this.Write("\"\r\n! colspan=");
             
-            #line 9 "G:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
- if (IncludeAllKills) { 
-            
-            #line default
-            #line hidden
-            this.Write("14");
-            
-            #line 9 "G:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
- } else { 
-            
-            #line default
-            #line hidden
-            this.Write("13");
-            
-            #line 9 "G:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
- } 
+            #line 9 "F:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(12 + (IncludeAllKills ? 1 : 0) + (IncludeTeamColumn ? 1 : 0)));
             
             #line default
             #line hidden
             this.Write(" | Top 10\r\n|-\r\n");
             
-            #line 11 "G:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
+            #line 11 "F:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
  break; 
             
             #line default
             #line hidden
             
-            #line 12 "G:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
+            #line 12 "F:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
  case "top10-complete": 
             
             #line default
@@ -181,108 +167,84 @@ namespace LpCarno.Templates
             this.Write("{| class=\"sortable wikitable collapsible collapsed\" style=\"margin-top:-14px; text" +
                     "-align:center; width:");
             
-            #line 12 "G:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
+            #line 12 "F:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
  if (IncludeAllKills) { 
             
             #line default
             #line hidden
             this.Write("1050px");
             
-            #line 12 "G:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
+            #line 12 "F:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
  } else { 
             
             #line default
             #line hidden
             this.Write("1000px");
             
-            #line 12 "G:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
+            #line 12 "F:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
  } 
             
             #line default
             #line hidden
             this.Write("\"\r\n! colspan=");
             
-            #line 13 "G:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
- if (IncludeAllKills) { 
-            
-            #line default
-            #line hidden
-            this.Write("14");
-            
-            #line 13 "G:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
- } else { 
-            
-            #line default
-            #line hidden
-            this.Write("13");
-            
-            #line 13 "G:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
- } 
+            #line 13 "F:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(12 + (IncludeAllKills ? 1 : 0) + (IncludeTeamColumn ? 1 : 0)));
             
             #line default
             #line hidden
             this.Write(" | Complete Table\r\n|-\r\n");
             
-            #line 15 "G:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
+            #line 15 "F:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
  break; 
             
             #line default
             #line hidden
             
-            #line 16 "G:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
+            #line 16 "F:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
  } 
             
             #line default
             #line hidden
             this.Write("! colspan=");
             
-            #line 17 "G:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
- if (IncludeAllKills) { 
+            #line 17 "F:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(4 + (IncludeAllKills ? 1 : 0) + (IncludeTeamColumn ? 1 : 0)));
             
             #line default
             #line hidden
-            this.Write("6");
+            this.Write(" | Player\r\n! colspan=2 width=100px | Games\r\n! colspan=2 width=100px | vs. {{T}}\r\n" +
+                    "! colspan=2 width=100px | vs. {{Z}}\r\n! colspan=2 width=100px | vs. {{P}}\r\n|-\r\n! " +
+                    "width=2px |\r\n! width=2px |\r\n! width=2px |\r\n! width=125px |ID\r\n");
             
-            #line 17 "G:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
- } else { 
+            #line 27 "F:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
+ if (IncludeTeamColumn) { 
             
             #line default
             #line hidden
-            this.Write("5");
+            this.Write("! width=175px |Team\r\n");
             
-            #line 17 "G:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
+            #line 28 "F:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
  } 
             
             #line default
             #line hidden
-            this.Write(@" | Player
-! colspan=2 width=100px | Games
-! colspan=2 width=100px | vs. {{SC2-T}}
-! colspan=2 width=100px | vs. {{SC2-Z}}
-! colspan=2 width=100px | vs. {{SC2-P}}
-|-
-! width=2px |
-! width=2px |
-! width=2px |
-! width=125px |ID
-! width=175px |Team
-");
             
-            #line 28 "G:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
+            #line 29 "F:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
  if (IncludeAllKills) { 
             
             #line default
             #line hidden
             this.Write("! width=60px |All-Kills\r\n");
             
-            #line 29 "G:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
+            #line 30 "F:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
  } 
             
             #line default
             #line hidden
             this.Write("! Record\r\n! Win%\r\n! Record\r\n! Win%\r\n! Record\r\n! Win%\r\n! Record\r\n! Win%\r\n|-\r\n");
             
-            #line 39 "G:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
+            #line 40 "F:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
  foreach (Indexing<Bag> idxobj in this.Rows) {
 	   int index = idxobj.Index;
 	   Bag obj = idxobj.Object; 
@@ -291,91 +253,104 @@ namespace LpCarno.Templates
             #line hidden
             this.Write("| ");
             
-            #line 42 "G:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
+            #line 43 "F:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(index));
             
             #line default
             #line hidden
             this.Write("\r\n| {{FlagRace|");
             
-            #line 43 "G:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
+            #line 44 "F:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(obj["flag"]));
             
             #line default
             #line hidden
             this.Write("|");
             
-            #line 43 "G:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
+            #line 44 "F:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(obj["race"]));
             
             #line default
             #line hidden
             this.Write("}}\r\n|align=left | [[");
             
-            #line 44 "G:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
+            #line 45 "F:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(obj["player"]));
             
             #line default
             #line hidden
-            this.Write("]]\r\n|align=left | {{team/");
+            this.Write("]]\r\n");
             
-            #line 45 "G:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
+            #line 46 "F:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
+ if (IncludeTeamColumn) { 
+            
+            #line default
+            #line hidden
+            this.Write("|align=left | {{team/");
+            
+            #line 46 "F:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(obj["team"]));
             
             #line default
             #line hidden
             this.Write("}}\r\n");
             
-            #line 46 "G:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
+            #line 47 "F:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
+ } 
+            
+            #line default
+            #line hidden
+            
+            #line 48 "F:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
  if (IncludeAllKills) { 
             
             #line default
             #line hidden
             this.Write("| ");
             
-            #line 46 "G:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
+            #line 48 "F:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(obj["allkills"]));
             
             #line default
             #line hidden
             this.Write("\r\n");
             
-            #line 47 "G:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
+            #line 49 "F:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
  } 
             
             #line default
             #line hidden
             this.Write("| ");
             
-            #line 48 "G:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
+            #line 50 "F:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(obj["wl"]));
             
             #line default
             #line hidden
             this.Write("\r\n| ");
             
-            #line 49 "G:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
+            #line 51 "F:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(obj["vT"]));
             
             #line default
             #line hidden
             this.Write("\r\n| ");
             
-            #line 50 "G:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
+            #line 52 "F:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(obj["vZ"]));
             
             #line default
             #line hidden
             this.Write("\r\n| ");
             
-            #line 51 "G:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
+            #line 53 "F:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(obj["vP"]));
             
             #line default
             #line hidden
             this.Write("\r\n|-\r\n");
             
-            #line 53 "G:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
+            #line 55 "F:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
  } 
             
             #line default
@@ -384,9 +359,10 @@ namespace LpCarno.Templates
             return this.GenerationEnvironment.ToString();
         }
         
-        #line 55 "G:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
+        #line 57 "F:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\PlayerStatistics.tt"
 
 public bool IncludeAllKills { get; set; }
+public bool IncludeTeamColumn { get; set; }
 public string HeaderType { get; set; }
 public IEnumerable<Indexing<Bag>> Rows { get; set; }
 

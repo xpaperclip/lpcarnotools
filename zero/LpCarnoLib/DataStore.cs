@@ -76,14 +76,18 @@ namespace LxTools.Carno
             }
         }
 
-        void ICarnoServiceSink.UpdatePlayerRace(string player, Race race)
+        void ICarnoServiceSink.UpdatePlayerRaceFlag(string player, Race race, string flag)
         {
-            if (this.playerInfoMap.ContainsKey(player))
+            Player pl;
+            if (!this.playerInfoMap.TryGetValue(player, out pl))
             {
-                Player pl = this.playerInfoMap[player];
-                pl.Race = race;
-                this.playerInfoMap[player] = pl;
+                pl = new Player();
+                pl.Id = player;
             }
+
+            if (race != Race.Unknown) pl.Race = race;
+            if (!string.IsNullOrWhiteSpace(flag)) pl.Flag = flag;
+            this.playerInfoMap[player] = pl;
         }
 
         private readonly Dictionary<string, string> idLinkMap = new Dictionary<string, string>();

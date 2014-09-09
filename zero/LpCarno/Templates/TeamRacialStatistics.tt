@@ -5,14 +5,14 @@
 {|class="sortable wikitable" style="text-align:center;"
 !colspan=2 align=left style="border-left:  1px solid #777; border-top: 1px solid #777; border-right: 1px solid #777;" |
 <# if (this.IncludeRaces) { #>
-!colspan=4 align=left style="border-right: 1px solid #777; border-top: 1px solid #777;"                               |{{SC2-T}}
-!colspan=4 align=left style="border-right: 1px solid #777; border-top: 1px solid #777;"                               |{{SC2-Z}}
-!colspan=4 align=left style="border-right: 1px solid #777; border-top: 1px solid #777;"                               |{{SC2-P}}
+!colspan=4 align=left style="border-right: 1px solid #777; border-top: 1px solid #777;"                               |{{T}}
+!colspan=4 align=left style="border-right: 1px solid #777; border-top: 1px solid #777;"                               |{{Z}}
+!colspan=4 align=left style="border-right: 1px solid #777; border-top: 1px solid #777;"                               |{{P}}
 <# } #>
 <# if (this.IncludeVs) { #>
-!colspan=4 align=left style="border-right: 1px solid #777; border-top: 1px solid #777;"                               |vs. {{SC2-T}}
-!colspan=4 align=left style="border-right: 1px solid #777; border-top: 1px solid #777;"                               |vs. {{SC2-Z}}
-!colspan=4 align=left style="border-right: 1px solid #777; border-top: 1px solid #777;"                               |vs. {{SC2-P}}
+!colspan=4 align=left style="border-right: 1px solid #777; border-top: 1px solid #777;"                               |vs. {{T}}
+!colspan=4 align=left style="border-right: 1px solid #777; border-top: 1px solid #777;"                               |vs. {{Z}}
+!colspan=4 align=left style="border-right: 1px solid #777; border-top: 1px solid #777;"                               |vs. {{P}}
 <# } #>
 |-
 

@@ -14,7 +14,7 @@ namespace LpCarno.Templates
     using System;
     
     
-    #line 1 "G:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\MapStatistics.tt"
+    #line 1 "F:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\MapStatistics.tt"
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "10.0.0.0")]
     public partial class MapStatistics : MapStatisticsBase
     {
@@ -80,153 +80,152 @@ namespace LpCarno.Templates
             this.Write("{|class=\"sortable wikitable\" style=\"text-align:center;\"\r\n\r\n!colspan=2 style=\"bord" +
                     "er-left:  1px solid #777; border-top: 1px solid #777; border-right: 1px solid #7" +
                     "77;\" |\r\n!colspan=4 style=\"border-right: 1px solid #777; border-top: 1px solid #7" +
-                    "77;\"                               |{{SC2-T}} vs. {{SC2-Z}}\r\n!colspan=4 style=\"b" +
-                    "order-right: 1px solid #777; border-top: 1px solid #777;\"                       " +
-                    "        |{{SC2-Z}} vs. {{SC2-P}}\r\n!colspan=4 style=\"border-right: 1px solid #777" +
-                    "; border-top: 1px solid #777;\"                               |{{SC2-P}} vs. {{SC" +
-                    "2-T}}\r\n!colspan=3 style=\"border-right: 1px solid #777; border-top: 1px solid #77" +
-                    "7;\"                               |Mirrors\r\n\r\n|-\r\n!style=\"border-left: 1px solid" +
-                    " #777;\" width=120px |Map\r\n!style=\"border-right: 1px solid #777;\" width=30px |\r\n!" +
-                    "style=\"\" width=20px                              |Σ\r\n!style=\"\" width=20px       " +
-                    "                       |{{SC2-T}}\r\n!style=\"\" width=20px                         " +
-                    "     |{{SC2-Z}}\r\n!style=\"border-right: 1px solid #777;\"            |{{SC2-T}} %\r" +
-                    "\n!style=\"\" width=20px                              |Σ\r\n!style=\"\" width=20px     " +
-                    "                         |{{SC2-Z}}\r\n!style=\"\" width=20px                       " +
-                    "       |{{SC2-P}}\r\n!style=\"border-right: 1px solid #777;\"            |{{SC2-Z}} " +
-                    "%\r\n!style=\"\" width=20px                              |Σ\r\n!style=\"\" width=20px   " +
-                    "                           |{{SC2-P}}\r\n!style=\"\" width=20px                     " +
-                    "         |{{SC2-T}}\r\n!style=\"border-right: 1px solid #777;\"            |{{SC2-P}" +
-                    "} %\r\n!style=\"\"                                         |{{SC2-T}} v {{SC2-T}}\r\n!" +
-                    "style=\"\"                                         |{{SC2-Z}} v {{SC2-Z}}\r\n!style=" +
-                    "\"border-right: 1px solid #777;\"            |{{SC2-P}} v {{SC2-P}}\r\n\r\n|-\r\n");
+                    "77;\"                               |{{T}} vs. {{Z}}\r\n!colspan=4 style=\"border-ri" +
+                    "ght: 1px solid #777; border-top: 1px solid #777;\"                               " +
+                    "|{{Z}} vs. {{P}}\r\n!colspan=4 style=\"border-right: 1px solid #777; border-top: 1p" +
+                    "x solid #777;\"                               |{{P}} vs. {{T}}\r\n!colspan=3 style=" +
+                    "\"border-right: 1px solid #777; border-top: 1px solid #777;\"                     " +
+                    "          |Mirrors\r\n\r\n|-\r\n!style=\"border-left: 1px solid #777;\" width=120px |Map" +
+                    "\r\n!style=\"border-right: 1px solid #777;\" width=30px |\r\n!style=\"\" width=20px     " +
+                    "                         |Σ\r\n!style=\"\" width=20px                              |" +
+                    "{{T}}\r\n!style=\"\" width=20px                              |{{Z}}\r\n!style=\"border-" +
+                    "right: 1px solid #777;\"            |{{T}} %\r\n!style=\"\" width=20px               " +
+                    "               |Σ\r\n!style=\"\" width=20px                              |{{Z}}\r\n!st" +
+                    "yle=\"\" width=20px                              |{{P}}\r\n!style=\"border-right: 1px" +
+                    " solid #777;\"            |{{Z}} %\r\n!style=\"\" width=20px                         " +
+                    "     |Σ\r\n!style=\"\" width=20px                              |{{P}}\r\n!style=\"\" wid" +
+                    "th=20px                              |{{T}}\r\n!style=\"border-right: 1px solid #77" +
+                    "7;\"            |{{P}} %\r\n!style=\"\"                                         |{{T}" +
+                    "} v {{T}}\r\n!style=\"\"                                         |{{Z}} v {{Z}}\r\n!st" +
+                    "yle=\"border-right: 1px solid #777;\"            |{{P}} v {{P}}\r\n\r\n|-\r\n");
             
-            #line 33 "G:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\MapStatistics.tt"
+            #line 33 "F:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\MapStatistics.tt"
  foreach (Bag bag in this.Rows) { 
             
             #line default
             #line hidden
             this.Write("|style=\"border-left:  1px solid #777;\" align=left  | ");
             
-            #line 34 "G:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\MapStatistics.tt"
+            #line 34 "F:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\MapStatistics.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(bag["map"]));
             
             #line default
             #line hidden
             this.Write("\r\n|style=\"border-right: 1px solid #777;\"             | ");
             
-            #line 35 "G:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\MapStatistics.tt"
+            #line 35 "F:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\MapStatistics.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(bag["total"]));
             
             #line default
             #line hidden
             this.Write("\r\n<!-- TvZ -->                                       | ");
             
-            #line 36 "G:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\MapStatistics.tt"
+            #line 36 "F:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\MapStatistics.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(bag["TvZtotal"]));
             
             #line default
             #line hidden
             this.Write("\r\n                                                   | ");
             
-            #line 37 "G:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\MapStatistics.tt"
+            #line 37 "F:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\MapStatistics.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(bag["TvZwin"]));
             
             #line default
             #line hidden
             this.Write("\r\n                                                   | ");
             
-            #line 38 "G:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\MapStatistics.tt"
+            #line 38 "F:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\MapStatistics.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(bag["TvZloss"]));
             
             #line default
             #line hidden
             this.Write("\r\n|style=\"border-right: 1px solid #777;\"             | ");
             
-            #line 39 "G:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\MapStatistics.tt"
+            #line 39 "F:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\MapStatistics.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(bag["TvZpc"]));
             
             #line default
             #line hidden
             this.Write("\r\n<!-- ZvP -->                                       | ");
             
-            #line 40 "G:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\MapStatistics.tt"
+            #line 40 "F:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\MapStatistics.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(bag["ZvPtotal"]));
             
             #line default
             #line hidden
             this.Write("\r\n                                                   | ");
             
-            #line 41 "G:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\MapStatistics.tt"
+            #line 41 "F:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\MapStatistics.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(bag["ZvPwin"]));
             
             #line default
             #line hidden
             this.Write("\r\n                                                   | ");
             
-            #line 42 "G:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\MapStatistics.tt"
+            #line 42 "F:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\MapStatistics.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(bag["ZvPloss"]));
             
             #line default
             #line hidden
             this.Write("\r\n|style=\"border-right: 1px solid #777;\"             | ");
             
-            #line 43 "G:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\MapStatistics.tt"
+            #line 43 "F:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\MapStatistics.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(bag["ZvPpc"]));
             
             #line default
             #line hidden
             this.Write("\r\n<!-- PvT -->                                       | ");
             
-            #line 44 "G:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\MapStatistics.tt"
+            #line 44 "F:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\MapStatistics.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(bag["PvTtotal"]));
             
             #line default
             #line hidden
             this.Write("\r\n                                                   | ");
             
-            #line 45 "G:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\MapStatistics.tt"
+            #line 45 "F:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\MapStatistics.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(bag["PvTwin"]));
             
             #line default
             #line hidden
             this.Write("\r\n                                                   | ");
             
-            #line 46 "G:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\MapStatistics.tt"
+            #line 46 "F:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\MapStatistics.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(bag["PvTloss"]));
             
             #line default
             #line hidden
             this.Write("\r\n|style=\"border-right: 1px solid #777;\"             | ");
             
-            #line 47 "G:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\MapStatistics.tt"
+            #line 47 "F:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\MapStatistics.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(bag["PvTpc"]));
             
             #line default
             #line hidden
             this.Write("\r\n<!-- Mirrors -->                                   | ");
             
-            #line 48 "G:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\MapStatistics.tt"
+            #line 48 "F:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\MapStatistics.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(bag["TvT"]));
             
             #line default
             #line hidden
             this.Write("\r\n                                                   | ");
             
-            #line 49 "G:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\MapStatistics.tt"
+            #line 49 "F:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\MapStatistics.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(bag["ZvZ"]));
             
             #line default
             #line hidden
             this.Write("\r\n|style=\"border-right: 1px solid #777;\"             | ");
             
-            #line 50 "G:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\MapStatistics.tt"
+            #line 50 "F:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\MapStatistics.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(bag["PvP"]));
             
             #line default
             #line hidden
             this.Write("\r\n|-\r\n");
             
-            #line 52 "G:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\MapStatistics.tt"
+            #line 52 "F:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\MapStatistics.tt"
  } 
             
             #line default
@@ -234,112 +233,112 @@ namespace LpCarno.Templates
             this.Write("!style=\"border-bottom: 1px solid #777; border-left:  1px solid #777;\" |Overall\r\n!" +
                     "style=\"border-bottom: 1px solid #777; border-right: 1px solid #777;\" |");
             
-            #line 54 "G:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\MapStatistics.tt"
+            #line 54 "F:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\MapStatistics.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(this.Params["total"]));
             
             #line default
             #line hidden
             this.Write("\r\n!style=\"border-bottom: 1px solid #777;\" <!-- TvZ -->                  |");
             
-            #line 55 "G:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\MapStatistics.tt"
+            #line 55 "F:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\MapStatistics.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(this.Params["TvZtotal"]));
             
             #line default
             #line hidden
             this.Write("\r\n!style=\"border-bottom: 1px solid #777;\"                               |");
             
-            #line 56 "G:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\MapStatistics.tt"
+            #line 56 "F:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\MapStatistics.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(this.Params["TvZwin"]));
             
             #line default
             #line hidden
             this.Write("\r\n!style=\"border-bottom: 1px solid #777;\"                               |");
             
-            #line 57 "G:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\MapStatistics.tt"
+            #line 57 "F:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\MapStatistics.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(this.Params["TvZloss"]));
             
             #line default
             #line hidden
             this.Write("\r\n!style=\"border-bottom: 1px solid #777; border-right: 1px solid #777;\" |");
             
-            #line 58 "G:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\MapStatistics.tt"
+            #line 58 "F:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\MapStatistics.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(this.Params["TvZpc"]));
             
             #line default
             #line hidden
             this.Write("\r\n!style=\"border-bottom: 1px solid #777;\" <!-- ZvP -->                  |");
             
-            #line 59 "G:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\MapStatistics.tt"
+            #line 59 "F:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\MapStatistics.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(this.Params["ZvPtotal"]));
             
             #line default
             #line hidden
             this.Write("\r\n!style=\"border-bottom: 1px solid #777;\"                               |");
             
-            #line 60 "G:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\MapStatistics.tt"
+            #line 60 "F:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\MapStatistics.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(this.Params["ZvPwin"]));
             
             #line default
             #line hidden
             this.Write("\r\n!style=\"border-bottom: 1px solid #777;\"                               |");
             
-            #line 61 "G:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\MapStatistics.tt"
+            #line 61 "F:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\MapStatistics.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(this.Params["ZvPloss"]));
             
             #line default
             #line hidden
             this.Write("\r\n!style=\"border-bottom: 1px solid #777; border-right: 1px solid #777;\" |");
             
-            #line 62 "G:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\MapStatistics.tt"
+            #line 62 "F:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\MapStatistics.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(this.Params["ZvPpc"]));
             
             #line default
             #line hidden
             this.Write("\r\n!style=\"border-bottom: 1px solid #777;\" <!-- PvT -->                  |");
             
-            #line 63 "G:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\MapStatistics.tt"
+            #line 63 "F:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\MapStatistics.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(this.Params["PvTtotal"]));
             
             #line default
             #line hidden
             this.Write("\r\n!style=\"border-bottom: 1px solid #777;\"                               |");
             
-            #line 64 "G:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\MapStatistics.tt"
+            #line 64 "F:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\MapStatistics.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(this.Params["PvTwin"]));
             
             #line default
             #line hidden
             this.Write("\r\n!style=\"border-bottom: 1px solid #777;\"                               |");
             
-            #line 65 "G:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\MapStatistics.tt"
+            #line 65 "F:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\MapStatistics.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(this.Params["PvTloss"]));
             
             #line default
             #line hidden
             this.Write("\r\n!style=\"border-bottom: 1px solid #777; border-right: 1px solid #777;\" |");
             
-            #line 66 "G:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\MapStatistics.tt"
+            #line 66 "F:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\MapStatistics.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(this.Params["PvTpc"]));
             
             #line default
             #line hidden
             this.Write("\r\n!style=\"border-bottom: 1px solid #777;\" <!-- Mirrors -->              |");
             
-            #line 67 "G:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\MapStatistics.tt"
+            #line 67 "F:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\MapStatistics.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(this.Params["TvT"]));
             
             #line default
             #line hidden
             this.Write("\r\n!style=\"border-bottom: 1px solid #777;\"                               |");
             
-            #line 68 "G:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\MapStatistics.tt"
+            #line 68 "F:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\MapStatistics.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(this.Params["ZvZ"]));
             
             #line default
             #line hidden
             this.Write("\r\n!style=\"border-bottom: 1px solid #777; border-right: 1px solid #777;\" |");
             
-            #line 69 "G:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\MapStatistics.tt"
+            #line 69 "F:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\MapStatistics.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(this.Params["PvP"]));
             
             #line default
@@ -348,7 +347,7 @@ namespace LpCarno.Templates
             return this.GenerationEnvironment.ToString();
         }
         
-        #line 71 "G:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\MapStatistics.tt"
+        #line 71 "F:\git\xpaperclip\lpcarnotools\zero\LpCarno\Templates\MapStatistics.tt"
 
 public Bag Params { get; set; }
 public IEnumerable<Bag> Rows { get; set; }

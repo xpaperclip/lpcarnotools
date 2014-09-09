@@ -5,29 +5,29 @@
 {|class="sortable wikitable" style="text-align:center;"
 
 !colspan=2 style="border-left:  1px solid #777; border-top: 1px solid #777; border-right: 1px solid #777;" |
-!colspan=4 style="border-right: 1px solid #777; border-top: 1px solid #777;"                               |{{SC2-T}} vs. {{SC2-Z}}
-!colspan=4 style="border-right: 1px solid #777; border-top: 1px solid #777;"                               |{{SC2-Z}} vs. {{SC2-P}}
-!colspan=4 style="border-right: 1px solid #777; border-top: 1px solid #777;"                               |{{SC2-P}} vs. {{SC2-T}}
+!colspan=4 style="border-right: 1px solid #777; border-top: 1px solid #777;"                               |{{T}} vs. {{Z}}
+!colspan=4 style="border-right: 1px solid #777; border-top: 1px solid #777;"                               |{{Z}} vs. {{P}}
+!colspan=4 style="border-right: 1px solid #777; border-top: 1px solid #777;"                               |{{P}} vs. {{T}}
 !colspan=3 style="border-right: 1px solid #777; border-top: 1px solid #777;"                               |Mirrors
 
 |-
 !style="border-left: 1px solid #777;" width=120px |Map
 !style="border-right: 1px solid #777;" width=30px |
 !style="" width=20px                              |Σ
-!style="" width=20px                              |{{SC2-T}}
-!style="" width=20px                              |{{SC2-Z}}
-!style="border-right: 1px solid #777;"            |{{SC2-T}} %
+!style="" width=20px                              |{{T}}
+!style="" width=20px                              |{{Z}}
+!style="border-right: 1px solid #777;"            |{{T}} %
 !style="" width=20px                              |Σ
-!style="" width=20px                              |{{SC2-Z}}
-!style="" width=20px                              |{{SC2-P}}
-!style="border-right: 1px solid #777;"            |{{SC2-Z}} %
+!style="" width=20px                              |{{Z}}
+!style="" width=20px                              |{{P}}
+!style="border-right: 1px solid #777;"            |{{Z}} %
 !style="" width=20px                              |Σ
-!style="" width=20px                              |{{SC2-P}}
-!style="" width=20px                              |{{SC2-T}}
-!style="border-right: 1px solid #777;"            |{{SC2-P}} %
-!style=""                                         |{{SC2-T}} v {{SC2-T}}
-!style=""                                         |{{SC2-Z}} v {{SC2-Z}}
-!style="border-right: 1px solid #777;"            |{{SC2-P}} v {{SC2-P}}
+!style="" width=20px                              |{{P}}
+!style="" width=20px                              |{{T}}
+!style="border-right: 1px solid #777;"            |{{P}} %
+!style=""                                         |{{T}} v {{T}}
+!style=""                                         |{{Z}} v {{Z}}
+!style="border-right: 1px solid #777;"            |{{P}} v {{P}}
 
 |-
 <# foreach (Bag bag in this.Rows) { #>
