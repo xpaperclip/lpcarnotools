@@ -54,6 +54,9 @@ namespace LxTools.Carno
                 if (TryProcessGroupTableSlot(sink, template))
                     continue;
 
+                if (TryProcessPlayerCrossTable(sink, template))
+                    continue;
+
                 // if we ended up here, we don't support this template
                 //sw.WriteLine("; -- Unsupported template: {0} --", template.Name);
                 sink.UnknownTemplate(template);
@@ -382,6 +385,98 @@ namespace LxTools.Carno
 
         }
 
+        private static bool TryProcessPlayerCrossTable(ICarnoServiceSink sink, WikiTemplateNode template)
+        {
+            if (template.Name != "PlayerCrossTable")
+                return false;
+
+            bool doublerounded = (template.GetParamText("doublerounded") == "true");
+
+            // get players
+            int maxplayers = 0;
+            List<Player> players = new List<Player>();
+            while (true)
+            {
+                string playerid = template.GetParamText(string.Format("player{0}", maxplayers + 1));
+                if (playerid == null) break;
+                //playerid = playerid.Replace(" ", "_");
+
+                string playerlink = template.GetParamText(string.Format("player{0}link", maxplayers + 1));
+                string playerrace = template.GetParamText(string.Format("player{0}race", maxplayers + 1));
+                string playerflag = template.GetParamText(string.Format("player{0}flag", maxplayers + 1));
+
+                Player pl = new Player();
+                pl.Id = sink.ConformPlayerId(playerid);
+                pl.Flag = playerflag;
+                pl.Link = GetPlayerLink(playerlink) ?? sink.GetPlayerLink(pl.Id);
+                pl.Team = "";
+                pl.Race = GetRaceFromString(playerrace.ToLower());
+
+                sink.SetIdLinkMap(playerid, pl.Link);
+                sink.UpdatePlayerRaceFlag(pl.Identifier, pl.Race, pl.Flag);
+
+                players.Add(pl);
+                maxplayers++;
+            }
+            
+            // process games
+            for (int leftidx = 1; leftidx <= maxplayers; leftidx++)
+            {
+                for (int rightidx = (doublerounded ? 1 : leftidx); rightidx <= maxplayers; rightidx++)
+                {
+                    if (leftidx == rightidx) continue;
+
+                    string game = string.Format("{0}vs{1}", leftidx, rightidx);
+                    ProcessPlayerCrossTableGame(sink, template, players[leftidx-1], players[rightidx-1], game);
+                }
+            }
+            
+            return true;
+        }
+        private static void ProcessPlayerCrossTableGame(ICarnoServiceSink sink, WikiTemplateNode template, Player p1, Player p2, string game)
+        {
+            int scoreleft, scoreright;
+            if (!int.TryParse(template.GetParamText(game + "result"), out scoreleft)
+                | !int.TryParse(template.GetParamText(game + "resultvs"), out scoreright))
+            {
+                //sw.WriteLine(";{0}-{1} {2} {3}", template.GetParam(left + "score"),
+                //    template.GetParam(right + "score"), playerleft, playerright);
+                return;
+            }
+
+            if (template.Params.ContainsKey(game + "details"))
+            {
+                // game has details - use them
+                WikiTemplateNode details = template.GetParamTemplate(game + "details", "BracketMatchSummary");
+                for (int i = 1; i <= scoreleft + scoreright; i++)
+                {
+                    string map = "Unknown";
+                    if (details.Params.ContainsKey("map" + i.ToString()))
+                    {
+                        map = details.GetParamText("map" + i.ToString()) ?? "Unknown";
+                    }
+                    map = sink.ConformMap(map);
+
+                    string win = details.GetParamText(string.Format("map{0}win", i));
+                    if (string.IsNullOrEmpty(win) || win == "skip")
+                        continue;
+
+                    if (win == "1")
+                        sink.Record(0, p1, p2, map);
+                    else if (win == "2")
+                        sink.Record(0, p2, p1, map);
+                }
+            }
+            else
+            {
+                string map = sink.ConformMap("Unknown");
+                // just output games
+                for (int i = 0; i < scoreleft; i++)
+                    sink.Record(0, p1, p2, map);
+                for (int i = 0; i < scoreright; i++)
+                    sink.Record(0, p2, p1, map);
+            }
+        }
 
         private static bool TryProcessTeamBracket(ICarnoServiceSink sink, WikiTemplateNode template)
         {
@@ -539,7 +634,7 @@ namespace LxTools.Carno
         private static Player TemplateGetPlayer(ICarnoServiceSink sink, WikiTemplateNode template, string p1, string team, object param)
         {
             Player pl = new Player();
-            pl.Id = sink.ConformPlayerId(template.GetParamText(string.Format(p1, param)));
+            pl.Id = sink.ConformPlayerId(PlayerRemoveBold(template.GetParamText(string.Format(p1, param))));
             pl.Flag = template.GetParamText(string.Format(p1, param) + "flag");
             pl.Link = GetPlayerLink(template.GetParamText(string.Format(p1, param) + "link")) ?? sink.GetPlayerLink(pl.Id);
             pl.Team = sink.ConformTeamId(template.GetParamText(team));
@@ -584,8 +679,17 @@ namespace LxTools.Carno
                 playerId = LiquipediaUtils.NormaliseLink(template.GetParamText("link"));
             return playerId;
         }
+        private static string PlayerRemoveBold(string player)
+        {
+            // remove old-style bolding
+            if (player.StartsWith("'''") && player.EndsWith("'''"))
+                player = player.Substring(3, player.Length - 6);
+            return player;
+        }
         private static string GetPlayerIdentifier(ICarnoServiceSink sink, string player)
         {
+            player = PlayerRemoveBold(player);
+            
             string link = sink.GetPlayerLink(player);
             if (link != null) return link;
 
