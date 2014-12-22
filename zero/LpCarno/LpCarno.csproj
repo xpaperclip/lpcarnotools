@@ -124,6 +124,12 @@
     <None Include="LPfmt\BracketTeamMatch.matchfmt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="LPfmt\GameSet.matchfmt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="LPfmt\Match.matchfmt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="mapakas.dict">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

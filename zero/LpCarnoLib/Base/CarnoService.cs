@@ -635,10 +635,20 @@ namespace LxTools.Carno
         {
             Player pl = new Player();
             pl.Id = sink.ConformPlayerId(PlayerRemoveBold(template.GetParamText(string.Format(p1, param))));
-            pl.Flag = template.GetParamText(string.Format(p1, param) + "flag");
-            pl.Link = GetPlayerLink(template.GetParamText(string.Format(p1, param) + "link")) ?? sink.GetPlayerLink(pl.Id);
             pl.Team = sink.ConformTeamId(template.GetParamText(team));
-            pl.Race = GetRaceFromString(template.GetParamText(string.Format(p1, param) + "race").ToLower());
+            int result;
+            if (int.TryParse(p1, out result))
+            {
+                pl.Flag = template.GetParamText("flag" + p1);
+                pl.Link = GetPlayerLink(template.GetParamText("link" + p1)) ?? sink.GetPlayerLink(pl.Id);
+                pl.Race = GetRaceFromString((template.GetParamText("race" + p1) ?? "").ToLower());
+            }
+            else
+            {
+                pl.Flag = template.GetParamText(string.Format(p1, param) + "flag");
+                pl.Link = GetPlayerLink(template.GetParamText(string.Format(p1, param) + "link")) ?? sink.GetPlayerLink(pl.Id);
+                pl.Race = GetRaceFromString((template.GetParamText(string.Format(p1, param) + "race") ?? "").ToLower());
+            }
 
             sink.UpdatePlayerRaceFlag(pl.Identifier, pl.Race, pl.Flag);
 
@@ -671,7 +681,7 @@ namespace LxTools.Carno
         }
         private static string GetPlayerId(WikiTemplateNode template)
         {
-            if (template.Name != "Player")
+            if (template.Name != "Player" && template.Name != "Playersp")
                 throw new ArgumentOutOfRangeException("template");
 
             string playerId = template.GetParamText("1");

@@ -164,6 +164,11 @@ namespace LxTools.Carno
 
     public class PlayerStatisticsBlock : CarnoBlock
     {
+        public PlayerStatisticsBlock()
+        {
+            this.IncludeTeamColumn = true;
+        }
+
         public bool Ace { get; set; }
         public bool IncludeAllKillsColumn { get; set; }
         public bool IncludeTeamColumn { get; set; }
@@ -207,6 +212,7 @@ namespace LxTools.Carno
                 var top10 = new PlayerStatistics();
                 top10.HeaderType = "top10";
                 top10.IncludeAllKills = this.IncludeAllKillsColumn;
+                top10.IncludeTeamColumn = this.IncludeTeamColumn;
                 top10.Rows = rows.TakeTop(10);
                 tw.WriteLine(top10.TransformText());
 
